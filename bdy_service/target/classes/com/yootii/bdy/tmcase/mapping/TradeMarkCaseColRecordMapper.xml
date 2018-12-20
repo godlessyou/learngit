@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseColRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseColRecord" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="recordId" property="recordId" jdbcType="INTEGER" />
+    <result column="modifiedCol" property="modifiedCol" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selecTmCaseColRecordList" resultMap="BaseResultMap" >
+    select id,recordId,modifiedCol
+    from trademark_case_col_record 
+    where 1=1
+    <if test="tmcase.id!=null">
+    	and id = #{tmcase.id,jdbcType=INTEGER}
+    </if>
+    <if test="tmcase.recordId!=null">
+    	 and recordId= #{tmcase.recordId,jdbcType=INTEGER}
+    </if>
+   
+  </select>
+  
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseColRecord" >
+    insert into trademark_case_col_record (id, recordId, modifiedCol
+      )
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{modifiedCol,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseColRecord" >
+    insert into trademark_case_col_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recordId != null" >
+        recordId,
+      </if>
+      <if test="modifiedCol != null" >
+        modifiedCol,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="modifiedCol != null" >
+        #{modifiedCol,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

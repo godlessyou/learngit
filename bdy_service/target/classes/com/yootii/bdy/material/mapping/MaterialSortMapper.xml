@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.material.dao.MaterialSortMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.material.model.MaterialSort" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="fileName" property="fileName" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.yootii.bdy.material.model.MaterialSort" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="fileName" property="fileName" jdbcType="INTEGER" />
+    <collection property="nextMaterialSort" ofType="com.yootii.bdy.material.model.MaterialSort" column="id" select="getMaterialSort1"></collection>
+   <!--  <collection property="materialSort2" ofType="com.yootii.bdy.material.model.MaterialSort" column="id" select="getMaterialSort2"></collection>
+    <collection property="materialSort3" ofType="com.yootii.bdy.material.model.MaterialSort" column="id" select="getMaterialSort3"></collection> -->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parentId, level, name,fileName
+  </sql>
+  <sql id="Base_Column_List_m" >
+    m.id, m.parentId, m.level, m.name,m.fileName
+  </sql>
+  
+  <select id="selectDijiao" resultMap="BaseResultMap"  >
+    select fileName
+    from material_sort
+    where parentId not in(select id from material_sort where name='官方通知')
+    and fileName is not null
+    order by fileName
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from material_sort
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from material_sort
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.material.model.MaterialSort" >
+    insert into material_sort (id, parentId, level, 
+      name)
+    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.material.model.MaterialSort" >
+    insert into material_sort
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parentId,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="filaName != null" >
+        filaName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="filaName != null" >
+        #{filaName,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.material.model.MaterialSort" >
+    update material_sort
+    <set >
+      <if test="parentId != null" >
+        parentId = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="filaName != null" >
+        filaName = #{filaName,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.material.model.MaterialSort" >
+    update material_sort
+    set parentId = #{parentId,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByMaterialSort" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List_m" />
+    from material_sort m
+    where 1=1
+    <if test="materialSort.parentId!=null and materialSort.parentId!=''">
+    	<bind name="materialSort.parentId" value="materialSort.parentId"/>
+    and	m.parentId = #{materialSort.parentId,jdbcType=INTEGER}
+    </if>  
+    <if test="materialSort.level!=null and materialSort.level!='' or  materialSort.level==0">
+    	<bind name="materialSort.level" value="materialSort.level"/>
+    and	m.level = #{materialSort.level,jdbcType=INTEGER}
+    </if>
+    <if test="materialSort.name!=null and materialSort.name!=''">
+    	<bind name="materialSort.name" value="materialSort.name"/>
+    and	m.name = #{materialSort.name,jdbcType=VARCHAR}
+    </if>
+    <if test="materialSort.fileName!=null and materialSort.fileName!=''">
+    	<bind name="materialSort.fileName" value="materialSort.fileName"/>
+    and	m.fileName = #{materialSort.fileName,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="getMaterialSort1" parameterType="java.lang.Integer" resultType="com.yootii.bdy.material.model.MaterialSort">
+  SELECT <include refid="Base_Column_List" /> FROM material_sort WHERE parentId = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getMaterialSort2" parameterType="java.lang.Integer" resultType="com.yootii.bdy.material.model.MaterialSort">
+  
+  SELECT <include refid="Base_Column_List" /> FROM material_sort WHERE parentId  IN (SELECT id FROM material_sort WHERE parentId = #{id,jdbcType=INTEGER})
+  </select>
+  <select id="getMaterialSort3" parameterType="java.lang.Integer" resultType="com.yootii.bdy.material.model.MaterialSort">
+  SELECT <include refid="Base_Column_List" /> FROM material_sort WHERE parentId  IN
+  (SELECT id FROM material_sort WHERE parentId  IN (SELECT id FROM material_sort WHERE parentId = #{id,jdbcType=INTEGER}))
+  </select>
+  <select id="selectChildMaterialSort" parameterType="java.lang.Integer" resultType="com.yootii.bdy.material.model.MaterialSort">
+  SELECT <include refid="Base_Column_List" /> FROM material_sort WHERE parentId = #{materialSort.id,jdbcType=INTEGER}
+  </select>
+</mapper>

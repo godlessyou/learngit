@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.trademark.model.TrademarkCategory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="enName" property="enName" jdbcType="VARCHAR" />
+    <result column="no" property="no" jdbcType="INTEGER" />
+    <result column="tmGroup" property="tmGroup" jdbcType="VARCHAR" />
+    <result column="tmType" property="tmType" jdbcType="INTEGER" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="tmId" property="tmId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, enName, no, tmGroup, tmType, regNumber, tmId
+  </sql>
+  
+  <select id="selectByRegNumberList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select  <include refid="Base_Column_List" />
+    from trademark_category
+    where 1=1
+    <if test="regNumberList != null">
+		and regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </select>
+  
+  <delete id="deleteDuplicatedData" >
+    delete from trademark_category 
+    where id not in 
+    (
+    select id from (select id from trademark_category group By regNumber, tmType, tmGroup, name) c 
+    )
+  </delete>
+  
+  
+  <update id="updateTmId"   parameterType="java.util.Map" >
+    update trademark_category a, trademark b
+	set a.tmId=b.tmId
+	where a.regNumber=b.regNumber 
+	<if test="regNumberList != null">
+		and a.regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </update>
+  
+  <select id="selectByTmIdAndTmType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_category
+    where 
+    1=1
+    and regNumber = #{regNumber,jdbcType=VARCHAR} 
+    and tmType = #{tmType,jdbcType=INTEGER}
+  </select>
+  
+   <delete id="deleteByTmIdAndTmType" parameterType="java.util.Map" >
+    delete from trademark_category
+    where 
+    1=1
+    and regNumber = #{regNumber,jdbcType=VARCHAR} 
+    and tmType = #{tmType,jdbcType=INTEGER}
+  </delete>
+  
+   
+  <delete id="deleteByTmIdList" parameterType="java.util.Map" >
+    delete from trademark_category
+    where 1=1   
+	and tmId in 
+	<foreach collection="tmIdList" index="index" item="item" open="(" separator="," close=")">
+      	#{item}
+    </foreach>   
+  </delete>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.trademark.model.TrademarkCategory" >
+    insert into trademark_category (id, name, enName, 
+      no, tmGroup, tmType, 
+      regNumber, tmId)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{enName,jdbcType=VARCHAR}, 
+      #{no,jdbcType=INTEGER}, #{tmGroup,jdbcType=VARCHAR}, #{tmType,jdbcType=INTEGER}, 
+      #{regNumber,jdbcType=VARCHAR}, #{tmId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.trademark.model.TrademarkCategory" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="enName != null" >
+        enName,
+      </if>
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="tmGroup != null" >
+        tmGroup,
+      </if>
+      <if test="tmType != null" >
+        tmType,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="tmId != null" >
+        tmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=INTEGER},
+      </if>
+      <if test="tmGroup != null" >
+        #{tmGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        #{tmType,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmId != null" >
+        #{tmId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.trademark.model.TrademarkCategory" >
+    update trademark_category
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        enName = #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        no = #{no,jdbcType=INTEGER},
+      </if>
+      <if test="tmGroup != null" >
+        tmGroup = #{tmGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        tmType = #{tmType,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmId != null" >
+        tmId = #{tmId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.trademark.model.TrademarkCategory" >
+    update trademark_category
+    set name = #{name,jdbcType=VARCHAR},
+      enName = #{enName,jdbcType=VARCHAR},
+      no = #{no,jdbcType=INTEGER},
+      tmGroup = #{tmGroup,jdbcType=VARCHAR},
+      tmType = #{tmType,jdbcType=INTEGER},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      tmId = #{tmId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByTmId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_category
+    where tmId = #{tmId,jdbcType=INTEGER}
+  </select>
+    
+  
+    <select id="selectByTrademarkCategory" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_category
+    where 1=1
+    <bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	<if test="gcon.rows != null and gcon.offset != null">
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+</mapper>

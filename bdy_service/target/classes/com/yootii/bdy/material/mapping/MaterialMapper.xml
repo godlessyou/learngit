@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.material.dao.MaterialMapper">
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.material.model.Material">
+    <id column="materialId" jdbcType="INTEGER" property="materialId" />
+    <result column="custId" jdbcType="INTEGER" property="custId" />
+    <result column="applicantId" jdbcType="INTEGER" property="applicantId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="description" jdbcType="VARCHAR" property="desc" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="format" jdbcType="VARCHAR" property="format" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="tmNumber" jdbcType="VARCHAR" property="tmNumber" />
+    <result column="caseId" jdbcType="INTEGER" property="caseId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="sortId" jdbcType="INTEGER" property="sortId" />
+    <result column="versionNo" jdbcType="INTEGER" property="versionNo" />
+    <result column="docDate" jdbcType="TIMESTAMP" property="docDate" />
+    <result column="fileName" property="fileName" jdbcType="INTEGER" />
+    <result column="joinAppId" property="joinAppId" jdbcType="INTEGER" />
+    <result column="precase" property="precase" jdbcType="INTEGER" />
+    <collection property="versions" ofType="com.yootii.bdy.material.model.MaterialVersion" column="materialId" select="getVersions"></collection>
+    <collection property="materialSort" ofType="com.yootii.bdy.material.model.MaterialSort" column="sortId" select="getSort"></collection>
+  </resultMap>
+
+    <resultMap extends="BaseResultMap" id="BaseResultMap_1" type="com.yootii.bdy.material.model.Material">
+     <result column="applicantName" jdbcType="VARCHAR" property="applicantName" /> 
+     <result column="applicantEnName" jdbcType="VARCHAR" property="applicantEnName" />     
+  </resultMap>
+  <sql id="Base_Column_List">
+    materialId, custId, applicantId, title, subject, description, type, format, status, creater, 
+    createTime, modifier, modifyTime, tmNumber, caseId, address, size, versionNo, sortId, docDate,
+    fileName, joinAppId, precase
+  </sql>
+    <sql id="Base_Column_List_a">
+    a.materialId, a.custId, a.applicantId, a.title, a.subject, a.description, a.type, a.format, a.status, a.creater, 
+    a.createTime, a.modifier, a.modifyTime, a.tmNumber, a.caseId, a.address, a.size, a.versionNo, a.sortId, a.docDate,
+    a.fileName, a.joinAppId, a.precase
+  </sql>
+   <sql id="Version_Column_List">
+   versionId,materialId,versionNo,address,format,size,creater,createTime
+  </sql>
+  <sql id="Base_Column_List_s" >
+    s.id, s.parentId, s.level, s.name, s.fileName
+  </sql>
+   <select id="getVersions" parameterType="int" resultType="com.yootii.bdy.material.model.MaterialVersion">
+		SELECT 
+		    <include refid="Version_Column_List" />
+		FROM material_version WHERE materialId=#{materialId,jdbcType=INTEGER} 
+		order by versionNo desc
+  </select>
+  <select id="getSort" parameterType="int" resultType="com.yootii.bdy.material.model.MaterialSort">
+  		SELECT 
+		    <include refid="Base_Column_List_s" />
+		FROM material_sort as s WHERE s.id=#{sortId,jdbcType=INTEGER} 
+		
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from material
+    where materialId = #{materialId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from material
+    where materialId = #{materialId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.material.model.Material">
+    insert into material (materialId, custId, applicantId, 
+      title, subject, description, 
+      type, format, status, 
+      creater, createTime, modifier, 
+      modifyTime, tmNumber, caseId, 
+      address, size,versionNo, docDate, fileName, joinAppId, precase)
+    values (#{materialId,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{applicantId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{format,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{tmNumber,jdbcType=VARCHAR}, #{caseId,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER},#{versionNo,jdbcType=INTEGER},#{docDate,jdbcType=TIMESTAMP},
+      #{fileName,jdbcType=INTEGER},#{joinAppId,jdbcType=INTEGER},#{precase,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.material.model.Material" useGeneratedKeys="true" keyProperty="materialId">
+    insert into material
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="materialId != null">
+        materialId,
+      </if>
+      <if test="custId != null">
+        custId,
+      </if>
+      <if test="applicantId != null">
+        applicantId,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="desc != null">
+        description,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="format != null">
+        format,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="modifyTime != null">
+        modifyTime,
+      </if>
+      <if test="tmNumber != null">
+        tmNumber,
+      </if>
+      <if test="caseId != null">
+        caseId,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="versionNo != null">
+        versionNo,
+      </if>
+      <if test="sortId != null">
+        sortId,
+      </if>
+      <if test="docDate != null">
+        docDate,
+      </if>
+      <if test="fileName != null">
+        fileName,
+      </if>
+      <if test="joinAppId != null">
+        joinAppId,
+      </if>
+      <if test="precase != null">
+        precase,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="applicantId != null">
+        #{applicantId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="format != null">
+        #{format,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmNumber != null">
+        #{tmNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null">
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="versionNo != null">
+        #{versionNo,jdbcType=INTEGER},
+      </if>
+      <if test="sortId != null">
+        #{sortId,jdbcType=INTEGER},
+      </if>
+      <if test="docDate != null">
+        #{docDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=INTEGER},
+      </if>
+      <if test="joinAppId != null">
+        #{joinAppId,jdbcType=INTEGER},
+      </if>
+      <if test="precase != null">
+        #{precase,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.material.model.Material">
+    update material
+    <set>
+      <if test="custId != null">
+        custId = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="applicantId != null">
+        applicantId = #{applicantId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        description = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="format != null">
+        format = #{format,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmNumber != null">
+        tmNumber = #{tmNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null">
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="versionNo != null">
+        versionNo = #{versionNo,jdbcType=INTEGER},
+      </if>
+      <if test="sortId != null">
+        sortId = #{sortId,jdbcType=INTEGER},
+      </if>
+      <if test="docDate != null">
+        docDate = #{docDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null">
+        fileName = #{fileName,jdbcType=INTEGER},
+      </if>
+      <if test="joinAppId != null">
+        joinAppId = #{joinAppId,jdbcType=INTEGER},
+      </if>
+      <if test="precase != null">
+        precase = #{precase,jdbcType=INTEGER},
+      </if>
+    </set>
+    where materialId = #{materialId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.material.model.Material">
+    update material
+    set custId = #{custId,jdbcType=INTEGER},
+      applicantId = #{applicantId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      description = #{desc,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      format = #{format,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      tmNumber = #{tmNumber,jdbcType=VARCHAR},
+      caseId = #{caseId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      size = #{size,jdbcType=INTEGER},
+      versionNo = #{versionNo,jdbcType=INTEGER},
+      docDate = #{docDate,jdbcType=TIMESTAMP},
+      fileName = #{fileName,jdbcType=INTEGER},
+      joinAppId = #{joinAppId,jdbcType=INTEGER},
+      precase = #{precase,jdbcType=INTEGER}
+    where materialId = #{materialId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByMaterialWithCustomer" resultMap="BaseResultMap_1">  
+   <bind name="customer.id" value="customer.id" />
+      	select distinct <include refid="Base_Column_List_a" />,b.applicantName,b.applicantEnName
+		from material a,applicant b where a.custId=#{customer.id,jdbcType=INTEGER} and a.applicantId=b.id and a.applicantId is not null
+	<choose>
+    <when test="gcon.keyword!=null and gcon.keyword!=''">
+    <bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+     and (
+    a.title like  #{gcon.keyword,jdbcType=VARCHAR} or
+    a.subject like  #{gcon.keyword,jdbcType=VARCHAR} or 
+    a.creater like  #{gcon.keyword,jdbcType=VARCHAR} or 
+    b.applicantName like  #{gcon.keyword,jdbcType=VARCHAR} 
+    
+     ) 
+     </when>
+     <otherwise>
+     <if test="material.materialId!= null and material.materialId!=''">
+		<bind name="material.materialId" value="material.materialId" />
+		and a.materialId=#{material.materialId,jdbcType=INTEGER}
+	</if>
+	<if test="material.title!= null and material.title!=''">
+		<bind name="material.title" value="'%' + material.title + '%'" />
+		and a.title like #{material.title,jdbcType=VARCHAR}
+	</if>
+	<if test="material.fileName != null and material.fileName != ''">
+   		<bind name="material.fileName" value="material.fileName"/>
+   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if> 
+	<if test="material.subject!= null and material.subject!=''">
+		<bind name="material.subject" value="'%' + material.subject + '%'" />
+		and a.subject like #{material.subject,jdbcType=VARCHAR}
+	</if> 
+
+	<if test="material.tmNumber!= null and material.tmNumber!=''">
+		<bind name="material.tmNumber" value="'%' + material.tmNumber + '%'" />
+		and a.tmNumber like #{material.tmNumber,jdbcType=VARCHAR}
+	</if> 
+    </otherwise>
+    </choose>
+    
+	<if test="material.caseId!= null and material.caseId!=''">
+		<bind name="material.caseId" value="material.caseId" />
+		and a.caseId=#{material.caseId,jdbcType=INTEGER}
+	</if> 
+	<if test="material.type!= null and material.type!=''">
+		<bind name="material.type" value="material.type" />
+		and a.type=#{material.type,jdbcType=INTEGER}
+	</if>	
+	<if test="material.applicantId!= null and material.applicantId!=''">
+		<bind name="material.applicantId" value="material.applicantId" />
+		and a.applicantId=#{material.applicantId,jdbcType=INTEGER}
+	</if>
+	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+	<if test="gcon.orderCol != null and gcon.orderAsc!=null">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>
+	<bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	
+	    limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+	   
+  </select> 
+
+   <select id="getMaterialCountWithCustomer" resultType="java.lang.Long">	
+   <bind name="customer.id" value="customer.id" />
+      	select count(distinct a.materialId)
+		from material a,applicant b 
+		where a.custId=#{customer.id,jdbcType=INTEGER} 
+			and a.applicantId=b.id 
+			and a.applicantId is not null
+	<choose>
+    <when test="gcon.keyword!=null and gcon.keyword!=''">
+    <bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+     and (
+	    a.title like #{gcon.keyword,jdbcType=VARCHAR} or
+	    a.subject like #{gcon.keyword,jdbcType=VARCHAR} or 
+	    b.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or 
+	    a.creater like #{gcon.keyword,jdbcType=VARCHAR} 
+     ) 
+     </when>
+     <otherwise>
+     <if test="material.materialId!= null and material.materialId!=''">
+		<bind name="material.materialId" value="material.materialId" />
+		and a.materialId=#{material.materialId,jdbcType=INTEGER}
+	</if>
+	<if test="material.title!= null and material.title!=''">
+		<bind name="material.title" value="'%' + material.title + '%'" />
+		and a.title like #{material.title,jdbcType=VARCHAR}
+	</if>
+	<if test="material.fileName != null and material.fileName != ''">
+   		<bind name="material.fileName" value="material.fileName"/>
+   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if> 
+	<if test="material.subject!= null and material.subject!=''">
+		<bind name="material.subject" value="'%' + material.subject + '%'" />
+		and a.subject like #{material.subject,jdbcType=VARCHAR}
+	</if> 
+
+	<if test="material.tmNumber!= null and material.tmNumber!=''">
+		<bind name="material.tmNumber" value="'%' + material.tmNumber + '%'" />
+		and a.tmNumber like #{material.tmNumber,jdbcType=VARCHAR}
+	</if> 	
+
+    </otherwise>
+    </choose>
+    
+	<if test="material.caseId!= null and material.caseId!=''">
+		<bind name="material.caseId" value="'material.caseId" />
+		and a.title=#{material.caseId,jdbcType=INTEGER}
+	</if> 
+	<if test="material.type!= null and material.type!=''">
+		<bind name="material.type" value="material.type" />
+		and a.type=#{material.type,jdbcType=INTEGER}
+	</if>	
+	<if test="material.applicantId!= null and material.applicantId!=''">
+		<bind name="material.applicantId" value="material.applicantId" />
+		and a.applicantId=#{material.applicantId,jdbcType=INTEGER}
+	</if>	
+	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>   		
+	</select>
+		
+	<!-- 查询客户资料列表 -->
+	<select id="selectByMaterialWithUser" resultMap="BaseResultMap_1">  
+   		<bind name="user.userId" value="user.userId" />
+      	select distinct <include refid="Base_Column_List_a" />,b.applicantName,b.applicantEnName
+		from (select * from material group by address) a, applicant b, customer c, user d, user_customer e,  trademark_case f
+		where a.applicantId=b.id 
+			and a.custId=c.id 
+			and d.userId=e.userId 
+			and e.custId=c.id 
+			and d.userId=#{user.userId,jdbcType=INTEGER}
+		<if test="material.type!=null and material.type==1">
+			and a.type=#{material.type,jdbcType=INTEGER}
+		</if>
+		<if test="material.type!=null and material.type==2">
+			and a.type=2 and a.caseId=f.id and f.custId=c.id
+		</if>
+		<if test="material.type==null">
+			and (a.type=1 or a.type=2 and a.caseId=f.id and f.custId=c.id)
+		</if>		
+	<choose>
+	    <when test="gcon.keyword!=null and gcon.keyword!=''">
+	    <bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+	     and (
+		    a.title like  #{gcon.keyword,jdbcType=VARCHAR} or
+		    a.subject like  #{gcon.keyword,jdbcType=VARCHAR} or 
+		    a.creater like  #{gcon.keyword,jdbcType=VARCHAR} or 
+		    b.applicantName like  #{gcon.keyword,jdbcType=VARCHAR} 
+	     	) 
+	     </when>
+	     <otherwise>
+	     <if test="material.materialId!=null and material.materialId!=''">
+			<bind name="material.materialId" value="material.materialId" />
+			and a.materialId=#{material.materialId,jdbcType=INTEGER}
+		</if>
+		<if test="material.title!=null and material.title!=''">
+			<bind name="material.title" value="'%' + material.title + '%'" />
+			and a.title like #{material.title,jdbcType=VARCHAR}
+		</if> 
+		<if test="material.fileName != null and material.fileName != ''">
+	   		<bind name="material.fileName" value="material.fileName"/>
+	   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+	   	</if>
+		<if test="material.subject!=null and material.subject!=''">
+			<bind name="material.subject" value="'%' + material.subject + '%'" />
+			and a.subject like #{material.subject,jdbcType=VARCHAR}
+		</if> 
+		
+		<if test="material.tmNumber!=null and material.tmNumber!=''">
+			<bind name="material.tmNumber" value="'%' + material.tmNumber + '%'" />
+			and a.tmNumber like #{material.tmNumber,jdbcType=VARCHAR}
+		</if> 	
+	    </otherwise>
+    </choose>
+    
+	<if test="material.caseId!=null and material.caseId!=''">
+		<bind name="material.caseId" value="'material.caseId" />
+		and a.caseId=#{material.caseId,jdbcType=INTEGER}
+	</if> 
+	<if test="material.custId!=null and material.custId!=''">
+		<bind name="material.custId" value="material.custId" />
+		and a.custId=#{material.custId,jdbcType=INTEGER}
+	</if>
+	<if test="material.applicantId!= null and material.applicantId!=''">
+		<bind name="material.applicantId" value="material.applicantId" />
+		and a.applicantId=#{material.applicantId,jdbcType=INTEGER}
+	</if>	
+	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+  	<bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	    limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 
+  </select> 
+  
+  
+  
+	<!-- 查询客户资料 数量 -->
+   <select id="getMaterialCountWithUser" resultType="java.lang.Long">	
+   <bind name="user.userId" value="user.userId" />
+   	select count(DISTINCT a.materialId) 
+	from (select * from material group by address) a, applicant b, customer c, user d, user_customer e,  trademark_case f
+	where a.applicantId=b.id 
+		and a.custId=c.id 
+		and d.userId=e.userId 
+		and e.custId=c.id 
+		and d.userId=#{user.userId,jdbcType=INTEGER}
+		<if test="material.type!=null and material.type==1">
+			and a.type=#{material.type,jdbcType=INTEGER}
+		</if>
+		<if test="material.type!=null and material.type==2">
+			and a.type=2 and a.caseId=f.id and f.custId=c.id
+		</if>
+		<if test="material.type==null">
+			and (a.type=1 or a.type=2 and a.caseId=f.id and f.custId=c.id)
+		</if>		
+	<choose>
+    <when test="gcon.keyword!=null and gcon.keyword!=''">
+    <bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+     and (
+   		 a.title like  #{gcon.keyword,jdbcType=VARCHAR} or
+   		 a.subject like  #{gcon.keyword,jdbcType=VARCHAR} or 
+   		 a.creater like  #{gcon.keyword,jdbcType=VARCHAR} or 
+   		 b.applicantName like  #{gcon.keyword,jdbcType=VARCHAR} 
+    	 ) 
+     </when>
+     <otherwise>
+     <if test="material.materialId!=null and material.materialId!=''">
+		<bind name="material.materialId" value="material.materialId" />
+		and a.materialId=#{material.materialId,jdbcType=INTEGER}
+	</if>
+	<if test="material.title!=null and material.title!=''">
+		<bind name="material.title" value="'%' + material.title + '%'" />
+		and a.title like #{material.title,jdbcType=VARCHAR}
+	</if> 
+	<if test="material.fileName != null and material.fileName != ''">
+   		<bind name="material.fileName" value="material.fileName"/>
+   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if>
+	<if test="material.subject!=null and material.subject!=''">
+		<bind name="material.subject" value="'%' + material.subject + '%'" />
+		and a.subject like #{material.subject,jdbcType=VARCHAR}
+	</if> 
+
+	<if test="material.tmNumber!=null and material.tmNumber!=''">
+		<bind name="material.tmNumber" value="'%' + material.tmNumber + '%'" />
+		and a.tmNumber like #{material.tmNumber,jdbcType=VARCHAR}
+	</if> 	
+    </otherwise>
+    </choose>
+	<if test="material.caseId!=null and material.caseId!=''">
+		<bind name="material.caseId" value="material.caseId" />
+		and a.caseId=#{material.caseId,jdbcType=INTEGER}
+	</if> 
+	<if test="material.custId!=null and material.custId!=''">
+		<bind name="material.custId" value="material.custId" />
+		and a.custId=#{material.custId,jdbcType=INTEGER}
+	</if>
+	<if test="material.applicantId!=null and material.applicantId!=''">
+		<bind name="material.applicantId" value="material.applicantId" />
+		and a.applicantId=#{material.applicantId,jdbcType=INTEGER}
+	</if>	
+	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+  </select>
+   
+   <select id="getMaxId" resultType="java.lang.Integer">
+   SELECT max(materialId) FROM material
+  </select>
+  
+   <select id="selectByCustIdAndAgencyId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_a" />
+    from material a
+    join trademark_case_pre b on a.caseId=b.id
+    where b.custId = #{custId,jdbcType=INTEGER} and b.agencyId=#{agencyId,jdbcType=INTEGER}
+    and a.precase=1
+  </select>
+  <select id="selectImageByCaseId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_a" />
+    from material a
+   where 1=1 and a.caseId = #{caseId,jdbcType=INTEGER} and a.fileName=24
+   ORDER BY modifyTime desc
+  </select>
+  <select id="selectByCaseIdAndFileNames"  resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_a" />
+    from material a
+    where 1=1 
+    <if test="materialCondition.caseId != null and materialCondition.caseId != ''">
+		 <bind name="materialCondition.caseId" value="materialCondition.caseId"/>
+		 and a.caseId = #{materialCondition.caseId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<bind name="materialCondition.fileNames" value="materialCondition.fileNames"/>
+    <if test="materialCondition.fileNames != null">
+	    and  a.fileName in 
+	    <foreach collection="materialCondition.fileNames" index="index" item="item" open="(" separator="," close=")">
+			 #{item}
+		</foreach> 	
+	 </if>
+   ORDER BY modifyTime desc
+   
+  
+  </select>
+  <select id="selectMaterialByJoinApp" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_a" />
+    from material a
+   where 1=1 
+   <choose>
+   		<when test="tradeMarkCaseJoinApp.caseId != null and tradeMarkCaseJoinApp.caseId != ''">
+   			<bind name="tradeMarkCaseJoinApp.caseId" value="tradeMarkCaseJoinApp.caseId"/>
+   			and a.caseId = #{tradeMarkCaseJoinApp.caseId,jdbcType=INTEGER} 
+   			and a.materialId NOT IN (SELECT materialId FROM material WHERE  joinAppId = #{tradeMarkCaseJoinApp.id,jdbcType=INTEGER} )
+   			and a.subject not like '%fileName : null%'
+   		</when>
+   		<otherwise>
+   			<if test="tradeMarkCaseJoinApp.casePreId != null and tradeMarkCaseJoinApp.casePreId != ''">
+		   		<bind name="tradeMarkCaseJoinApp.casePreId" value="tradeMarkCaseJoinApp.casePreId"/>
+		   		and a.caseId = #{tradeMarkCaseJoinApp.casePreId,jdbcType=INTEGER} 
+		   		and a.materialId  IN (SELECT materialId FROM material WHERE  joinAppId = #{tradeMarkCaseJoinApp.id,jdbcType=INTEGER})
+		   		and a.subject not like '%fileName : null%'
+   			</if>
+   		</otherwise>
+   </choose> 
+  </select>
+  <select id="selectByMaterialWithApplicantId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List_a" />
+    from material a
+   	where 1=1 
+   	<if test="material.applicantId != null and material.applicantId != ''">
+		   		<bind name="material.applicantId" value="material.applicantId"/>
+		   		and a.applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+   	</if>
+	<if test="material.fileName != null and material.fileName != ''">
+  		<bind name="material.fileName" value="material.fileName"/>
+  		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.subject != null and material.subject != ''">
+		   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+		   		and a.subject like #{material.subject,jdbcType=VARCHAR} 		   		
+   	</if>
+   	<if test="material.custId != null and material.custId != ''">
+		   		<bind name="material.custId" value="material.custId"/>
+		   		and a.custId = #{material.custId, jdbcType=INTEGER} 
+		   				   		
+   	</if>
+   	<if test="material.title != null and material.title != ''">
+		   		<bind name="material.title" value="material.title"/>
+		   		and a.title = #{material.title, jdbcType=VARCHAR} 
+		   				   		
+   	</if>
+   	<if test="material.caseId != null and material.caseId != ''">
+		   		<bind name="material.caseId" value="material.caseId"/>
+		   		and a.caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+   	<!-- group by a.title -->
+   	<if test="gcon.orderCol != null and gcon.orderCol != '' and gcon.orderAsc!=null and gcon.orderAsc!=''">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>	
+   	<bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	<if test="gcon.rows != null and gcon.offset != null and gcon.offset != 0">
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+		</if>
+   	
+  </select>
+   <select id="selectByappId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List_a" />
+    from material a
+   	where 1=1 
+   	and a.modifyTime IN(SELECT MAX(modifyTime) FROM material 
+   	WHERE  1=1 
+   	<if test="material.applicantId != null and material.applicantId != ''">
+		   		<bind name="material.applicantId" value="material.applicantId"/>
+		   		and applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+   	</if>
+   	AND sortId>0 GROUP BY sortId) GROUP BY fileName;
+   	
+  </select>
+  
+  
+  <select id="selectByNewMaterial" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from material
+    where 
+    1=1	
+	<if test="material.applicantId != null and material.applicantId != ''">
+   		<bind name="material.applicantId" value="material.applicantId"/>
+   		and applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.fileName != null and material.fileName != ''">
+   		<bind name="material.fileName" value="material.fileName"/>
+   		and fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.subject != null and material.subject != ''">
+   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+   		and subject like #{material.subject,jdbcType=VARCHAR} 		   		
+   	</if>
+   	<if test="material.custId != null and material.custId != ''">
+   		<bind name="material.custId" value="material.custId"/>
+   		and custId = #{material.custId, jdbcType=INTEGER} 		   				   		
+   	</if>
+   	<if test="material.title != null and material.title != ''">
+   		<bind name="material.title" value="material.title"/>
+   		and title = #{material.title, jdbcType=VARCHAR} 		   				   		
+   	</if>
+   	<if test="material.caseId != null and material.caseId != ''">
+   		<bind name="material.caseId" value="material.caseId"/>
+   		and caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+	and modifyTime in    
+  	(
+	  	select max(modifyTime) from material
+	   	where 1=1 
+	   	<if test="material.applicantId != null and material.applicantId != ''">
+	   		<bind name="material.applicantId" value="material.applicantId"/>
+	   		and applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+	   	</if>
+	   	<if test="material.fileName != null and material.fileName != ''">
+	   		<bind name="material.fileName" value="material.fileName"/>
+	   		and fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+	   	</if>
+	   	<if test="material.subject != null and material.subject != ''">
+	   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+	   		and subject like #{material.subject,jdbcType=VARCHAR} 		   		
+	   	</if>
+	   	<if test="material.custId != null and material.custId != ''">
+	   		<bind name="material.custId" value="material.custId"/>
+	   		and custId = #{material.custId, jdbcType=INTEGER} 
+	   	</if>
+	   	<if test="material.title != null and material.title != ''">
+	   		<bind name="material.title" value="material.title"/>
+	   		and title = #{material.title, jdbcType=VARCHAR} 		   				   		
+	   	</if>
+	   	<if test="material.caseId != null and material.caseId != ''">
+	   		<bind name="material.caseId" value="material.caseId"/>
+	   		and caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+	   	</if>
+	   	<if test="material.sortId!= null and material.sortId!=''">
+			<bind name="material.sortId" value="material.sortId" />
+			and sortId=#{material.sortId,jdbcType=INTEGER}
+		</if>
+		group by fileName
+	)
+	
+	group by fileName
+	
+   	<if test="gcon.orderCol != null and gcon.orderCol != '' and gcon.orderAsc!=null and gcon.orderAsc!=''">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>	
+   	<bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	<if test="gcon.rows != null and gcon.offset != null and gcon.offset != 0">
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+	</if>
+	
+   	
+  </select>
+  
+  
+  
+  <select id="selectByNewMaterialCount" resultType="java.lang.Long">
+  	select count(*)
+  	from
+  	(
+	  	select  materialId
+	    from material
+	    where 
+	    1=1	
+		<if test="material.applicantId != null and material.applicantId != ''">
+	   		<bind name="material.applicantId" value="material.applicantId"/>
+	   		and applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+	   	</if>
+	   	<if test="material.fileName != null and material.fileName != ''">
+	   		<bind name="material.fileName" value="material.fileName"/>
+	   		and fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+	   	</if>
+	   	<if test="material.subject != null and material.subject != ''">
+	   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+	   		and subject like #{material.subject,jdbcType=VARCHAR} 		   		
+	   	</if>
+	   	<if test="material.custId != null and material.custId != ''">
+	   		<bind name="material.custId" value="material.custId"/>
+	   		and custId = #{material.custId, jdbcType=INTEGER} 		   				   		
+	   	</if>
+	   	<if test="material.title != null and material.title != ''">
+	   		<bind name="material.title" value="material.title"/>
+	   		and title = #{material.title, jdbcType=VARCHAR} 		   				   		
+	   	</if>
+	   	<if test="material.caseId != null and material.caseId != ''">
+	   		<bind name="material.caseId" value="material.caseId"/>
+	   		and caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+	   	</if>
+	   	<if test="material.sortId!= null and material.sortId!=''">
+			<bind name="material.sortId" value="material.sortId" />
+			and sortId=#{material.sortId,jdbcType=INTEGER}
+		</if>
+		and modifyTime in    
+	  	(
+		  	select max(modifyTime) from material
+		   	where 1=1 
+		   	<if test="material.applicantId != null and material.applicantId != ''">
+		   		<bind name="material.applicantId" value="material.applicantId"/>
+		   		and applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+		   	</if>
+		   	<if test="material.fileName != null and material.fileName != ''">
+		   		<bind name="material.fileName" value="material.fileName"/>
+		   		and fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+		   	</if>
+		   	<if test="material.subject != null and material.subject != ''">
+		   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+		   		and subject like #{material.subject,jdbcType=VARCHAR} 		   		
+		   	</if>
+		   	<if test="material.custId != null and material.custId != ''">
+		   		<bind name="material.custId" value="material.custId"/>
+		   		and custId = #{material.custId, jdbcType=INTEGER} 
+		   	</if>
+		   	<if test="material.title != null and material.title != ''">
+		   		<bind name="material.title" value="material.title"/>
+		   		and title = #{material.title, jdbcType=VARCHAR} 		   				   		
+		   	</if>
+		   	<if test="material.caseId != null and material.caseId != ''">
+		   		<bind name="material.caseId" value="material.caseId"/>
+		   		and caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+		   	</if>
+		   	<if test="material.sortId!= null and material.sortId!=''">
+				<bind name="material.sortId" value="material.sortId" />
+				and sortId=#{material.sortId,jdbcType=INTEGER}
+			</if>
+			group by fileName 	
+		)
+	
+		group by fileName 
+	
+	) a
+   	
+  </select>
+  
+  
+  
+   <insert id="copyTmCaseFileRecord" >
+      INSERT INTO material (
+	custId, applicantId, title, SUBJECT, description, TYPE, FORMAT, STATUS, creater, createTime, 
+	MODIFIER, modifyTime, tmNumber, caseId, address, size, versionNo, docDate)
+	SELECT 
+	custId, applicantId, title, SUBJECT, description, TYPE, FORMAT, STATUS, creater, createTime, 
+	MODIFIER, modifyTime, tmNumber, #{assoCaseId,jdbcType=INTEGER}, address, size, versionNo, docDate
+      FROM material
+      WHERE caseId=#{caseId,jdbcType=INTEGER} AND joinAppId is null
+  </insert>
+  
+  <select id="selectMaterialId" resultMap="BaseResultMap">  
+  
+      	select materialId
+		from material 
+		<if test="material.fileName != null and material.fileName != ''">
+		   		<bind name="material.fileName" value="material.fileName"/>
+		   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	    </if>
+		<if test="material.subject!=null and material.subject!=''">
+			<bind name="material.subject" value="'%' + material.subject + '%'" />
+			and subject=#{material.subject,jdbcType=VARCHAR}
+		</if> 
+	
+  
+    
+	<if test="material.caseId!=null and material.caseId!=''">
+		<bind name="material.caseId" value="'material.caseId" />
+		and a.caseId=#{material.caseId,jdbcType=INTEGER}
+	</if> 
+	
+  		
+	    limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 
+  </select> 
+  <select id="selectByTmId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List_a" /> from
+    trademark t,trademark_case tc ,material a WHERE t.regNumber =tc.regNumber 
+    AND tc.id =a.caseId AND t.tmId	=#{tmId,jdbcType=INTEGER}
+  	<if test="material.applicantId != null and material.applicantId != ''">
+		   		<bind name="material.applicantId" value="material.applicantId"/>
+		   		and a.applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.fileName != null and material.fileName != ''">
+		   		<bind name="material.fileName" value="material.fileName"/>
+		   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.subject != null and material.subject != ''">
+		   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+		   		and a.subject like #{material.subject,jdbcType=VARCHAR} 		   		
+   	</if>
+   	<if test="material.custId != null and material.custId != ''">
+		   		<bind name="material.custId" value="material.custId"/>
+		   		and a.custId = #{material.custId, jdbcType=INTEGER} 
+		   				   		
+   	</if>
+   	<if test="material.title != null and material.title != ''">
+		   		<bind name="material.title" value="material.title"/>
+		   		and a.title = #{material.title, jdbcType=VARCHAR} 
+		   				   		
+   	</if>
+   	<if test="material.caseId != null and material.caseId != ''">
+		   		<bind name="material.caseId" value="material.caseId"/>
+		   		and a.caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+   	<bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	<if test="gcon.rows != null and gcon.offset != null and gcon.offset != 0">
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+	</if>
+  </select>
+  <select id="selectCountByTmId" resultType="java.lang.Long">
+  	select 
+    count(a.materialId) from
+    trademark t,trademark_case tc ,material a WHERE t.regNumber =tc.regNumber 
+    AND tc.id =a.caseId AND t.tmId	=#{tmId,jdbcType=INTEGER}
+  	<if test="material.applicantId != null and material.applicantId != ''">
+		   		<bind name="material.applicantId" value="material.applicantId"/>
+		   		and a.applicantId = #{material.applicantId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.fileName != null and material.fileName != ''">
+		   		<bind name="material.fileName" value="material.fileName"/>
+		   		and a.fileName = #{material.fileName,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.subject != null and material.subject != ''">
+		   		<bind name="material.subject" value="'%' + material.subject + '%'"/>
+		   		and a.subject like #{material.subject,jdbcType=VARCHAR} 		   		
+   	</if>
+   	<if test="material.custId != null and material.custId != ''">
+		   		<bind name="material.custId" value="material.custId"/>
+		   		and a.custId = #{material.custId, jdbcType=INTEGER} 
+		   				   		
+   	</if>
+   	<if test="material.title != null and material.title != ''">
+		   		<bind name="material.title" value="material.title"/>
+		   		and a.title = #{material.title, jdbcType=VARCHAR} 
+		   				   		
+   	</if>
+   	<if test="material.caseId != null and material.caseId != ''">
+		   		<bind name="material.caseId" value="material.caseId"/>
+		   		and a.caseId = #{material.caseId,jdbcType=INTEGER} 		   		
+   	</if>
+   	<if test="material.sortId!= null and material.sortId!=''">
+		<bind name="material.sortId" value="material.sortId" />
+		and a.sortId=#{material.sortId,jdbcType=INTEGER}
+	</if>
+  </select>
+  <select id="selectByCaseIdLast" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from material
+    where caseId = #{caseId,jdbcType=INTEGER}
+    order by createTime desc
+    limit 1
+  </select>
+  
+  <select id="selectByFileAndCase" resultType="java.util.Map">
+  	SELECT * FROM material WHERE fileName =105 
+  				AND caseId=#{caseId} 
+  				AND custId = #{custId}
+  				ORDER BY createTime DESC LIMIT 0,1
+  </select>
+  
+  <select id="selectByUserId" resultType="java.util.Map">
+  	SELECT * FROM doc_title a,doc_type b 
+  	where a.docTypeId = b.docTypeId 
+  		  AND a.docTypeId=#{docTypeId}
+  		  AND userId = #{userId}
+  </select>
+  			
+  
+</mapper>

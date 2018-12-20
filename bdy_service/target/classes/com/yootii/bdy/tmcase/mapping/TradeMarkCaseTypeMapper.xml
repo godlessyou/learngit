@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseType" >
+    <id column="caseTypeId" property="caseTypeId" jdbcType="INTEGER" />
+    <result column="caseType" property="caseType" jdbcType="VARCHAR" />
+    <result column="parent" property="parent" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    caseTypeId, caseType, parent
+  </sql>
+  
+  <select id="selectCaseTypeList" resultMap="BaseResultMap" >
+    select distinct(caseType), caseTypeId, parent
+    from trademark_case_type
+  </select>
+  
+  <select id="selectAvalibleCaseType" resultMap="BaseResultMap" >
+    select caseType, parent
+    from trademark_case_type
+    where caseType not in (select caseType from platform_service)    
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_type
+    where caseTypeId = #{caseTypeId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCaseType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_type
+    where caseType = #{caseType,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_type
+    where caseTypeId = #{caseTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseType" >
+    insert into trademark_case_type (caseTypeId, caseType, parent
+      )
+    values (#{caseTypeId,jdbcType=INTEGER}, #{caseType,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseType" >
+    insert into trademark_case_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseTypeId != null" >
+        caseTypeId,
+      </if>
+      <if test="caseType != null" >
+        caseType,
+      </if>
+      <if test="parent != null" >
+        parent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseTypeId != null" >
+        #{caseTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="caseType != null" >
+        #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="parent != null" >
+        #{parent,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseType" >
+    update trademark_case_type
+    <set >
+      <if test="caseType != null" >
+        caseType = #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="parent != null" >
+        parent = #{parent,jdbcType=INTEGER},
+      </if>
+    </set>
+    where caseTypeId = #{caseTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseType" >
+    update trademark_case_type
+    set caseType = #{caseType,jdbcType=VARCHAR},
+      parent = #{parent,jdbcType=INTEGER}
+    where caseTypeId = #{caseTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

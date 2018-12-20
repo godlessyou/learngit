@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.bill.dao.BillSolrMapper">
+  <resultMap id="BaseResultMap" type="java.util.HashMap">
+    <id column="billId" jdbcType="INTEGER" property="billId" />
+    <result column="billNo" jdbcType="VARCHAR" property="billNo" />
+    <result column="billType" jdbcType="VARCHAR" property="billType" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="custId" jdbcType="INTEGER" property="custId" />
+    <result column="agencyId" jdbcType="INTEGER" property="agencyId" />
+    <result column="customer" jdbcType="VARCHAR" property="customer" />
+    <result column="agencyName" jdbcType="VARCHAR" property="agencyName" />
+    <result column="startDate" jdbcType="DATE" property="startDate" />
+    <result column="endDate" jdbcType="DATE" property="endDate" />
+    <result column="startDateYear" jdbcType="VARCHAR" property="startDateYear" />
+    <result column="endDateYear" jdbcType="VARCHAR" property="endDateYear" />
+    <result column="groupName" jdbcType="VARCHAR" property="groupName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="createDate" jdbcType="DATE" property="createDate" />
+    <result column="createDateYear" jdbcType="VARCHAR" property="createDateYear" />
+    <result column="createDateYearMonth" jdbcType="VARCHAR" property="createDateYearMonth" />
+    <result column="createDateYearQuarter" jdbcType="VARCHAR" property="createDateYearQuarter" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="createrName" jdbcType="VARCHAR" property="createrName" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="exchangeRate" jdbcType="DOUBLE" property="exchangeRate" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+    <result column="foreignSum" jdbcType="DOUBLE" property="foreignSum" />
+    <result column="serviceCost" jdbcType="DOUBLE" property="serviceCost" />
+    <result column="applyCost" jdbcType="DOUBLE" property="applyCost" />
+    <result column="otherCost" jdbcType="DOUBLE" property="otherCost" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="billTitle" jdbcType="VARCHAR" property="billTitle" />
+    <result column="contactId" jdbcType="INTEGER" property="contactId" />
+    <result column="payAcountId" jdbcType="INTEGER" property="payAcountId" />
+    <result column="coagencyId" jdbcType="INTEGER" property="coagencyId" />
+    <result column="coagencyName" jdbcType="INTEGER" property="coagencyName" />
+    <result column="contactUserId" jdbcType="INTEGER" property="contactUserId" />
+    <result column="receiverType" jdbcType="INTEGER" property="receiverType" />
+  </resultMap>
+  <resultMap id="DepartResultMap" type="java.util.HashMap">
+    <id column="billId" jdbcType="INTEGER" property="billId" />
+    <result column="departName" jdbcType="VARCHAR" property="departName" />
+    <result column="departName_1" jdbcType="VARCHAR" property="departName_1" />
+  </resultMap>
+  
+ 	<sql id="Base_Column_List">
+		billId,
+		billType,
+		b.status,
+		b.custId,
+		startDate,
+		Year(startDate) as startDateYear,
+		endDate,Year(endDate) as endDateYear,
+		groupName,description,
+  		createDate,Year(createDate) as createDateYear,
+  		concat(Year(createDate),'-',DATE_FORMAT(createDate,'%m')) as createDateYearMonth,
+  		concat(Year(createDate),'-',quarter(createDate)) as createDateYearQuarter,
+  		creater,
+  		discount,
+  		currency,
+  		exchangeRate,
+  		sum,
+  		foreignSum,
+  		serviceCost,
+  		applyCost,
+  		otherCost,
+  		memo,
+  		billTitle,
+  		contactId,
+  		payAcountId,
+  		b.agencyId,
+  		billNo,
+  		coagencyId,
+  		contactUserId,
+  		receiverType,
+  		c.fullname as customer,
+  		a.name as agencyName, 
+  		ca.name as coagencyName,
+  		u.fullname as createrName
+	</sql>
+	<sql id="Depart_Column_List">
+		billId,d.name as departName,dp.name as departName_1,a.name as departName_2,d.id as departId,dp.id as departId_1,0 as departId_2
+	</sql>
+
+
+	<select id="selectAllBill" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" /> 
+		from bill b left join customer c on b.custId=c.id left join agency a on b.agencyId=a.id 
+		  left join agency ca on b.coagencyId=a.id left join user u on b.creater=u.username
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+	
+	<select id="selectAllDepart" parameterType="java.lang.Integer" resultMap="DepartResultMap">
+		select 
+		<include refid="Depart_Column_List" /> 
+		from bill b join department d on b.groupName = d.name and b.agencyId=d.agencyId left join  department dp on dp.id=d.parent
+		  left join  agency a on a.id=b.agencyId
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+	
+</mapper>

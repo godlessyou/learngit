@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseCategoryRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryRecord" >
+    <id column="recordId" property="recordId" jdbcType="INTEGER" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="goodClass" property="goodClass" jdbcType="VARCHAR" />
+    <result column="similarGroup" property="similarGroup" jdbcType="VARCHAR" />
+    <result column="goodCode" property="goodCode" jdbcType="VARCHAR" />
+    <result column="goodName" property="goodName" jdbcType="VARCHAR" />
+    <result column="goodNameEn" property="goodNameEn" jdbcType="VARCHAR" />
+    <result column="goodKey" property="goodKey" jdbcType="VARCHAR" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifyUserName" property="modifyUserName" jdbcType="VARCHAR" />
+    <result column="modifyFlag" property="modifyFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    recordId, id, caseId, goodClass, similarGroup, goodCode, goodName, goodNameEn, goodKey, modifyTime, 
+    modifyUserName, modifyFlag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_category_record
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_category_record
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryRecord" >
+    insert into trademark_case_category_record (recordId, id, caseId, 
+      goodClass, similarGroup, goodCode, 
+      goodName, goodNameEn, goodKey, modifyTime, 
+      modifyUserName, modifyFlag)
+    values (#{recordId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, 
+      #{goodClass,jdbcType=VARCHAR}, #{similarGroup,jdbcType=VARCHAR}, #{goodCode,jdbcType=VARCHAR}, 
+      #{goodName,jdbcType=VARCHAR}, #{goodNameEn,jdbcType=VARCHAR}, #{goodKey,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyUserName,jdbcType=VARCHAR}, #{modifyFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryRecord" >
+    insert into trademark_case_category_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        recordId,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="goodClass != null" >
+        goodClass,
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup,
+      </if>
+      <if test="goodCode != null" >
+        goodCode,
+      </if>
+      <if test="goodName != null" >
+        goodName,
+      </if>
+      <if test="goodNameEn != null" >
+        goodNameEn,
+      </if>
+      <if test="goodKey != null" >
+        goodKey,
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyUserName != null" >
+        modifyUserName,
+      </if>
+      <if test="modifyFlag != null" >
+        modifyFlag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNameEn != null" >
+        #{goodNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        #{goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserName != null" >
+        #{modifyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyFlag != null" >
+        #{modifyFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryRecord" >
+    update trademark_case_category_record
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        goodClass = #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        goodCode = #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        goodName = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNameEn != null" >
+        goodNameEn = #{goodNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        goodKey = #{goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserName != null" >
+        modifyUserName = #{modifyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyFlag != null" >
+        modifyFlag = #{modifyFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryRecord" >
+    update trademark_case_category_record
+    set id = #{id,jdbcType=INTEGER},
+      caseId = #{caseId,jdbcType=INTEGER},
+      goodClass = #{goodClass,jdbcType=VARCHAR},
+      similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      goodCode = #{goodCode,jdbcType=VARCHAR},
+      goodName = #{goodName,jdbcType=VARCHAR},
+      goodNameEn = #{goodNameEn,jdbcType=VARCHAR},
+      goodKey = #{goodKey,jdbcType=VARCHAR},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      modifyUserName = #{modifyUserName,jdbcType=VARCHAR},
+      modifyFlag = #{modifyFlag,jdbcType=INTEGER}
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>

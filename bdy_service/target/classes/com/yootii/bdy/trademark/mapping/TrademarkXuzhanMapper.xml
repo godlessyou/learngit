@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkXuzhanMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.trademark.model.TrademarkXuzhan" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tmId" property="tmId" jdbcType="INTEGER" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="validStartDate" property="validStartDate" jdbcType="TIMESTAMP" />
+    <result column="validEndDate" property="validEndDate" jdbcType="TIMESTAMP" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="tmType" property="tmType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tmId, regNumber, tmName, validStartDate, validEndDate, appName, agent, status, 
+    tmType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_xuzhan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_xuzhan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.trademark.model.TrademarkXuzhan" >
+    insert into trademark_xuzhan (id, tmId, regNumber, 
+      tmName, validStartDate, validEndDate, 
+      appName, agent, status, 
+      tmType)
+    values (#{id,jdbcType=INTEGER}, #{tmId,jdbcType=INTEGER}, #{regNumber,jdbcType=VARCHAR}, 
+      #{tmName,jdbcType=VARCHAR}, #{validStartDate,jdbcType=TIMESTAMP}, #{validEndDate,jdbcType=TIMESTAMP}, 
+      #{appName,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{tmType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.trademark.model.TrademarkXuzhan" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_xuzhan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tmId != null" >
+        tmId,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="tmName != null" >
+        tmName,
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate,
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate,
+      </if>
+      <if test="appName != null" >
+        appName,
+      </if>
+      <if test="agent != null" >
+        agent,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="tmType != null" >
+        tmType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tmId != null" >
+        #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="validStartDate != null" >
+        #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        #{tmType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.trademark.model.TrademarkXuzhan" >
+    update trademark_xuzhan
+    <set >
+      <if test="tmId != null" >
+        tmId = #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        tmName = #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appName != null" >
+        appName = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        tmType = #{tmType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.trademark.model.TrademarkXuzhan" >
+    update trademark_xuzhan
+    set tmId = #{tmId,jdbcType=INTEGER},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      tmName = #{tmName,jdbcType=VARCHAR},
+      validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      appName = #{appName,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      tmType = #{tmType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

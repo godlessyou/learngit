@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.GoodsPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.GoodsPlan" >
+    <id column="planId" property="planId" jdbcType="INTEGER" />
+    <result column="planName" property="planName" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="goodClasses" property="goodClasses" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    planId, planName, appName, goodClasses
+  </sql>
+   
+  <select id="selectByGoodsPlan" resultMap="BaseResultMap" >
+    select planId, planName, appName, goodClasses
+    from goods_plan 
+    where 
+    1=1
+    <if test="goodsPlan.planId!=null and goodsPlan.planId != null">
+    <bind name="goodsPlan.planId" value="goodsPlan.planId" />
+		and planId= #{goodsPlan.planId,jdbcType=INTEGER} 
+    </if> 
+    <if test="goodsPlan.planName!=null and goodsPlan.planName != null">
+    <bind name="goodsPlan.planName" value="goodsPlan.planName" />
+		and planName= #{goodsPlan.planName,jdbcType=VARCHAR} 
+    </if> 
+    <if test="goodsPlan.appName!=null and goodsPlan.appName != null">
+    <bind name="goodsPlan.appName" value="goodsPlan.appName" />
+		and appName= #{goodsPlan.appName,jdbcType=VARCHAR} 
+    </if>  
+
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_plan
+    where planId = #{planId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_plan
+    where planId = #{planId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.GoodsPlan" >
+    insert into goods_plan (planId, planName, appName, 
+      goodClasses)
+    values (#{planId,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, 
+      #{goodClasses,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.GoodsPlan" useGeneratedKeys="true" keyProperty="planId">
+    insert into goods_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        planId,
+      </if>
+      <if test="planName != null" >
+        planName,
+      </if>
+      <if test="appName != null" >
+        appName,
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        #{planId,jdbcType=INTEGER},
+      </if>
+      <if test="planName != null" >
+        #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        #{goodClasses,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.GoodsPlan" >
+    update goods_plan
+    <set >
+      <if test="planName != null" >
+        planName = #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        appName = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses = #{goodClasses,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where planId = #{planId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.GoodsPlan" >
+    update goods_plan
+    set planName = #{planName,jdbcType=VARCHAR},
+      appName = #{appName,jdbcType=VARCHAR},
+      goodClasses = #{goodClasses,jdbcType=VARCHAR}
+    where planId = #{planId,jdbcType=INTEGER}
+  </update>
+</mapper>

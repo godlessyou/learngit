@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.customer.dao.ApplicantMapper" >
+ <resultMap id="ApplicantMap" type="com.yootii.bdy.customer.model.Applicant" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="applicantName" property="applicantName" jdbcType="VARCHAR" />
+    <result column="applicantAddress" property="applicantAddress" jdbcType="VARCHAR" />
+    <result column="applicantEnName" property="applicantEnName" jdbcType="VARCHAR" />
+    <result column="applicantEnAddress" property="applicantEnAddress" jdbcType="VARCHAR" />
+    <result column="usertName" property="usertName" jdbcType="VARCHAR" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="appType" property="appType" jdbcType="VARCHAR" />
+    <result column="sendType" property="sendType" jdbcType="VARCHAR" />
+    <result column="unifiedNumber" property="unifiedNumber" jdbcType="VARCHAR" />
+    <result column="cardName" property="cardName" jdbcType="VARCHAR" />
+    <result column="cardNumber" property="cardNumber" jdbcType="VARCHAR" />
+    <result column="mainAppId" property="mainAppId" jdbcType="INTEGER" />
+    <result column="hasTm" property="hasTm" jdbcType="INTEGER" />  
+  </resultMap>
+  
+  <resultMap  id="BaseResultMap" type="com.yootii.bdy.customer.model.Applicant" extends="ApplicantMap">  
+  	<association property="tradeMarkCount" column="id" javaType="INTEGER" select="selectTotalTradeMarkCount"> </association>
+  	<association property="tmCount" column="id" javaType="INTEGER" select="selecttradeMarkCount"> </association>
+    <collection property="applicants" ofType="com.yootii.bdy.customer.model.Applicant" column="id" select="getApplicants"></collection>
+  </resultMap>
+  
+  <resultMap  id="BaseResultMap1" type="com.yootii.bdy.customer.model.Applicant" extends="BaseResultMap">
+  	<collection property="trademarks" ofType="com.yootii.bdy.trademark.model.Trademark" column="applicantName" select="getTrademarks"></collection>
+  </resultMap>
+  <resultMap  id="BaseResultMap2" type="com.yootii.bdy.customer.model.Applicant" extends="BaseResultMap">
+  	<collection property="material" ofType="com.yootii.bdy.material.model.Material" column="id" select="getMaterial"></collection>
+  </resultMap>
+
+  <resultMap  id="BaseResultMap3" type="com.yootii.bdy.customer.model.Applicant" extends="BaseResultMap">
+  	 <collection property="trademarks" ofType="com.yootii.bdy.trademark.model.Trademark">   
+        <result column="regNumber" property="regNumber" jdbcType="VARCHAR" /> 		          
+	</collection> 
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, applicantName, applicantAddress, applicantEnName, applicantEnAddress, usertName, 
+    modifyTime,country,appType,sendType,unifiedNumber,cardName,cardNumber,mainAppId,
+    hasTm
+  </sql>
+  <sql id="Base_Column_List_a" >
+    a.id, a.applicantName, a.applicantAddress, a.applicantEnName, a.applicantEnAddress, a.usertName, 
+    a.modifyTime,a.country,a.appType,a.sendType,a.unifiedNumber,a.cardName,a.cardNumber,a.mainAppId,
+    a.hasTm
+  </sql>
+  <sql id="Base_Column_List_t" >
+    t.tmId, t.regNumber, t.tmType, t.tmGroup, t.tmName, t.applicantName, t.applicantAddress, t.applicantEnName, 
+    t.applicantEnAddress, t.gtApplicantName, t.gtApplicantAddress, t.status, t.appDate, t.approvalNumber, 
+    t.approvalDate, t.regnoticeNumber, t.regNoticeDate, t.validStartDate, t.validEndDate, t.tmCategory, 
+    t.agent, t.classify, t.imgFileUrl, t.modifyDate, t.imgFilePath
+  </sql>
+  <sql id="Base_Column_List_m">
+    m.materialId, m.custId, m.applicantId, m.title, m.subject, m.description, m.type, m.format, m.status, m.creater, 
+    m.createTime, m.modifier, m.modifyTime, m.tmNumber, m.caseId, m.address, m.size
+  </sql>
+  
+  
+  
+  
+   <select id="selectByAppNameList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select applicantName, applicantEnName, mainAppId
+    from applicant
+    where 1=1
+    <if test="AppNameList != null">
+		and applicantName in 
+		<foreach collection="AppNameList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>      
+  </select>  
+  
+  
+   <select id="selectTotalTradeMarkCount" parameterType="int" resultType="INTEGER">
+  	 select count(*) as count from trademark where applicantName in (select applicantName from applicant where mainAppId = #{id,jdbcType=INTEGER}) 
+  </select>
+  <select id="selecttradeMarkCount" parameterType="int" resultType="INTEGER">
+  	 select count(*) as count from trademark where applicantName=(select applicantName from applicant where id = #{id,jdbcType=INTEGER}) 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from applicant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from applicant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.customer.model.Applicant" >
+    insert into applicant (id, applicantName, applicantAddress, 
+      applicantEnName, applicantEnAddress, usertName, 
+      modifyTime,country,appType,sendType,unifiedNumber,cardName,
+      cardNumber,mainAppId,hasTm)
+    values (#{id,jdbcType=INTEGER}, #{applicantName,jdbcType=VARCHAR}, #{applicantAddress,jdbcType=VARCHAR}, 
+      #{applicantEnName,jdbcType=VARCHAR}, #{applicantEnAddress,jdbcType=VARCHAR}, #{usertName,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP},#{country,jdbcType=VARCHAR},#{appType,jdbcType=VARCHAR},
+      #{sendType,jdbcType=VARCHAR},#{unifiedNumber,jdbcType=VARCHAR},#{cardName,jdbcType=VARCHAR},
+      #{cardNumber,jdbcType=VARCHAR}, #{mainAppId,jdbcType=INTEGER}, #{hasTm,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.customer.model.Applicant" useGeneratedKeys="true" keyProperty="id">
+    insert into applicant
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicantName != null" >
+        applicantName,
+      </if>
+      <if test="applicantAddress != null" >
+        applicantAddress,
+      </if>
+      <if test="applicantEnName != null" >
+        applicantEnName,
+      </if>
+      <if test="applicantEnAddress != null" >
+        applicantEnAddress,
+      </if>
+      <if test="usertName != null" >
+        usertName,
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="appType != null" >
+        appType,
+      </if>
+      <if test="sendType != null" >
+        sendType,
+      </if>
+      <if test="unifiedNumber != null" >
+        unifiedNumber,
+      </if>
+      <if test="cardName != null" >
+        cardName,
+      </if>
+      <if test="cardNumber != null" >
+        cardNumber,
+      </if>
+	  <if test="mainAppId != null" >
+        mainAppId,
+      </if>
+ 	  <if test="hasTm != null" >
+        hasTm,
+      </if>     
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="applicantName != null" >
+        #{applicantName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantAddress != null" >
+        #{applicantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnName != null" >
+        #{applicantEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnAddress != null" >
+        #{applicantEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="usertName != null" >
+        #{usertName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+       <if test="appType != null" >
+        #{appType,jdbcType=VARCHAR},
+      </if>
+       <if test="sendType != null" >
+        #{sendType,jdbcType=VARCHAR},
+      </if>
+       <if test="unifiedNumber != null" >
+        #{unifiedNumber,jdbcType=VARCHAR},
+      </if>
+       <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+       <if test="cardNumber != null" >
+        #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mainAppId != null" >
+        #{mainAppId,jdbcType=INTEGER},
+      </if>
+      <if test="hasTm != null" >
+        #{hasTm,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.customer.model.Applicant" >
+    update applicant
+    <set >
+      <if test="applicantName != null" >
+        applicantName = #{applicantName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantAddress != null" >
+        applicantAddress = #{applicantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnName != null" >
+        applicantEnName = #{applicantEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnAddress != null" >
+        applicantEnAddress = #{applicantEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="usertName != null" >
+        usertName = #{usertName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="appType != null" >
+        appType = #{appType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendType != null" >
+        sendType = #{sendType,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedNumber != null" >
+        unifiedNumber = #{unifiedNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        cardName = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNumber != null" >
+        cardNumber = #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mainAppId != null" >
+        mainAppId = #{mainAppId,jdbcType=INTEGER},
+      </if>
+      <if test="hasTm != null" >
+        hasTm = #{hasTm,jdbcType=INTEGER},
+      </if>
+      
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.customer.model.Applicant" >
+    update applicant
+    set applicantName = #{applicantName,jdbcType=VARCHAR},
+      applicantAddress = #{applicantAddress,jdbcType=VARCHAR},
+      applicantEnName = #{applicantEnName,jdbcType=VARCHAR},
+      applicantEnAddress = #{applicantEnAddress,jdbcType=VARCHAR},
+      usertName = #{usertName,jdbcType=VARCHAR},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+       country = #{country,jdbcType=VARCHAR},
+       appType = #{appType,jdbcType=VARCHAR},
+       sendType = #{sendType,jdbcType=VARCHAR},
+       unifiedNumber = #{unifiedNumber,jdbcType=VARCHAR},
+       cardName = #{cardName,jdbcType=VARCHAR},
+       cardNumber = #{cardNumber,jdbcType=VARCHAR},
+       mainAppId =#{mainAppId,jdbcType=INTEGER},
+       hasTm =#{hasTm,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <update id="updateMainAppId" parameterType="com.yootii.bdy.customer.model.Applicant" >
+    update applicant
+    set 
+       mainAppId =#{mainAppId,jdbcType=INTEGER}
+    where mainAppId = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByApplicant" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List_a" />
+    from applicant   as a
+    where 1=1
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.usertName like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="applicant.applicantName!=null and applicant.applicantName!=''">
+					<bind name="applicant.applicantName" value="'%' + applicant.applicantName + '%'" />
+					and a.applicantName like #{applicant.applicantName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantAddress!=null and applicant.applicantAddress!=''">
+					<bind name="applicant.applicantAddress" value="'%'+applicant.applicantAddress+'%'" />
+					and a.applicantAddress like #{applicant.applicantAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnName!=null and applicant.applicantEnName!=''">
+					<bind name="applicant.applicantEnName" value="applicant.applicantEnName" />
+					and a.applicantEnName = #{applicant.applicantEnName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnAddress!=null and applicant.applicantEnAddress!=''">
+					<bind name="applicant.applicantEnAddress" value="applicant.applicantEnAddress" />
+					and a.applicantEnAddress = #{applicant.applicantEnAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.usertName!=null and applicant.usertName!=''">
+					<bind name="applicant.usertName" value="applicant.usertName" />
+					and a.usertName = #{applicant.usertName,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<bind name="gcon.offset" value="gcon.offset" />
+		<bind name="gcon.rows" value="gcon.rows" />
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByApplicantAndCustId" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List_a" />
+    from applicant   as a , customer_applicant as ca, customer as c
+    where 1=1
+    and a.id=ca.appId and ca.custId = c.id
+    and c.id = #{customerId,jdbcType=INTEGER}
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.usertName like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="applicant.applicantName!=null and applicant.applicantName!=''">
+					<bind name="applicant.applicantName" value="'%' + applicant.applicantName + '%'" />
+					and a.applicantName like #{applicant.applicantName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantAddress!=null and applicant.applicantAddress!=''">
+					<bind name="applicant.applicantAddress" value="'%'+applicant.applicantAddress+'%'" />
+					and a.applicantAddress like #{applicant.applicantAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnName!=null and applicant.applicantEnName!=''">
+					<bind name="applicant.applicantEnName" value="applicant.applicantEnName" />
+					and a.applicantEnName = #{applicant.applicantEnName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnAddress!=null and applicant.applicantEnAddress!=''">
+					<bind name="applicant.applicantEnAddress" value="applicant.applicantEnAddress" />
+					and a.applicantEnAddress = #{applicant.applicantEnAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.usertName!=null and applicant.usertName!=''">
+					<bind name="applicant.usertName" value="applicant.usertName" />
+					and a.usertName = #{applicant.usertName,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<bind name="gcon.offset" value="gcon.offset" />
+		<bind name="gcon.rows" value="gcon.rows" />
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByApplicantCountAndCustId" resultType="java.lang.Long">
+   select 
+    count(a.id)
+    from applicant   as a , customer_applicant as ca, customer as c
+    where 1=1
+    and a.id=ca.appId and ca.custId = c.id
+    and c.id = #{customerId,jdbcType=INTEGER}
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.usertName like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="applicant.applicantName!=null and applicant.applicantName!=''">
+					<bind name="applicant.applicantName" value="'%' + applicant.applicantName + '%'" />
+					and a.applicantName like #{applicant.applicantName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantAddress!=null and applicant.applicantAddress!=''">
+					<bind name="applicant.applicantAddress" value="'%'+applicant.applicantAddress+'%'" />
+					and a.applicantAddress like #{applicant.applicantAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnName!=null and applicant.applicantEnName!=''">
+					<bind name="applicant.applicantEnName" value="applicant.applicantEnName" />
+					and a.applicantEnName = #{applicant.applicantEnName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnAddress!=null and applicant.applicantEnAddress!=''">
+					<bind name="applicant.applicantEnAddress" value="applicant.applicantEnAddress" />
+					and a.applicantEnAddress = #{applicant.applicantEnAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.usertName!=null and applicant.usertName!=''">
+					<bind name="applicant.usertName" value="applicant.usertName" />
+					and a.usertName = #{applicant.usertName,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		
+  </select>
+  
+  <select id="selectByApplicantCount" resultType="java.lang.Long" >
+   select count(a.id)    
+    from applicant   as a
+    where 1=1
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.applicantEnAddress like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.usertName like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="applicant.applicantName!=null and applicant.applicantName!=''">
+					<bind name="applicant.applicantName" value="'%' + applicant.applicantName + '%'" />
+					and a.applicantName like #{applicant.applicantName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantAddress!=null and applicant.applicantAddress!=''">
+					<bind name="applicant.applicantAddress" value="'%'+applicant.applicantAddress+'%'" />
+					and a.applicantAddress like #{applicant.applicantAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnName!=null and applicant.applicantEnName!=''">
+					<bind name="applicant.applicantEnName" value="applicant.applicantEnName" />
+					and a.applicantEnName = #{applicant.applicantEnName,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.applicantEnAddress!=null and applicant.applicantEnAddress!=''">
+					<bind name="applicant.applicantEnAddress" value="applicant.applicantEnAddress" />
+					and a.applicantEnAddress = #{applicant.applicantEnAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="applicant.usertName!=null and applicant.usertName!=''">
+					<bind name="applicant.usertName" value="applicant.usertName" />
+					and a.usertName = #{applicant.usertName,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		
+  </select>
+  <select id="selectByApplicantAndTm" resultMap="BaseResultMap1">
+  	select <include refid="Base_Column_List_a" />
+    from applicant as a 
+    where 1=1
+    and a.id = #{applicant.id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByApplicantAndTmCount" resultType="java.lang.Long">
+  	select count(t.tmid)
+    from applicant as a , trademark as t
+    where 1=1
+    and t.applicantName = a.applicantName
+    and a.id = #{applicant.id,jdbcType=INTEGER}
+    
+  </select>
+  <select id="selectByApplicantCNName" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List_a" />
+    from applicant as a
+    where 
+    1=1    
+    and a.id=(select mainAppId from applicant where applicantName = #{applicant.applicantName,jdbcType=VARCHAR} limit 1)    
+    limit 0,1
+  </select>
+ 
+    
+  <select id="selectByApplicantByCustId" resultMap="ApplicantMap">
+	select   
+	<include refid="Base_Column_List_a" />
+    from applicant   as a , customer_applicant as ca
+    where 1=1
+    and a.id=ca.appId
+    and ca.custId = #{customerId,jdbcType=INTEGER}     
+  </select>
+  
+  <select id="selectByApplicantByCustIdCount" resultType="java.lang.Long" >
+   select 
+    count(a.id)
+    from applicant   as a , customer_applicant as ca
+    where 1=1
+    and a.id=ca.appId 
+    and ca.custId = #{customerId,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectApplicantNameByCustId" resultMap="ApplicantMap">
+	select  a.id, a.applicantName, a.applicantEnName
+    from applicant as a , customer_applicant as ca
+    where 1=1
+    and a.id=ca.appId 
+    and ca.custId = #{customerId,jdbcType=INTEGER}    
+  </select>
+  
+  
+  <select id="getTrademarks" parameterType="String"
+	resultType="com.yootii.bdy.trademark.model.Trademark">
+	SELECT
+	<include refid="Base_Column_List_t" />
+	FROM trademark as t  WHERE t.applicantName=#{applicantName}
+  </select>
+  <select id="getApplicants" parameterType="java.lang.Integer" resultType="com.yootii.bdy.customer.model.Applicant" >
+    select 
+    <include refid="Base_Column_List" />
+    from applicant
+    where mainAppId = #{id}
+    <![CDATA[ 
+	and id<>mainAppId
+	]]>
+  </select>
+  <select id="getMaterial" parameterType="java.lang.Integer"
+	resultType="com.yootii.bdy.material.model.Material">
+	SELECT
+	<include refid="Base_Column_List_m" />
+	FROM material as m  WHERE m.applicantId=#{id}
+  </select>
+   <select id="selectAppAndMaterialByPrimaryKey" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from applicant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="com.yootii.bdy.customer.model.Applicant" >
+    select 
+    <include refid="Base_Column_List" />
+    from applicant
+    where applicantName = #{applicantName,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectAllApplicantById" resultMap="BaseResultMap1">
+  	select <include refid="Base_Column_List_a" />
+    from applicant as a 
+    where 1=1
+    and a.mainAppId = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllApplicantByCustId" resultMap="ApplicantMap">	
+    select a.id, a.mainAppId, a.applicantName, a.applicantEnName 
+    from applicant as a , customer_applicant as ca
+    where 1=1  
+    and a.id=ca.appId 
+    and ca.custId = #{customerId,jdbcType=INTEGER} 
+    group by a.applicantName    
+  </select>
+  
+  <select id="getApplicantList" resultMap="BaseResultMap3" > 
+ 	select <include refid="Base_Column_List_a" />, b.regNumber
+	from applicant a,
+	(
+		select distinct(regNumber), applicantName from trademark where regNumber in 
+		<foreach collection="regNumbers" index="index" item="item" open="(" separator="," close=")">
+	       	 #{item}
+	    </foreach>
+    )b
+	where 
+	1=1
+    and a.applicantName=b.applicantName	  
+    and a.id in (select mainAppId from applicant where mainAppId is not null)	    
+  </select>
+  
+  
+     
+  <select id="getByApplicantName" resultMap="ApplicantMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from applicant
+    where 
+    1=1
+    and  applicantName = #{applicant.applicantName,jdbcType=VARCHAR}  
+   
+  </select>
+  
+  
+  
+</mapper>

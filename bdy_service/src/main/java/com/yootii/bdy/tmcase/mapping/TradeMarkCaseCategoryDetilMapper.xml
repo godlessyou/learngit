@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseCategoryDetilMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryDetil" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goodClass" property="goodClass" jdbcType="VARCHAR" />
+    <result column="similarGroup" property="similarGroup" jdbcType="VARCHAR" />
+    <result column="goodCode" property="goodCode" jdbcType="VARCHAR" />
+    <result column="goodName" property="goodName" jdbcType="VARCHAR" />
+    <result column="goodKey" property="goodKey" jdbcType="VARCHAR" />
+    <result column="goodEnName" property="goodEnName" jdbcType="VARCHAR" />
+    <result column="goodNotes" property="goodNotes" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodClass, similarGroup, goodCode, goodName, goodKey,goodEnName,
+    goodNotes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteData"  >
+    TRUNCATE table trademark_case_category_detil
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    insert into trademark_case_category (id,  
+      goodClass, similarGroup, goodCode, 
+      goodName, goodKey)
+    values (#{caseId,jdbcType=INTEGER}, 
+      #{goodClass,jdbcType=VARCHAR}, #{similarGroup,jdbcType=VARCHAR}, #{goodCode,jdbcType=VARCHAR}, 
+      #{goodName,jdbcType=VARCHAR}, #{goodKey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryDetil" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_case_category_detil
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      
+      <if test="goodClass != null" >
+        goodClass,
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup,
+      </if>
+      <if test="goodCode != null" >
+        goodCode,
+      </if>
+      <if test="goodName != null" >
+        goodName,
+      </if>
+      <if test="goodKey != null" >
+        goodKey,
+      </if>
+      <if test="goodEnName != null" >
+        goodEnName,
+      </if>
+      <if test="goodNotes != null" >
+        goodNotes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        #{goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="goodEnName != null" >
+        #{goodEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNotes != null" >
+        #{goodNotes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveList" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategoryDetil" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_case_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="agencyId != null" >
+        agencyId,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="goodClass != null" >
+        goodClass,
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup,
+      </if>
+      <if test="goodCode != null" >
+        goodCode,
+      </if>
+      <if test="goodName != null" >
+        goodName,
+      </if>
+      <if test="goodKey != null" >
+        goodKey,
+      </if>
+      <if test="DetailName != null" >
+        DetailName,
+      </if>
+      <if test="DetailName_EN != null" >
+        DetailName_EN,
+      </if>
+      <if test="DetailID != null" >
+        DetailID,
+      </if>
+      <if test="DetailTypeNumber != null" >
+        DetailTypeNumber,
+      </if>
+      <if test="UnionType != null" >
+        UnionType,
+      </if>
+      <if test="descriptionGF != null" >
+        descriptionGF,
+      </if>
+      <if test="PageNo != null" >
+        PageNo,
+      </if>
+      <if test="Partition != null" >
+        Partition,
+      </if>
+      <if test="Paragraph != null" >
+        Paragraph,
+      </if>
+      <if test="OrderId != null" >
+        OrderId,
+      </if>
+      <if test="detailSource != null" >
+        detailSource,
+      </if>
+    </trim>
+    
+    
+     <trim prefix="values (" suffix=")" suffixOverrides="," > 
+     <foreach collection="list" item="item" index="index" 	separator="," >
+      <if test="item.id != null" >
+        #{item.id,jdbcType=INTEGER},
+      </if>
+      <if test="item.agencyId != null" >
+        #{item.agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="item.caseId != null" >
+        #{item.caseId,jdbcType=INTEGER},
+      </if>
+      <if test="item.goodClass != null" >
+        #{item.goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="item.similarGroup != null" >
+        #{item.similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="item.goodCode != null" >
+        #{item.goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="item.goodName != null" >
+        #{item.goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="item.goodKey != null" >
+        #{item.goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="item.DetailName != null" >
+        #{item.DetailName,jdbcType=VARCHAR},
+      </if>
+      <if test="item.DetailName_EN != null" >
+        #{item.DetailName_EN,jdbcType=VARCHAR},
+      </if>
+      <if test="item.DetailID != null" >
+        #{item.DetailID,jdbcType=VARCHAR},
+      </if>
+      <if test="item.DetailTypeNumber != null" >
+        #{item.DetailTypeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="item.UnionType != null" >
+        #{item.UnionType,jdbcType=VARCHAR},
+      </if>
+      <if test="item.descriptionGF != null" >
+        #{item.descriptionGF,jdbcType=VARCHAR},
+      </if>
+      <if test="item.PageNo != null" >
+        #{item.PageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="item.Partition != null" >
+        #{item.Partition,jdbcType=VARCHAR},
+      </if>
+      <if test="item.Paragraph != null" >
+        #{item.Paragraph,jdbcType=VARCHAR},
+      </if>
+      <if test="item.OrderId != null" >
+        #{item.OrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="item.detailSource != null" >
+        #{item.detailSource,jdbcType=VARCHAR},
+      </if>
+      	</foreach>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    update trademark_case_category_detil
+    <set >
+      <if test="agencyId != null" >
+        agencyId = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        goodClass = #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        goodCode = #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        goodName = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        goodKey = #{goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="goodEnName != null" >
+        goodEnName = #{goodEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNotes != null" >
+        goodNotes = #{goodNotes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    update trademark_case_category_detil
+    set 
+      goodClass = #{goodClass,jdbcType=VARCHAR},
+      similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      goodCode = #{goodCode,jdbcType=VARCHAR},
+      goodName = #{goodName,jdbcType=VARCHAR},
+      goodKey = #{goodKey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByGoodName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+  from trademark_case_category_detil where 1=1 
+  and goodName = #{goodName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByGoodNameAndGroup"  resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+  from trademark_case_category_detil where 1=1 
+  and goodName = #{tradeMarkCaseCategoryDetil.goodName,jdbcType=VARCHAR}
+  and similarGroup = #{tradeMarkCaseCategoryDetil.similarGroup,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll"  resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+  from trademark_case_category_detil
+  </select>
+</mapper>

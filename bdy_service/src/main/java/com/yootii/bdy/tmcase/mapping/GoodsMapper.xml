@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.Goods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="planId" property="planId" jdbcType="INTEGER" />
+    <result column="goodClass" property="goodClass" jdbcType="VARCHAR" />
+    <result column="similarGroup" property="similarGroup" jdbcType="VARCHAR" />
+    <result column="goodCode" property="goodCode" jdbcType="VARCHAR" />
+    <result column="goodName" property="goodName" jdbcType="VARCHAR" />
+    <result column="goodNameEn" property="goodNameEn" jdbcType="VARCHAR" />
+    <result column="goodKey" property="goodKey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, planId, goodClass, similarGroup, goodCode, goodName, goodNameEn, goodKey
+  </sql>
+  
+  
+ <select id="selectByPlanId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	select 
+    <include refid="Base_Column_List" />
+    from goods
+	where planId=#{planId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.Goods" >
+    insert into goods (id, planId, goodClass, 
+      similarGroup, goodCode, goodName, 
+      goodNameEn, goodKey)
+    values (#{id,jdbcType=INTEGER}, #{planId,jdbcType=INTEGER}, #{goodClass,jdbcType=VARCHAR}, 
+      #{similarGroup,jdbcType=VARCHAR}, #{goodCode,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR}, 
+      #{goodNameEn,jdbcType=VARCHAR}, #{goodKey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.Goods" >
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="planId != null" >
+        planId,
+      </if>
+      <if test="goodClass != null" >
+        goodClass,
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup,
+      </if>
+      <if test="goodCode != null" >
+        goodCode,
+      </if>
+      <if test="goodName != null" >
+        goodName,
+      </if>
+      <if test="goodNameEn != null" >
+        goodNameEn,
+      </if>
+      <if test="goodKey != null" >
+        goodKey,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNameEn != null" >
+        #{goodNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        #{goodKey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.Goods" >
+    update goods
+    <set >
+      <if test="planId != null" >
+        planId = #{planId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        goodClass = #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        goodCode = #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        goodName = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNameEn != null" >
+        goodNameEn = #{goodNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        goodKey = #{goodKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.Goods" >
+    update goods
+    set planId = #{planId,jdbcType=INTEGER},
+      goodClass = #{goodClass,jdbcType=VARCHAR},
+      similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      goodCode = #{goodCode,jdbcType=VARCHAR},
+      goodName = #{goodName,jdbcType=VARCHAR},
+      goodNameEn = #{goodNameEn,jdbcType=VARCHAR},
+      goodKey = #{goodKey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

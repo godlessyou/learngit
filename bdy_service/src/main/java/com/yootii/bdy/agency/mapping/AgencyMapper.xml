@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.agency.dao.AgencyMapper">
+	<resultMap id="BaseResultMap" type="com.yootii.bdy.agency.model.Agency" >
+	    <id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="address" property="address" jdbcType="VARCHAR" />
+	    <result column="tel" property="tel" jdbcType="VARCHAR" />
+	    <result column="logo" property="logo" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="VARCHAR" />
+	    <result column="appOnline" property="appOnline" jdbcType="INTEGER" />
+        <result column="appChannel" property="appChannel" jdbcType="INTEGER" />    
+  	</resultMap>
+  	<sql id="Base_Column_List" >
+    id, name, address, tel, logo, status, appOnline, appChannel
+  	</sql>
+  	<sql id="Base_Column_List_a" >
+    a.id, a.name, a.address, a.tel, a.logo, a.status, a.appOnline, a.appChannel
+  	</sql>
+  	
+  <select id="selectAgencyByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select id from agency
+  	where name like #{agencyName,jdbcType=VARCHAR}
+  	limit 0,1
+  </select>
+  
+  <select id="selectAgencyList" resultType="java.lang.Integer">
+  	select id from agency
+  </select>
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from agency
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectbasictotal" resultType="java.util.Map">
+  SELECT a.count AS agencyAmount,b.count AS custAmount, c.count AS tmAmount,d.count AS tmCaseAmount FROM 
+
+	(SELECT COUNT(id) AS COUNT FROM agency) a,
+
+	(SELECT COUNT(id) AS COUNT  FROM customer)b,
+
+	(SELECT COUNT(id) AS COUNT  FROM trademark_case)c,
+
+	(SELECT COUNT(tmid) AS COUNT  FROM trademark) d
+  </select>
+  <select id="selectAgencyByUserId" resultMap="BaseResultMap">
+  	SELECT	<include refid="Base_Column_List_a"/>		   
+	FROM agency a  JOIN agency_user au ON a.id=au.agencyId
+	JOIN USER u ON au.userId=u.userId WHERE u.userId=#{userId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectAgencyContact"  resultType="java.util.Map">
+    select a.id as agencyContactId,b.userId, b.username, b.fullname,
+    		 b.email, b.phone, b.sex, b.address,b.userType,b.locked,c.postcode
+    FROM bdy_db.agency_contact a
+		left join user b on a.userId = b.userId
+		left join agency c on a.agencyId=c.id
+    where a.agencyId = #{agencyId,jdbcType=INTEGER}
+   	 and a.custId = #{custId,jdbcType=INTEGER}
+  </select>
+  
+  
+</mapper>

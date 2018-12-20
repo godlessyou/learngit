@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkNotifyMapper"> 
+	<resultMap  id="dataResult"  type="com.yootii.bdy.task.model.Notification">
+		<id column="id" property="id"/>
+		<result column="tmId" property="tmId"/>
+		<result column="tmName" property="tmName"/>
+		<result column="batchNo" property="batchNo"/>
+		<result column="tmType" property="tmType"/>
+		<result column="regNumber" property="regNumber"/>
+		<result column="imgFilePath" property="imgFilePath"/>
+		<result column="appDate" property="appDate"/>
+		<result column="validEndDate" property="tmDeadTime"/>
+		<result column="applicantName" property="applicantName"/>
+		<result column="applicantEnName" property="applicantEnName"/>
+		<result column="name" property="name"/>
+		<result column="createTime" property="createTime"/>
+	</resultMap>
+  	
+  	<resultMap id="statisticResultMap" type="java.util.HashMap">
+  		<id column="id" property="id"/>
+  		<result column="tmId" property="tmId"/>
+  		<result column="tmDeadTime" property="tmDeadTime" jdbcType="TIMESTAMP"/>
+  		<result column="tmName" property="tmName"/>
+  		<result column="regNumber" property="regNumber"/>
+  		<result column="applicantName" property="applicantName"/>
+  		<result column="applicantEnName" property="applicantEnName"/>
+  		<result column="appDate" property="appDate" jdbcType="TIMESTAMP"/>
+  		<result column="validStartDate" property="validStartDate" jdbcType="TIMESTAMP"/>
+  		<result column="tmStatus" property="tmStatus"/>
+  	</resultMap>
+  	
+  	<!-- applicant表中有中文名称相同但是英文名称不同的数据，因此要对其进行过滤，过滤条件是只要中文名称相同即算一条数据 -->
+  	<select id="queryTmNotify" resultMap="dataResult">
+		SELECT 
+			a.id,
+			a.tmId,
+			a.tmName,
+			a.createTime,
+			b.tmType,
+			b.regNumber,
+			b.imgFilePath,
+			b.appDate,
+			b.validEndDate,
+			b.applicantName,
+			b.applicantEnName,
+			e.name
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId LEFT JOIN 
+		(
+				select distinct(a.applicantName) as applicantName, a.mainAppId 
+				from applicant a, customer_applicant b
+	      		where  
+					b.appId=a.mainAppId
+	     		and b.custId= #{custId}
+		)c
+		ON b.applicantName = c.applicantName LEFT JOIN customer_applicant d
+		ON c.mainAppId = d.appId LEFT JOIN customer e
+		ON d.custId = e.id
+		where 
+			b.regNumber not in (SELECT  regNumber from trademark_case WHERE caseType ='商标续展')	
+			AND	e.id = #{custId}
+			AND a.batchNo=#{batchNo}
+		ORDER BY a.id DESC	
+  	</select>
+  	
+  	
+  	<!-- 按季度进行统计 可续展 数据-->
+  	<select id="statisticsTmByQuarter" resultMap="statisticResultMap">
+  		SELECT 
+	  		a.id,
+	  		a.tmId,
+	  		a.tmDeadTime,
+	  		b.tmName,
+	  		b.regNumber,
+	  		b.applicantName,
+	  		b.applicantEnName,
+	  		b.appDate,
+	  		b.validStartDate,
+	  		b.validEndDate,
+	  		b.tmStatus
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId
+		WHERE b.applicantName in(
+							SELECT DISTINCT a.applicantName
+							FROM applicant a LEFT JOIN customer_applicant b
+							ON a.mainAppId = b.appId 
+							WHERE b.custId = #{custId}
+		)AND  a.createTime BETWEEN  #{beginQuarter} AND #{endQuarter}
+		
+		<if test="type ==1">
+			<if test="gcon.rows != null and gcon.offset!=null">
+		 		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+			</if>
+		</if>
+  	</select>
+  	
+  	<select id="statisticsTmByQuarterCount" resultType="java.lang.Long">
+  		SELECT 
+	  		count(a.id)
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId
+		WHERE b.applicantName in(
+							SELECT DISTINCT a.applicantName
+							FROM applicant a LEFT JOIN customer_applicant b
+							ON a.mainAppId = b.appId 
+							WHERE b.custId = #{custId}
+		)AND  a.createTime BETWEEN  #{beginQuarter} AND #{endQuarter}
+  	</select>
+  	
+  	
+  	<!-- 按季度统计 已通知 的数据 -->
+  	<select id="statisticsTmAlreadRemindByQuarter" resultMap="statisticResultMap">
+  		SELECT a.id,
+  			a.tmId,
+  			a.tmDeadTime,
+  			b.tmName,
+  			b.regNumber,
+  			b.applicantName,
+  			b.applicantEnName,
+  			b.appDate,
+  			b.validStartDate,
+  			b.validEndDate,
+  			tmStatus
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId  
+		WHERE batchNo in (
+					SELECT DISTINCT(batchNo) FROM remind_record WHERE mailStatus = 1
+		      )
+	    AND b.applicantName in(
+							SELECT DISTINCT a.applicantName
+							FROM applicant a LEFT JOIN customer_applicant b
+							ON a.mainAppId = b.appId 
+							WHERE b.custId = #{custId}
+              )
+		AND a.createTime BETWEEN #{beginQuarter} AND #{endQuarter}
+		
+		<if test="type ==1">
+			<if test="gcon.rows != null and gcon.offset!=null">
+		 		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+			</if>
+		</if>
+  	</select>
+  	
+  	<select id="statisticsTmAlreadRemindByQuarterCount" resultType="java.lang.Long">
+  		SELECT 
+  			count(a.id)
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId  
+		WHERE batchNo in (
+					SELECT DISTINCT(batchNo) FROM remind_record WHERE mailStatus = 1
+		      )
+	    AND b.applicantName in(
+							SELECT DISTINCT a.applicantName
+							FROM applicant a LEFT JOIN customer_applicant b
+							ON a.mainAppId = b.appId 
+							WHERE b.custId = #{custId}
+              )
+		AND a.createTime BETWEEN #{beginQuarter} AND #{endQuarter}
+  	</select>
+  	
+  	<!-- 根据custId 查询notification表中的时间段 -->
+  	<select id="queryAllTimes" resultType="String">
+  		SELECT
+				DISTINCT date(a.createTime)
+		FROM
+			notification a
+			LEFT JOIN trademark b ON a.tmId = b.tmId
+			LEFT JOIN applicant c ON b.applicantName = c.applicantName
+			LEFT JOIN customer_applicant d ON c.mainAppId = d.appId
+			LEFT JOIN customer e ON d.custId = e.id
+			WHERE
+				b.regNumber NOT IN (
+					SELECT
+						regNumber
+					FROM
+						trademark_case
+					WHERE
+						caseType = '商标续展'
+				)
+			AND e.id =#{custId} 
+			<!-- AND batchNO =(
+				SELECT
+					max(batchNo)
+				FROM
+					notification
+			) -->
+			GROUP BY createTime
+			ORDER BY
+				a.createTime DESC 
+  	</select>
+  	
+  	<!-- 查询remind_record 表中的时间段-->
+  	<select id="queryRenewalRemindTimes" resultType="String">
+  		SELECT DISTINCT(date(createTime))
+  		FROM remind_record 
+  		WHERE custId = #{custId}
+  		<if test="gcon.type !=null and gcon.type !='' ">
+  			AND type = #{gcon.type}
+  		</if>
+  	</select>
+  	
+  	
+  	
+  	<!-- 根据custId 和 createTime 来查询通知 -->
+  	<select id="queryNotification" resultType="java.util.HashMap">
+  			SELECT 
+			a.id,
+			a.tmId,
+			a.tmName,
+			a.batchNo,
+			a.createTime,
+			b.tmType,
+			b.regNumber,
+			b.imgFilePath,
+			b.appDate,
+			b.validEndDate,
+			b.applicantName,
+			b.applicantEnName,
+			e.name
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId LEFT JOIN 
+		(
+				select distinct(a.applicantName) as applicantName, a.mainAppId 
+				from applicant a, customer_applicant b
+	      where  
+					b.appId=a.mainAppId
+	      and b.custId= #{custId}
+		)c
+		ON b.applicantName = c.applicantName LEFT JOIN customer_applicant d
+		ON c.mainAppId = d.appId LEFT JOIN customer e
+		ON d.custId = e.id
+		where 
+			b.regNumber not in (SELECT  regNumber from trademark_case WHERE caseType ='商标续展')	
+			AND	e.id = #{custId}
+     	AND createTime &gt;=#{createTime} AND createTime  &lt;=#{deadTime}
+     	AND a.status = 0 
+     	<choose>
+			 <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				  and (
+						b.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or
+						a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+						e.name like #{gcon.keyword,jdbcType=VARCHAR} or
+						b.regNumber like #{gcon.keyword,jdbcType=VARCHAR}
+					 )
+			</when>
+    	</choose>		
+		ORDER BY a.id DESC
+  		<if test="gcon.rows != null and gcon.offset!=null">
+  		<bind name="gcon.rows" value="gcon.rows"/>
+  		<bind name="gcon.offset" value="gcon.offset"/>
+		 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+		</if>
+  	</select>
+  	<!-- 查询总数 -->
+  	<select id="queryNotificationCount" resultType="int">
+  		SELECT 
+			COUNT(a.id)
+		FROM notification a LEFT JOIN trademark b
+		ON a.tmId = b.tmId LEFT JOIN 
+		(
+				select distinct(a.applicantName) as applicantName, a.mainAppId 
+				from applicant a, customer_applicant b
+	      where  
+					b.appId=a.mainAppId
+	      and b.custId= #{custId}
+		)c
+		ON b.applicantName = c.applicantName LEFT JOIN customer_applicant d
+		ON c.mainAppId = d.appId LEFT JOIN customer e
+		ON d.custId = e.id
+		where 
+			b.regNumber not in (SELECT regNumber from trademark_case WHERE caseType ='商标续展')	
+			AND	e.id = #{custId}
+     	AND createTime &gt;=#{createTime} AND createTime  &lt;=#{deadTime}	
+     	AND a.status = 0
+     	<choose>
+			 <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				  and (
+						b.applicantName like #{gcon.keyword,jdbcType=VARCHAR} or
+						a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+						e.name like #{gcon.keyword,jdbcType=VARCHAR} or
+						b.regNumber like #{gcon.keyword,jdbcType=VARCHAR}
+					 )
+			</when>
+    	</choose>	
+		ORDER BY a.id DESC
+  	</select>
+  	
+  	<!-- 查询商标异常信息列表 -->
+  	<select id="queryAbnormalList" resultType="java.util.HashMap">
+  		SELECT a.id,
+			a.tmId,
+			a.tmProcessId,
+			a.regNum,
+			a.abnormalType,
+			a.statusDate,
+			a.createDate,
+			a.modifyDate,
+			b.tmName,
+			b.applicantName,
+			b.applicantEnName,
+			b.regNumber,
+			a.isDelete
+			FROM tm_abnormal a LEFT JOIN trademark b
+			ON a.tmId = b.tmId 
+			WHERE b.applicantName in(
+							<!-- SELECT DISTINCT c.applicantName
+							FROM customer a LEFT JOIN customer_applicant b
+							ON a.id = b.custId LEFT JOIN applicant c
+							ON b.appId = c.mainAppId
+							WHERE  1=1
+							<if test="custId !=null and custId !=''">
+								AND a.id=#{custId}
+							</if>
+							<if test="userId !=null and userId !=''">
+								AND a.id in(SELECT custId FROM user_customer WHERE userId = #{userId})
+							</if> -->
+					<!-- 优化后的 -->
+							select distinct(a.applicantName) as applicantName
+							from applicant a, customer_applicant b
+							where  
+								b.appId=a.mainAppId
+							
+								and b.custId= #{custId}
+						
+							
+			) AND a.isDelete = 0
+			<!-- 根据异常类型类型过滤 -->
+			<if test="gcon.type != null">
+			<bind name="gcon.type" value="gcon.type"/>
+				AND a.abnormalType = #{gcon.type}
+			</if>
+			<choose>
+			    <when test="gcon.keyword!=null and gcon.keyword!=''">
+					<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+					and (
+						regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+						tmName like #{gcon.keyword,jdbcType=VARCHAR}
+					)
+				</when>
+    		</choose>
+			ORDER BY a.createDate DESC
+  			<if test="gcon.rows != null and gcon.offset!=null">
+  			<bind name="gcon.rows" value="gcon.rows"/>
+  			<bind name="gcon.offset" value="gcon.offset"/>
+				 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+			</if>
+  	</select>
+  	
+  	<select id="queryAbnormalCount" resultType="java.lang.Long">
+  		SELECT 
+  			count(a.id)
+			FROM tm_abnormal a LEFT JOIN trademark b
+			ON a.tmId = b.tmId 
+			WHERE b.applicantName in(
+							<!-- SELECT DISTINCT c.applicantName
+							FROM customer a LEFT JOIN customer_applicant b
+							ON a.id = b.custId LEFT JOIN applicant c
+							ON b.appId = c.mainAppId
+							WHERE  1=1
+							<if test="custId !=null and custId !=''">
+								AND a.id=#{custId}
+							</if>
+							<if test="userId !=null and userId !=''">
+								AND a.id in(SELECT custId FROM user_customer WHERE userId = #{userId})
+							</if> -->
+					<!-- 优化后 -->
+							select distinct(a.applicantName) as applicantName
+							from applicant a, customer_applicant b
+							where  
+								b.appId=a.mainAppId
+							
+								and b.custId= #{custId}
+							
+			) AND a.isDelete = 0
+			<!-- 根据异常类型类型过滤 -->
+			<if test="gcon.type != null">
+			<bind name="gcon.type" value="gcon.type"/>
+				AND a.abnormalType = #{gcon.type}
+			</if>
+			<choose>
+			    <when test="gcon.keyword!=null and gcon.keyword!=''">
+					<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+					and (
+						regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+						tmName like #{gcon.keyword,jdbcType=VARCHAR}
+					)
+				</when>
+    		</choose>
+			ORDER BY a.createDate DESC
+  	</select>
+  	
+  	<select id="selectAbnormalTimes" resultType="java.lang.String">
+  		SELECT DISTINCT date(a.createDate)
+			FROM tm_abnormal a LEFT JOIN trademark b
+			ON a.tmId = b.tmId 
+			WHERE b.applicantName in(
+							SELECT DISTINCT c.applicantName
+							FROM customer a LEFT JOIN customer_applicant b
+							ON a.id = b.custId LEFT JOIN applicant c
+							ON b.appId = c.mainAppId
+							WHERE  1=1
+								AND a.id=3
+						)AND a.isDelete != 1
+  	</select>
+  	
+  	
+  	<update id="modifyTmAbnormal">
+  		UPDATE tm_abnormal
+		SET isDelete = 1,
+			modifyDate = SYSDATE()
+		WHERE id = #{id}
+  	</update>
+  	
+  	<!-- 更新续展提醒  -->
+  	<update id="modifyNotification">
+  		UPDATE notification
+		SET status = 1,
+			modifyTime = SYSDATE()
+		WHERE id = #{id}
+  	</update>
+  	<!-- 按条件在公告表中查询出公告信息 -->
+  	<select id="queryGongGao" parameterType="java.util.Map" resultType="java.util.Map">
+			SELECT DISTINCT b.mainAppId,a.* FROM
+			(
+					SELECT a.id,a.ggTypeId,a.ggQihao,a.ggDate,a.regNumber,a.tmName,a.tmType,a.agent,a.appCnName,b.ggType
+					FROM trademark_gonggao a,trademark_gonggao_type b
+					WHERE a.ggTypeId = b.ggTypeId
+					AND b.ggTypeId = 1       <!-- 暂时为1  -->
+					AND a.appCnName in (
+							SELECT  DISTINCT a.applicantName FROM applicant a , customer_applicant b
+							WHERE a.mainAppId = b.appId AND b.custId = #{custId}
+					)
+			
+			)a ,applicant b
+			WHERE a.appCnName = b.applicantName 
+			ORDER BY ggDate DESC
+  	</select>
+  	
+  	
+  	
+  	<!-- 查询公告提醒表 -->
+  	<select id="queryAnnouncementRemind" resultType="java.util.HashMap">
+  		SELECT * from announcement_remind
+		 WHERE accept in (
+			SELECT a.applicantName
+			FROM applicant a ,customer_applicant b
+			WHERE a.mainAppId = b.appId
+			<!-- AND b.custId = #{custId} -->
+				<if test="custId !=null">
+		    		AND	b.custId = #{custId}
+		    	</if>
+		    	<if test="userId !=null">
+		    		AND	b.custId in(SELECT custId FROM user_customer WHERE userid = #{userId})
+		    	</if>
+			) 
+		AND isDelete = 0
+		AND ggTypeId = #{type}
+		<!-- 提供 公告期号查询过滤 -->
+		<if test="gcon.ggQihao !=null and gcon.ggQihao !=''">
+		<bind name="gcon.ggQihao" value="gcon.ggQihao"/>
+			AND ggQihao =#{gcon.ggQihao}
+		</if>
+		<choose>
+			    <when test="gcon.keyword!=null and gcon.keyword!=''">
+					<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+					and (
+						regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+						tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+						agent like #{gcon.keyword,jdbcType=VARCHAR}
+					)
+				</when>
+    		</choose>
+		<if test="gcon.rows != null and gcon.offset!=null">
+		<bind name="gcon.rows" value="gcon.rows"/>
+		<bind name="gcon.offset" value="gcon.offset"/>
+			 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+		</if>
+  	</select>
+  	<!-- 查询公告提醒总数 -->
+  	<select id="queryAnnouncementRemindCount" resultType="java.lang.Long">
+  		SELECT count(id) from announcement_remind
+		 WHERE accept in (
+			SELECT a.applicantName
+			FROM applicant a ,customer_applicant b
+			WHERE a.mainAppId = b.appId
+			<!-- AND b.custId = #{custId} -->
+				<if test="custId !=null">
+		    		AND	b.custId = #{custId}
+		    	</if>
+		    	<if test="userId !=null">
+		    		AND	b.custId in(SELECT custId FROM user_customer WHERE userid = #{userId})
+		    	</if>
+			) 
+		AND isDelete = 0
+		AND ggTypeId = #{type}
+		<if test="gcon.ggQihao !=null and gcon.ggQihao !=''">
+		<bind name="gcon.ggQihao" value="gcon.ggQihao"/>
+			AND ggQihao =#{gcon.ggQihao}
+		</if>
+		<choose>
+			 <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				  and (
+						regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+						tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+						agent like #{gcon.keyword,jdbcType=VARCHAR}
+					 )
+			</when>
+    	</choose>
+  	</select>
+  	
+  	<!--更新公告通知  -->
+  	<update id="updateAnnouncementRemind" parameterType="String">
+  		<!-- <foreach collection="list" separator=";" item="item" index="index" >
+	  		UPDATE announcement_remind 
+  			SET isDelete = 1,
+  			modifyDate = SYSDATE()
+	  		WHERE id = #{item}
+  		</foreach> -->
+  		UPDATE announcement_remind 
+  			SET isDelete = 1,
+  			modifyDate = SYSDATE()
+	  		WHERE id = #{id}
+  	</update>
+  	
+  	<!-- 提供给邮件发送的公告数据 -->
+  	<select id="queryAnnoucementForMail" resultType="java.util.Map" parameterType="int">
+  		select * from announcement_remind 
+  		where acceptId = #{custId} 
+  			  AND ggTypeId = #{type} 
+  			  AND ggQihao = (SELECT MAX(ggQihao) FROM announcement_remind)
+  	</select>
+  	<select id="queryAllGGQiHao" resultType="String">
+		SELECT DISTINCT(ggQihao) FROM announcement_remind 
+		WHERE acceptId =#{custId} and isDelete=0
+  	</select>
+  	
+</mapper>

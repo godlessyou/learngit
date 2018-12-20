@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseAmountMapper" >
+<resultMap type="com.yootii.bdy.tmcase.model.RetuenTmCaseAmount" id="retuenTmCaseAmount">
+	<result column="amount"  property="amount" jdbcType="BIGINT"/>
+	<result column="amount1"  property="amount1" jdbcType="BIGINT"/>
+	<result column="amount2"  property="amount2" jdbcType="BIGINT"/>
+	<result column="year"  property="year" jdbcType="INTEGER"/>
+	<result column="status"  property="status" jdbcType="VARCHAR"/>
+	<result column="caseType"  property="caseType" jdbcType="VARCHAR"/>
+	<result column="agencyId"  property="agencyId" jdbcType="INTEGER"/>
+	<result column="agencyName"  property="agencyName" jdbcType="VARCHAR"/>
+	<result column="custId"  property="custId" jdbcType="INTEGER"/>
+	<result column="userId"  property="userId" jdbcType="INTEGER"/>
+	<result column="userName"  property="userName" jdbcType="VARCHAR"/>
+	<result column="customerName"  property="customerName" jdbcType="VARCHAR"/>
+	<result column="deptId"  property="deptId" jdbcType="INTEGER"/>
+	<result column="deptName"  property="deptName" jdbcType="VARCHAR"/>
+</resultMap>
+<resultMap type="com.yootii.bdy.tmcase.model.ReturnTmCaseAmountYear" id="retuenTmCaseAmountbyyears">
+	<result column="years"  property="years" />
+	<collection property="retuenTmCaseAmount" resultMap="retuenTmCaseAmount"></collection>
+</resultMap>
+ <select id="selectTmCaseByCustomer" resultMap="retuenTmCaseAmount">
+ 	
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+	SELECT COUNT(1) amount,tc.status
+	FROM trademark_case tc WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER}
+	AND tc.cotag = '0'
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY STATUS
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'caseType'">
+	SELECT COUNT(1) amount,tc.caseType
+	FROM trademark_case tc WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER}
+	AND tc.cotag = '0'
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY caseType
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'agency'">
+ 	SELECT COUNT(1) amount,tc.agencyId,a.name as agencyName
+	FROM trademark_case tc , agency a WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER}
+	AND tc.cotag = '0'
+		and a.id = tc.agencyId
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY agencyId
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'near5year'">
+ 	SELECT COUNT(1) amount ,year(appDate) as year
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER}
+	AND tc.cotag = '0'
+    AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 	 
+    AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+    GROUP BY  year(appDate)
+    ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+ 	<!-- SELECT COUNT(1) amount
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER} -->
+	SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+
+	(SELECT COUNT(1) amount
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER} AND tc.cotag = '0')a,
+	
+	(SELECT COUNT(1) amount
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER} AND tc.cotag = '0'
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y') )b,
+   	
+   	(SELECT COUNT(1) amount
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER} AND tc.cotag = '0'
+   	AND tc.status='处理中')c
+   
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'thisyear'">
+ 	SELECT COUNT(1) amount
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER} AND tc.cotag = '0'
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y')
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'process'">
+ 	SELECT COUNT(1) amount
+	FROM trademark_case tc  WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER} AND tc.cotag = '0'
+   	AND tc.status='处理中'
+	</if>
+	
+ </select>
+  <select id="selectTmCaseByAgencyUser" resultMap="retuenTmCaseAmount">
+ 	
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+	SELECT COUNT(tc.id) amount,tc.status  FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY STATUS
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'caseType'">
+	SELECT COUNT(tc.id) amount,tc.caseType FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY caseType
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'year'">
+ 	SELECT COUNT(tc.id) amount,year(appDate) as year FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+	 GROUP BY  year(appDate)
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'customer'">
+ 	SELECT COUNT(tc.id) amount,tc.custId as custId,c.name AS customerName FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY tc.custId
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'near5year'">
+ 	SELECT COUNT(tc.id) amount , year(appDate) as year FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+    AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 	 
+    AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+    group by year(appDate)
+    ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+ 	<!-- SELECT COUNT(tc.id) amount FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER} -->
+	SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+   	
+   	(SELECT COUNT(tc.id) amount FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}) a,
+	
+	(SELECT COUNT(tc.id) amount FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y'))b,
+   	
+   	(SELECT COUNT(tc.id) amount FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+   	AND tc.status='处理中')c
+   
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'thisyear'">
+ 	SELECT COUNT(tc.id) amount FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y')
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'process'">
+ 	SELECT COUNT(tc.id) amount FROM 	 trademark_case tc , USER u, agency_user au,user_customer uc ,customer c,agency_customer ac WHERE 1=1 
+	AND uc.custId = c.id AND u.userId=uc.userId AND u.userId = au.userId AND au.agencyId=tc.agencyId AND uc.custId=tc.custId AND ac.custId=c.id AND ac.agencyId = tc.agencyId
+	AND u.userId = #{userId,jdbcType=INTEGER}
+   	AND tc.status='处理中'
+	</if>
+	
+ </select>
+ <select id="queryTmCaseAmountByPalteform" resultMap="retuenTmCaseAmount">
+ 	
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+	SELECT COUNT(1) amount,tc.status
+	FROM trademark_case tc WHERE 1=1
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY STATUS
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'caseType'">
+	SELECT COUNT(1) amount,tc.caseType
+	FROM trademark_case tc WHERE 1=1
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY caseType
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'year'">
+ 	SELECT COUNT(1) amount,year(tc.appDate) year
+	FROM trademark_case tc WHERE 1=1
+		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+	 GROUP BY  year(appDate)
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'agency'">
+ 	SELECT COUNT(1) amount,tc.agencyId as agencyId,a.name as agencyName
+	FROM trademark_case tc , agency a where 1=1 and tc.agencyId = a.id
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY tc.agencyId
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'near5year'">
+ 	SELECT COUNT(1) amount,year(appDate) as year
+	FROM trademark_case tc WHERE 1=1
+    AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 	 
+    AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+    group by year(appDate)
+    ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+ 	<!-- SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1
+   ORDER BY YEAR(tc.appDate),amount desc -->
+   SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+
+	(SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1
+   ORDER BY YEAR(tc.appDate),amount DESC) a,
+   
+   (SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y')
+   	ORDER BY YEAR(tc.appDate),amount DESC)b,
+   	
+   	(SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1
+   	AND tc.status='处理中'
+   	ORDER BY YEAR(tc.appDate),amount DESC)c
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'thisyear'">
+ 	SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y')
+   	ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'process'">
+ 	SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1
+   	AND tc.status='处理中'
+   	ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'top10'">
+ 	SELECT COUNT(1) amount , a.name agencyName
+	FROM trademark_case tc ,agency a WHERE 1=1
+	and a.id = tc.agencyId
+	<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+   	GROUP BY agencyId
+   	ORDER BY YEAR(tc.appDate),amount desc
+   	limit 10
+	</if>
+	
+ </select>
+ <select id="queryTmCaseAmountByAgency" resultMap="retuenTmCaseAmount">
+ 	
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+	SELECT COUNT(1) amount,tc.status
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY STATUS
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'customer'">
+	SELECT COUNT(1) amount,c.name as customerName,c.id as customerId
+	FROM trademark_case tc, customer c WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+	and c.id = tc.custId 
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY tc.custId
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'caseType'">
+	SELECT COUNT(1) amount,tc.caseType
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY caseType
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'year'">
+ 	SELECT COUNT(1) amount,year(tc.appDate) year
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+	 GROUP BY  year(appDate)
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'department'">
+ 	SELECT COUNT(1) amount,d.id AS deptId , d.name AS deptName
+	FROM trademark_case tc , USER u ,user_department ud, department d WHERE 1=1  AND
+	d.agencyId = tc.agencyId AND tc.agentPerson = u.username AND u.userId=ud.userId 
+	AND d.id=ud.departmentId AND tc.agencyId=#{tradeMarkCase.agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 GROUP BY d.id
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'near5year'">
+ 	SELECT COUNT(1) amount,year(appDate) as year
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+    AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 	 
+    AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+    group by year(appDate)
+    ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+ 	<!-- SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER} -->
+		SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+   	
+   	(SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1 AND tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER})a,
+	
+	
+	(SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1 AND tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y'))b,
+   	
+   	(SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1 AND tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+   	AND tc.status='处理中')c
+   
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'thisyear'">
+ 	SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+   	AND YEAR(tc.appDate)=DATE_FORMAT(NOW(), '%Y')
+	</if>
+	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'process'">
+ 	SELECT COUNT(1) amount
+	FROM trademark_case tc WHERE 1=1 and tc.agencyId = #{tradeMarkCase.agencyId,jdbcType=INTEGER}
+   	AND tc.status='处理中'
+	</if>
+	
+ </select>
+ <select id="selectTmCaseByCustomerYear" resultMap="retuenTmCaseAmountbyyears">
+ 	<if test="interfacetype != null and interfacetype != '' and interfacetype == 'yearAndAgency'">
+ 	SELECT COUNT(1) amount,year(tc.appDate) as years,tc.agencyId,a.name as agencyName
+	FROM trademark_case tc, agency a WHERE tc.custId = #{tradeMarkCase.custId,jdbcType=INTEGER}
+		and a.id = tc.agencyId
+		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(tc.appDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(tc.appDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+	 GROUP BY year(appDate),agencyId
+	 ORDER BY YEAR(tc.appDate),amount desc
+	</if>
+	
+ </select>
+ <select id="statstmCasetop10" resultType="java.util.Map">
+ 	SELECT COUNT(tc.id) amount, tc.custId AS custId,c.name AS custName         FROM trademark_case tc, customer c WHERE 1=1 
+	AND tc.custId = c.id
+	<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(tc.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(tc.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	GROUP BY tc.custId
+	order by amount desc
+	LIMIT 10
+ </select>
+</mapper>

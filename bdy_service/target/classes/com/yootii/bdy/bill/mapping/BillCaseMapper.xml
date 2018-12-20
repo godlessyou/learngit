@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.bill.dao.BillCaseMapper">
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.bill.model.BillCase">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="billId" jdbcType="INTEGER" property="billId" />
+    <result column="caseId" jdbcType="INTEGER" property="caseId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, billId, caseId
+  </sql>
+  <insert id="batchInsertBillCase" parameterType="java.util.Map">
+ 	 insert into bill_case(billId,caseId)
+ 	 values
+ 	 <foreach collection="cIds" item="item" index="index" separator=",">
+         (#{billId,jdbcType=INTEGER}, #{item})
+     </foreach>
+  </insert>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bill_case
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bill_case
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.bill.model.BillCase">
+    insert into bill_case (id, billId, caseId
+      )
+    values (#{id,jdbcType=INTEGER}, #{billId,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.bill.model.BillCase" useGeneratedKeys="true" keyProperty="id">
+    insert into bill_case
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="billId != null">
+        billId,
+      </if>
+      <if test="caseId != null">
+        caseId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="billId != null">
+        #{billId,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null">
+        #{caseId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.bill.model.BillCase">
+    update bill_case
+    <set>
+      <if test="billId != null">
+        billId = #{billId,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null">
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.bill.model.BillCase">
+    update bill_case
+    set billId = #{billId,jdbcType=INTEGER},
+      caseId = #{caseId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

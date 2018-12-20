@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseGuanWenMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseGuanWen" >
+    <id column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="agentNum" property="agentNum" jdbcType="VARCHAR" />
+    <result column="appCnName" property="appCnName" jdbcType="VARCHAR" />
+    <result column="appEnName" property="appEnName" jdbcType="VARCHAR" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="goodClasses" property="goodClasses" jdbcType="VARCHAR" />
+    <result column="appNumber" property="appNumber" jdbcType="VARCHAR" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="regDate" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="validStartDate" property="validStartDate" jdbcType="TIMESTAMP" />
+    <result column="validEndDate" property="validEndDate" jdbcType="TIMESTAMP" />
+    <result column="objectionDate" property="objectionDate" jdbcType="TIMESTAMP" />
+    <result column="approvalNumber" property="approvalNumber" jdbcType="VARCHAR" />
+    <result column="approvalDate" property="approvalDate" jdbcType="TIMESTAMP" />
+    <result column="regNoticeNumber" property="regNoticeNumber" jdbcType="VARCHAR" />
+    <result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+    <result column="similarity" property="similarity" jdbcType="INTEGER" />
+    <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    caseId, agentNum, appCnName, appEnName, tmName, goodClasses, appNumber, regNumber, 
+    appDate, regDate, validStartDate, validEndDate, objectionDate, approvalNumber, approvalDate, 
+    regNoticeNumber, imagePath, similarity, modifyDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_guanwen
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_guanwen
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseGuanWen" >
+    insert into trademark_case_guanwen (caseId, agentNum, appCnName, 
+      appEnName, tmName, goodClasses, 
+      appNumber, regNumber, appDate, 
+      regDate, validStartDate, validEndDate, 
+      objectionDate, approvalNumber, approvalDate, 
+      regNoticeNumber, imagePath, similarity, 
+      modifyDate)
+    values (#{caseId,jdbcType=INTEGER}, #{agentNum,jdbcType=VARCHAR}, #{appCnName,jdbcType=VARCHAR}, 
+      #{appEnName,jdbcType=VARCHAR}, #{tmName,jdbcType=VARCHAR}, #{goodClasses,jdbcType=VARCHAR}, 
+      #{appNumber,jdbcType=VARCHAR}, #{regNumber,jdbcType=VARCHAR}, #{appDate,jdbcType=TIMESTAMP}, 
+      #{regDate,jdbcType=TIMESTAMP}, #{validStartDate,jdbcType=TIMESTAMP}, #{validEndDate,jdbcType=TIMESTAMP}, 
+      #{objectionDate,jdbcType=TIMESTAMP}, #{approvalNumber,jdbcType=VARCHAR}, #{approvalDate,jdbcType=TIMESTAMP}, 
+      #{regNoticeNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{similarity,jdbcType=INTEGER}, 
+      #{modifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseGuanWen" >
+    insert into trademark_case_guanwen
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="agentNum != null" >
+        agentNum,
+      </if>
+      <if test="appCnName != null" >
+        appCnName,
+      </if>
+      <if test="appEnName != null" >
+        appEnName,
+      </if>
+      <if test="tmName != null" >
+        tmName,
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses,
+      </if>
+      <if test="appNumber != null" >
+        appNumber,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="appDate != null" >
+        appDate,
+      </if>
+      <if test="regDate != null" >
+        regDate,
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate,
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate,
+      </if>
+      <if test="objectionDate != null" >
+        objectionDate,
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber,
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate,
+      </if>
+      <if test="regNoticeNumber != null" >
+        regNoticeNumber,
+      </if>
+      <if test="imagePath != null" >
+        imagePath,
+      </if>
+      <if test="similarity != null" >
+        similarity,
+      </if>
+      <if test="modifyDate != null" >
+        modifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="agentNum != null" >
+        #{agentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        #{goodClasses,jdbcType=VARCHAR},
+      </if>
+      <if test="appNumber != null" >
+        #{appNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectionDate != null" >
+        #{objectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalNumber != null" >
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNoticeNumber != null" >
+        #{regNoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="similarity != null" >
+        #{similarity,jdbcType=INTEGER},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseGuanWen" >
+    update trademark_case_guanwen
+    <set >
+      <if test="agentNum != null" >
+        agentNum = #{agentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        appCnName = #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        appEnName = #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        tmName = #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses = #{goodClasses,jdbcType=VARCHAR},
+      </if>
+      <if test="appNumber != null" >
+        appNumber = #{appNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        appDate = #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        regDate = #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectionDate != null" >
+        objectionDate = #{objectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNoticeNumber != null" >
+        regNoticeNumber = #{regNoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null" >
+        imagePath = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="similarity != null" >
+        similarity = #{similarity,jdbcType=INTEGER},
+      </if>
+      <if test="modifyDate != null" >
+        modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseGuanWen" >
+    update trademark_case_guanwen
+    set agentNum = #{agentNum,jdbcType=VARCHAR},
+      appCnName = #{appCnName,jdbcType=VARCHAR},
+      appEnName = #{appEnName,jdbcType=VARCHAR},
+      tmName = #{tmName,jdbcType=VARCHAR},
+      goodClasses = #{goodClasses,jdbcType=VARCHAR},
+      appNumber = #{appNumber,jdbcType=VARCHAR},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      appDate = #{appDate,jdbcType=TIMESTAMP},
+      regDate = #{regDate,jdbcType=TIMESTAMP},
+      validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      objectionDate = #{objectionDate,jdbcType=TIMESTAMP},
+      approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      regNoticeNumber = #{regNoticeNumber,jdbcType=VARCHAR},
+      imagePath = #{imagePath,jdbcType=VARCHAR},
+      similarity = #{similarity,jdbcType=INTEGER},
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP}
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </update>
+</mapper>

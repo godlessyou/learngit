@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.trademark.model.TrademarkProcess" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="statusDate" property="statusDate" jdbcType="TIMESTAMP" />
+    <result column="tmId" property="tmId" jdbcType="INTEGER" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="spwNumber" property="spwNumber" jdbcType="VARCHAR" />
+    <result column="bussName" property="bussName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, status, statusDate, tmId, regNumber, spwNumber, bussName
+  </sql>
+  
+  <select id="selectByRegNumber" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_process
+    where regNumber = #{regNumber,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="delectByRegNumber"  parameterType="java.lang.String" >
+    delete from trademark_process
+    where regNumber = #{regNumber,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectByRegNumberList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select  <include refid="Base_Column_List" />
+    from trademark_process
+    where 1=1
+    <if test="regNumberList != null">
+		and regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </select>
+  
+   
+   
+  <delete id="deleteByRegNumberList" parameterType="java.util.Map" >
+    delete from trademark_process
+    where 1=1   
+	and regNumber in 
+	<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+      	#{item}
+    </foreach>   
+  </delete>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_process
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_process
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.trademark.model.TrademarkProcess" >
+    insert into trademark_process (id, status, statusDate, 
+      tmId, regNumber, spwNumber, bussName)
+    values (#{id,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{statusDate,jdbcType=TIMESTAMP}, 
+      #{tmId,jdbcType=INTEGER}, #{regNumber,jdbcType=VARCHAR}, #{spwNumber,jdbcType=VARCHAR}, #{bussName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.trademark.model.TrademarkProcess" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_process
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="statusDate != null" >
+        statusDate,
+      </if>
+      <if test="tmId != null" >
+        tmId,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="spwNumber != null" >
+        spwNumber,
+      </if>
+      <if test="bussName != null" >
+        bussName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null" >
+        #{statusDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmId != null" >
+        #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="spwNumber != null" >
+        #{spwNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bussName != null" >
+        #{bussName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.trademark.model.TrademarkProcess" >
+    update trademark_process
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null" >
+        statusDate = #{statusDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmId != null" >
+        tmId = #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="spwNumber != null" >
+        spwNumber = #{spwNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bussName != null" >
+        bussName = #{bussName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.trademark.model.TrademarkProcess" >
+    update trademark_process
+    set status = #{status,jdbcType=VARCHAR},
+      statusDate = #{statusDate,jdbcType=TIMESTAMP},
+      tmId = #{tmId,jdbcType=INTEGER},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      spwNumber = #{spwNumber,jdbcType=VARCHAR},
+      bussName = #{bussName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByTmId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_process
+    where tmId = #{tmId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTrademarkProcess" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_process
+    where 1=1
+    <bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	<if test="gcon.rows != null and gcon.offset != null">
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+		</if>
+  </select>
+  <!-- 查询商标流程 -->
+  <select id="selectAllTmProcess" resultType="java.util.HashMap">
+		SELECT a.id,
+				a.status,
+				year(a.statusDate) as statusDate,
+				a.tmId,
+				a.regNumber,
+				a.spwNumber,
+				a.bussName,
+				a.applicantName,
+				c.mainAppId,
+				d.custId
+		FROM
+		(
+			SELECT a.*,b.applicantName
+			FROM (  SELECT * FROM trademark_process 
+				    WHERE status  like '等待驳回通知发文' 
+				    OR status  like '商标注册申请驳回通知发文'
+				    OR status  like '商标注册申请等待驳回通知发文'
+				    OR status  like '打印驳回或部分驳回通知书'
+				    OR status  like '打印驳回通知'
+				    OR status like '无效宣告中'
+				    OR status like '商标异议（国际）中'
+				    OR status like '商标异议申请中'
+				    OR status like '通用名称'
+				    OR status like '撤销三年不使用待审中') a,trademark  b
+			WHERE a.regNumber = b.regNumber
+			AND b.applicantName in(SELECT DISTINCT applicantName FROM applicant)
+		) a
+		LEFT JOIN 
+		(
+			SELECT DISTINCT(a.applicantName) AS applicantName,a.mainAppId
+			FROM applicant a,customer_applicant b
+			WHERE a.mainAppId= b.appId
+		) c ON a.applicantName = c.applicantName
+		LEFT JOIN customer_applicant d ON c.mainAppId = d.appId
+		limit #{i},5000
+  </select>
+  
+  
+  
+  
+</mapper>

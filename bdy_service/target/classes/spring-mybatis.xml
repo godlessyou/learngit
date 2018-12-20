@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+                        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd    
+                        http://www.springframework.org/schema/context    
+                        http://www.springframework.org/schema/context/spring-context-4.3.xsd    
+                        http://www.springframework.org/schema/mvc    
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security-4.2.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.yootii.bdy">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+		<context:exclude-filter type="assignable" expression="com.yootii.bdy.util.ServiceUrlConfig"/>  
+	</context:component-scan>
+
+
+	<!-- 引入配置文件 -->
+	<context:property-placeholder location="classpath:config.properties"
+		ignore-unresolvable="true" />
+	<context:property-placeholder location="classpath:table_id.properties" ignore-unresolvable="true"/>
+
+	<!-- tomcat jdbc pool数据源配置 -->
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+		destroy-method="close">
+		<property name="poolProperties">
+			<bean class="org.apache.tomcat.jdbc.pool.PoolProperties">
+				<property name="driverClassName" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+				<property name="initialSize" value="${initialSize}" />
+				<property name="maxActive" value="${maxActive}" />
+				<property name="maxIdle" value="${maxIdle}" />
+				<property name="minIdle" value="${minIdle}" />
+				<property name="maxWait" value="${maxWait}" />
+				<property name="jmxEnabled" value="${jmxEnabled}" />
+				<property name="testWhileIdle" value="${testWhileIdle}" />
+				<property name="testOnBorrow" value="${testOnBorrow}" />
+				<property name="testOnReturn" value="${testOnReturn}" />
+				<property name="validationInterval" value="${validationInterval}" />
+				<property name="validationQuery" value="${validationQuery}" />
+				<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+				<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
+				<property name="logAbandoned" value="${logAbandoned}" />
+				<property name="removeAbandoned" value="${removeAbandoned}" />
+				<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:com/yootii/bdy/*/mapping/*.xml</value>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	</bean>
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="com.yootii.bdy.trademark.dao,com.yootii.bdy.tmcase.dao,com.yootii.bdy.task.dao,com.yootii.bdy.bill.dao,com.yootii.bdy.agency.dao,com.yootii.bdy.material.dao,com.yootii.bdy.ipinfo.dao,com.yootii.bdy.customer.dao,com.yootii.bdy.downloadapplicant.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 开启事务控制的注解支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- SOLR 属性设置 -->
+	<bean id="SolrInfo" class="com.yootii.bdy.solr.SolrInfo">	
+		<property name="solrHome" value="${solrHome}" />
+		<property name="solrConnectTimeOut" value="${solrConnectTimeOut}" />
+		<property name="solrDefaultMaxConnect" value="${solrDefaultMaxConnect}" />
+		<property name="solrMaxTotalConnect" value="${solrMaxTotalConnect}" />
+		<property name="solrSoTimeOut" value="${solrSoTimeOut}" />
+	</bean>    
+
+	<!-- 微服务的url -->
+	<bean id="serviceUrlConfig" class="com.yootii.bdy.util.ServiceUrlConfig">		
+		<property name="bdysysmUrl" value="${bdysysmUrl}" />		
+		<property name="processEngineUrl" value="${processEngineUrl}" />
+		<property name="mailServiceUrl" value="${mailServiceUrl}" />
+		<property name="homeUrl" value="${homeUrl}" />
+		<property name="fileUrl" value="${fileUrl}" />
+		<property name="bdydataUrl" value="${bdydataUrl}" />
+		<property name="bdydatasynUrl" value="${bdydatasynUrl}" />
+		<property name="bdydatasyn" value="${bdydatasyn}" />
+		
+		
+		
+	</bean>
+	<!-- ftpTool -->
+	<bean id="ftpTool" class="com.yootii.bdy.util.FtpTool">
+		<!-- 确认合同信息 -->
+		<property name="ftpServer" value="${ftpServer}" />
+		<property name="ftpUsername" value="${ftpUsername}" />
+		<property name="ftpPassword" value="${ftpPassword}" />
+	</bean>
+ 
+	 <import resource="spring-activemq.xml" /> 
+	 <!--日志AOP  -->
+     <context:component-scan base-package="com.yootii.bdy.solr"/>
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <bean id="solrLogAopHandler" class="com.yootii.bdy.solr.SolrLogAopHandler"/> 
+    
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">  
+        <property name="velocityProperties">     
+            <props>     
+                <prop key="resource.loader">class</prop>     
+                <prop key="class.resource.loader.class">     
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader     
+                </prop>     
+                <prop key="velocimacro.library"></prop>   
+                <prop key="input.encoding">GBK</prop>
+				<prop key="output.encoding">UTF-8</prop>
+            </props>     
+        </property>     
+   </bean>
+	   
+    <!--   定义调用对象和调用对象的方法-->
+    <bean id="updateTradeMarkCaseBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">	
+	   <property name="targetObject" >
+	   		<ref bean="tradeMarkCaseService" />
+	   </property>		
+	   <property name="targetMethod" >
+	   		<value>updateSolrTradeMarkCase</value>    
+	   </property>    
+    </bean>
+    <bean id="trigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	   	<property name="jobDetail" 	ref="updateTradeMarkCaseBean" />
+	    <property name="cronExpression" value="0 0 3 * * ?" />
+    </bean> 
+      
+      <!--每天定时生成商标异常信息  -->
+     <bean id="autoTimingCreateTmAbnormalBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+     	<property name="targetObject">
+     		<ref bean="tracdemarkTaskService"/>
+     	</property>
+     	<property name="targetMethod">
+     		<value>autoTimingCreateTmAbnormal</value>
+     	</property>
+     </bean>
+      <bean id="triggerTm" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+      		<property name="jobDetail" ref="autoTimingCreateTmAbnormalBean"/>
+      		<property name="cronExpression" value="0 0 0 1/1 * ? "/>
+      </bean>
+      
+      <!-- 每天定时监测公告表 -->
+      <bean id="autoTimingCreateAnnouncementRemindBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+     	<property name="targetObject">
+     		<ref bean="tracdemarkTaskService"/>
+     	</property>
+     	<property name="targetMethod">
+     		<value>autoTimingCreateAnnouncementRemind</value>
+     	</property>
+     </bean>
+      <bean id="triggerAR" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+      		<property name="jobDetail" ref="autoTimingCreateAnnouncementRemindBean"/>
+      		<property name="cronExpression" value="0 0 0 1/1 * ? "/>
+      </bean>
+      
+      <!--任务生成器-->
+      <bean id="schedulOneBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+      	<property name="targetObject">
+      		<ref bean="tracdemarkTaskService"/>
+      	</property>
+      	<property name="targetMethod">
+      		<value>scheduling</value>
+      	</property>
+      </bean>
+      <!-- 3月30号   触发器生成器 -->
+      <bean id="trigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+      	<property name="jobDetail" ref="schedulOneBean"/>
+      	<property name="cronExpression" value="0 0 0 30 3 ? *"/>
+      </bean>
+      
+      <!-- 6月30号   触发器生成器 -->
+      <bean id="trigger3" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+      	<property name="jobDetail" ref="schedulOneBean"/>
+      	<property name="cronExpression" value="0 0 0 30 6 ? *"/>
+      </bean>
+      
+      <!-- 9月30号   触发器生成器 -->
+      <bean id="trigger4" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+      	<property name="jobDetail" ref="schedulOneBean"/>
+      	<property name="cronExpression" value="0 0 0 30 9 ? *"/>
+      </bean>
+      
+      <!-- 12月30号   触发器生成器 -->
+      <bean id="trigger5" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+      	<property name="jobDetail" ref="schedulOneBean"/>
+      	<property name="cronExpression" value="0 0 0 30 12 ? *"/>
+      </bean>
+      <!--任务调度器 生成器  -->
+    <bean id="startQuertz" lazy-init="true" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+		    <list>	
+		        <ref bean="trigger1"/>
+		        <ref bean="trigger2"/>
+		        <ref bean="trigger3"/>
+		        <ref bean="trigger4"/>
+		        <ref bean="trigger5"/>
+		        <ref bean="triggerTm"/>
+		        <ref bean="triggerAR"/>
+		    </list>
+    	</property>
+    </bean>
+    
+</beans>  

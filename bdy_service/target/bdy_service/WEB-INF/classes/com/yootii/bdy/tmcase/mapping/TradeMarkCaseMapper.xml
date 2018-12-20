@@ -1,0 +1,3526 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="processId" property="processId" jdbcType="VARCHAR" />
+    <result column="custId" property="custId" jdbcType="INTEGER" />
+    <result column="agencyId" property="agencyId" jdbcType="INTEGER" />
+    <result column="caseTypeId" property="caseTypeId" jdbcType="INTEGER" />
+    <result column="agenName" property="agenName" jdbcType="VARCHAR" />
+    <result column="agencyTel" property="agencyTel" jdbcType="VARCHAR"/>
+    <result column="caseType" property="caseType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="statusDate" property="statusDate" jdbcType="TIMESTAMP" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="appNumber" property="appNumber" jdbcType="VARCHAR" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="regDate" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="rejectDate" property="rejectDate" jdbcType="TIMESTAMP" />
+    <result column="validStartDate" property="validStartDate" jdbcType="TIMESTAMP" />
+    <result column="validEndDate" property="validEndDate" jdbcType="TIMESTAMP" />
+    <result column="objectionDate" property="objectionDate" jdbcType="TIMESTAMP" />
+    <result column="approvalNumber" property="approvalNumber" jdbcType="VARCHAR" />
+    <result column="approvalDate" property="approvalDate" jdbcType="TIMESTAMP" />
+    <result column="regNoticeNumber" property="regNoticeNumber" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="submitType" property="submitType" jdbcType="VARCHAR" />  
+    <result column="cotag" property="cotag" jdbcType="INTEGER" />
+    <result column="coagencyId" property="coagencyId" jdbcType="INTEGER" />
+    <result column="couserId" property="couserId" jdbcType="INTEGER" />
+    <result column="custContactId" property="custContactId" jdbcType="INTEGER" />
+    <result column="custContactName" property="custContactName" jdbcType="VARCHAR" />
+    <result column="custContactTel" property="custContactTel" jdbcType="VARCHAR" />
+    <result column="custContactEmail" property="custContactEmail" jdbcType="VARCHAR" />
+    <result column="tmcaseType" property="tmcaseType" jdbcType="VARCHAR"/>
+    <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+    
+    <result column="applicantType" property="applicantType" jdbcType="VARCHAR" />
+    <result column="appGJdq" property="appGJdq" jdbcType="VARCHAR" />
+    <result column="agentNum" property="agentNum" jdbcType="VARCHAR" />
+    <result column="agentPerson" property="agentPerson" jdbcType="VARCHAR" />
+    <result column="certCode" property="certCode" jdbcType="VARCHAR" />
+    <result column="appCnName" property="appCnName" jdbcType="VARCHAR" />
+    <result column="appEnName" property="appEnName" jdbcType="VARCHAR" />
+    <result column="appCertificate" property="appCertificate" jdbcType="VARCHAR" />
+    <result column="appCertificateNum" property="appCertificateNum" jdbcType="VARCHAR" />
+    <result column="appCertFileIsCn" property="appCertFileIsCn" jdbcType="VARCHAR" />
+    <result column="appRegionalism" property="appRegionalism" jdbcType="VARCHAR" />
+    <result column="appCountryOrRegion" property="appCountryOrRegion" jdbcType="VARCHAR" />
+    <result column="appCnAddr" property="appCnAddr" jdbcType="VARCHAR" />
+    <result column="appEnAddr" property="appEnAddr" jdbcType="VARCHAR" />
+    <result column="appContactPerson" property="appContactPerson" jdbcType="VARCHAR" />
+    <result column="appContactTel" property="appContactTel" jdbcType="VARCHAR" />
+    <result column="appContaceFax" property="appContaceFax" jdbcType="VARCHAR" />
+    <result column="appContactZip" property="appContactZip" jdbcType="VARCHAR" />
+    <result column="acceptPerson" property="acceptPerson" jdbcType="VARCHAR" />
+    <result column="acceptPersonAddr" property="acceptPersonAddr" jdbcType="VARCHAR" />
+    <result column="acceptPersonZip" property="acceptPersonZip" jdbcType="VARCHAR" />
+    <result column="tmType" property="tmType" jdbcType="VARCHAR" />
+    <result column="isDlbz" property="isDlbz" jdbcType="VARCHAR" />
+    <result column="memberRule" property="memberRule" jdbcType="VARCHAR" />
+    <result column="memberNamelist" property="memberNamelist" jdbcType="CHAR" />
+    <result column="isAppWithDetectAbility" property="isAppWithDetectAbility" jdbcType="CHAR" />
+    <result column="tmVoice" property="tmVoice" jdbcType="VARCHAR" />
+    <result column="ifSolidTm" property="ifSolidTm" jdbcType="VARCHAR" />
+    <result column="colorSign" property="colorSign" jdbcType="VARCHAR" />
+    <result column="tmDesignDeclare" property="tmDesignDeclare" jdbcType="VARCHAR" />
+    <result column="ifShareTm" property="ifShareTm" jdbcType="VARCHAR" />
+    <result column="priorityType" property="priorityType" jdbcType="VARCHAR" />
+    <result column="isLoadPriorityFile" property="isLoadPriorityFile" jdbcType="VARCHAR" />
+    <result column="priorityBaseCrty" property="priorityBaseCrty" jdbcType="VARCHAR" />
+    <result column="priorityAppDate" property="priorityAppDate" jdbcType="TIMESTAMP" />
+    <result column="priorityAppNum" property="priorityAppNum" jdbcType="VARCHAR" />
+    <result column="imageFile" property="imageFile" jdbcType="VARCHAR" />
+    <result column="isPortraitAsApp" property="isPortraitAsApp" jdbcType="VARCHAR" />
+    <result column="goodClasses" property="goodClasses" jdbcType="VARCHAR" />
+    
+    <result column="changeType" property="changeType" jdbcType="INTEGER" />
+    <result column="uploadFileLanguage" property="uploadFileLanguage" jdbcType="VARCHAR" />
+    <result column="isChangeAgency" property="isChangeAgency" jdbcType="VARCHAR" />
+    <result column="preChangeCnName" property="preChangeCnName" jdbcType="VARCHAR" />
+    <result column="preChangeEnName" property="preChangeEnName" jdbcType="VARCHAR" />
+    <result column="preChangeCnAdress" property="preChangeCnAdress" jdbcType="VARCHAR" />
+    <result column="preChangeEnAdress" property="preChangeEnAdress" jdbcType="VARCHAR" />
+    <result column="beforeChangeMessage" property="beforeChangeMessage" jdbcType="VARCHAR" />
+    <result column="afterChangeMessage" property="afterChangeMessage" jdbcType="VARCHAR" />
+    <result column="assignorCnName" property="assignorCnName" jdbcType="VARCHAR" />
+    <result column="assignorEnName" property="assignorEnName" jdbcType="VARCHAR" />
+    <result column="assignorCnAdress" property="assignorCnAdress" jdbcType="VARCHAR" />
+    <result column="assignorEnAdress" property="assignorEnAdress" jdbcType="VARCHAR" />
+    <result column="assignorNationality" property="assignorNationality" jdbcType="VARCHAR" />
+    <result column="assignorCountryAndregion" property="assignorCountryAndregion" jdbcType="VARCHAR" />
+    <result column="assignorType" property="assignorType" jdbcType="VARCHAR" />
+    <result column="assignorUploadFileLanguage" property="assignorUploadFileLanguage" jdbcType="VARCHAR" />
+    <result column="assignorCertificateName" property="assignorCertificateName" jdbcType="VARCHAR" />
+    <result column="assignorCertificateNumber" property="assignorCertificateNumber" jdbcType="VARCHAR" />
+    <result column="transferorCnName" property="transferorCnName" jdbcType="VARCHAR" />
+    <result column="transferorEnName" property="transferorEnName" jdbcType="VARCHAR" />
+    <result column="transferorCnAdress" property="transferorCnAdress" jdbcType="VARCHAR" />
+    <result column="transferorEnAdress" property="transferorEnAdress" jdbcType="VARCHAR" />
+    <result column="transferorNationality" property="transferorNationality" jdbcType="VARCHAR" />
+    <result column="transferorCountryAndregion" property="transferorCountryAndregion" jdbcType="VARCHAR" />
+    <result column="transferorType" property="transferorType" jdbcType="VARCHAR" />
+    <result column="transferorUploadFileLanguage" property="transferorUploadFileLanguage" jdbcType="VARCHAR" />
+    <result column="transferorCertificateName" property="transferorCertificateName" jdbcType="VARCHAR" />
+    <result column="transferorCertificateNumber" property="transferorCertificateNumber" jdbcType="VARCHAR" />
+    <result column="preChangeAgencyName" property="preChangeAgencyName" jdbcType="VARCHAR" />
+    <result column="caseStatus" property="caseStatus" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="whoIsApp" property="whoIsApp" jdbcType="VARCHAR" />
+    <result column="caseGroup" property="caseGroup" jdbcType="INTEGER" />
+    
+    <result column="isResend" property="isResend" jdbcType="VARCHAR" />	
+	<result column="transfer" property="transfer" jdbcType="VARCHAR" />
+	<result column="billStatus" property="billStatus" jdbcType="INTEGER" />
+	
+	<result column="supplement" property="supplement" jdbcType="INTEGER" />	
+	<result column="docNumber" property="docNumber" jdbcType="VARCHAR" />
+    
+    <result column="dissentName" property="dissentName"/>
+    <result column="dissentAddress" property="dissentAddress"/>
+    <result column="dissentAgent" property="dissentAgent"/>
+    <result column="dissentAgentId" property="dissentAgentId"/>
+    <result column="dissentGist" property="dissentGist"/>   
+    
+    <result column="zrCertCode" property="zrCertCode" jdbcType="VARCHAR" />	
+	<result column="srCertCode" property="srCertCode" jdbcType="VARCHAR" />
+	
+	
+	<result column="reason" property="reason" jdbcType="VARCHAR" />
+	<result column="registrant" property="registrant" jdbcType="VARCHAR" />
+	<result column="cancelPersonName_CN" property="cancelPersonName_CN" jdbcType="VARCHAR"/>
+	<result column="cancelPersonAgent" property="cancelPersonAgent" jdbcType="VARCHAR"/>
+	<result column="respondentName" property="respondentName" jdbcType="VARCHAR"/>
+	<result column="respondentAddr" property="respondentAddr" jdbcType="VARCHAR"/>
+	<result column="quoteTm" property="quoteTm" jdbcType="VARCHAR"/>
+	<result column="quoteTmClass" property="quoteTmClass" jdbcType="VARCHAR"/>
+    <result column="quoteRegNumber" property="quoteRegNumber" jdbcType="VARCHAR"/>
+    <result column="invalidPersonName_CN" property="invalidPersonName_CN" jdbcType="VARCHAR"/>
+    <result column="invalidPersonAgent" property="invalidPersonAgent" jdbcType="VARCHAR"/>
+    <result column="legalBasic" property="legalBasic" jdbcType="VARCHAR"/>
+    <result column="recheckPersonName_CN" property="recheckPersonName_CN" jdbcType="VARCHAR"/>
+    <result column = "recheckPersonAgent" property="recheckPersonAgent" jdbcType="VARCHAR"/>
+    <result column="cancelSubmitDate" property="cancelSubmitDate" jdbcType="TIMESTAMP"/>
+    <result column="dissentSubmitDate" property="dissentSubmitDate" jdbcType="TIMESTAMP"/>
+    
+    
+    <collection property="goods" ofType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" column="id" select="getGoods"></collection>
+    <collection property="joinApps" ofType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" column="id" select="getJoinApps"></collection>
+    <!-- <collection property="tradeMarkCaseFiles" ofType="com.yootii.bdy.tmcase.model.TradeMarkCaseFile" column="id" select="getTradeMarkCaseFiles"></collection> -->
+    <!-- <collection property="materials" ofType="com.yootii.bdy.material.model.Material" column="id" select="getMaterial"></collection> -->
+    <collection property="materials" ofType="BaseResultMap1" column="id" select="getMaterial"></collection>
+    <collection property="chargeRecords" ofType="com.yootii.bdy.bill.model.ChargeRecord" column="id" select="getChargeRecords"></collection>
+    <collection property="applicantId" ofType="java.lang.Integer" column="appCnName" select="getApplicantId"></collection>
+	
+  </resultMap>
+  
+   <resultMap id="TmCaseAppOnlineMap" type="com.yootii.bdy.tmcase.model.TmCaseAppOnline" >   
+    <result column="caseId" property="caseId" jdbcType="INTEGER" /> 
+    <result column="agentNum" property="agentNum" jdbcType="VARCHAR" />
+    <result column="appCnName" property="appCnName" jdbcType="VARCHAR" />
+    <result column="appEnName" property="appEnName" jdbcType="VARCHAR" />
+    <result column="caseType" property="caseType" jdbcType="VARCHAR" />
+    <result column="caseStatus" property="caseStatus" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="goodClasses" property="goodClasses" jdbcType="VARCHAR" />  
+    <result column="imageFile" property="imageFile" jdbcType="VARCHAR" />   
+  </resultMap>
+  <resultMap id="SimpleCountResultMap" type="java.util.HashMap">
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.yootii.bdy.material.model.Material">
+    <id column="materialId" jdbcType="INTEGER" property="materialId" />
+    <result column="fileName" jdbcType="INTEGER" property="fileName" />
+    <result column="custId" jdbcType="INTEGER" property="custId" />
+    <result column="applicantId" jdbcType="INTEGER" property="applicantId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="description" jdbcType="VARCHAR" property="desc" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="format" jdbcType="VARCHAR" property="format" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="tmNumber" jdbcType="VARCHAR" property="tmNumber" />
+    <result column="caseId" jdbcType="INTEGER" property="caseId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="versionNo" jdbcType="INTEGER" property="versionNo" />
+    <collection property="versions" ofType="com.yootii.bdy.material.model.MaterialVersion" column="materialId" select="getVersions"></collection>
+    
+  </resultMap>
+  <resultMap id="RemindResultMap" type="com.yootii.bdy.remind.model.Remind" >
+    <id column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="isclose" property="isclose" jdbcType="INTEGER" />
+    <result column="depid" property="depid" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="custid" property="custid" jdbcType="INTEGER" />
+    <result column="agencyid" property="agencyid" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="custname" property="custname" jdbcType="VARCHAR" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="closeuser" property="closeuser" jdbcType="VARCHAR" />
+    <result column="limitdate" property="limitdate" jdbcType="DATE" />    
+    <result column="createdate" property="createdate" jdbcType="DATE" />
+    <result column="closedate" property="closedate" jdbcType="DATE" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, parentId, processId, custId, custContactId, agencyId, caseTypeId, caseType, status, statusDate, tmName, appNumber, regNumber, appDate, regDate, 
+    rejectDate, validStartDate, validEndDate, objectionDate, approvalNumber, approvalDate, regNoticeNumber, createDate, modifyDate, submitType, 
+    cotag, coagencyId, couserId, applicantType, appGJdq, 
+    agentNum, agentPerson, certCode, appCnName, appEnName, appCertificate, appCertificateNum, appCertFileIsCn, 
+    appRegionalism, appCountryOrRegion, appCnAddr, appEnAddr, appContactPerson, appContactTel, 
+    appContaceFax, appContactZip, acceptPerson, acceptPersonAddr, acceptPersonZip, tmType, 
+    isDlbz, memberRule, memberNamelist, isAppWithDetectAbility, tmVoice, ifSolidTm, colorSign, 
+    tmDesignDeclare, ifShareTm, priorityType, isLoadPriorityFile, priorityBaseCrty, priorityAppDate, 
+    priorityAppNum, imageFile, isPortraitAsApp, goodClasses,
+    changeType, uploadFileLanguage, isChangeAgency, preChangeCnName, preChangeEnName, 
+    preChangeCnAdress, preChangeEnAdress, beforeChangeMessage, afterChangeMessage, assignorCnName, 
+    assignorEnName, assignorCnAdress, assignorEnAdress, assignorNationality, assignorCountryAndregion, 
+    assignorType, assignorUploadFileLanguage, assignorCertificateName, assignorCertificateNumber, 
+    transferorCnName, transferorEnName, transferorCnAdress, transferorEnAdress, transferorNationality, 
+    transferorCountryAndregion, transferorType, transferorUploadFileLanguage, transferorCertificateName, 
+    transferorCertificateNumber,preChangeAgencyName,isResend,transfer,whoIsApp,caseGroup,supplement,docNumber,
+    zrCertCode, srCertCode, reason, registrant,cancelPersonName_CN,cancelPersonAgent,respondentName,respondentAddr,
+    quoteTm,quoteTmClass,quoteRegNumber,invalidPersonName_CN,invalidPersonAgent,legalBasic,
+    recheckPersonName_CN,recheckPersonAgent,cancelSubmitDate,dissentSubmitDate
+    
+  </sql>
+  <sql id="Base_Column_List_a" >
+    a.id,a.parentId,a.processId, a.custId, a.custContactId, a.agencyId, a.caseTypeId, a.caseType, a.status, a.statusDate, a.tmName, a.appNumber, a.regNumber, a.appDate, a.regDate, 
+    a.rejectDate, a.validStartDate, a.validEndDate, a.objectionDate, a.approvalNumber, a.approvalDate, a.regNoticeNumber, a.createDate, a.modifyDate,a.submitType,
+    a.cotag, a.coagencyId, a.couserId,a.applicantType, a.appGJdq, 
+    a.agentNum, a.agentPerson, a.certCode, a.appCnName, a.appEnName, a.appCertificate, a.appCertificateNum, a.appCertFileIsCn, 
+    a.appRegionalism, a.appCountryOrRegion, a.appCnAddr, a.appEnAddr, a.appContactPerson, a.appContactTel, 
+    a.appContaceFax, a.appContactZip, a.acceptPerson, a.acceptPersonAddr, a.acceptPersonZip, a.tmType, 
+    a.isDlbz, a.memberRule, a.memberNamelist, a.isAppWithDetectAbility, a.tmVoice, a.ifSolidTm, a.colorSign, 
+    a.tmDesignDeclare, a.ifShareTm, a.priorityType, a.isLoadPriorityFile, a.priorityBaseCrty, a.priorityAppDate, 
+    a.priorityAppNum, a.imageFile, a.isPortraitAsApp, a.goodClasses,
+    a.changeType, a.uploadFileLanguage, a.isChangeAgency, a.preChangeCnName, a.preChangeEnName, 
+    a.preChangeCnAdress, a.preChangeEnAdress, a.beforeChangeMessage, a.afterChangeMessage, a.assignorCnName, 
+    a.assignorEnName, a.assignorCnAdress, a.assignorEnAdress, a.assignorNationality, a.assignorCountryAndregion, 
+    a.assignorType, a.assignorUploadFileLanguage, a.assignorCertificateName, a.assignorCertificateNumber, 
+    a.transferorCnName, a.transferorEnName, a.transferorCnAdress, a.transferorEnAdress, a.transferorNationality, 
+    a.transferorCountryAndregion, a.transferorType, a.transferorUploadFileLanguage, a.transferorCertificateName, 
+    a.transferorCertificateNumber, ag.name as agenName,a.preChangeAgencyName,a.isResend,a.transfer,a.whoIsApp,
+     <!-- a.caseGroup,ag.tel as agencyTel,a.supplement -->
+    a.caseGroup,a.supplement,a.docNumber,ag.tel as agencyTel,a.remarks,
+    a.dissentName,a.dissentAddress,a.dissentAgent,a.dissentAgentId,a.dissentGist,
+    a.zrCertCode, a.srCertCode, a.reason, a.registrant,a.cancelPersonName_CN,
+    a.cancelPersonAgent,a.respondentName,a.respondentAddr,a.quoteTm,a.quoteTmClass,a.quoteRegNumber,
+    a.invalidPersonName_CN,a.invalidPersonAgent,a.legalBasic,recheckPersonName_CN,recheckPersonAgent,cancelSubmitDate,
+    dissentSubmitDate
+  </sql>
+  <sql id="TradeMarkCaseCategory_Column_List" >
+    id, caseId, goodClass, similarGroup, goodCode, goodName, goodNameEn, goodKey
+  </sql>
+  <sql id="TradeMarkCaseJoinApp_Column_List" >
+   	id, custId, agencyId, caseId, joinAppType, joinAppCoun, nameCn, nameEn, addrCn, addrEn, cardName, cardId, getFileIsEn, type
+  </sql>
+  <sql id="TradeMarkCaseFile_Column_List" >
+   	id, caseId, fileName, fileUrl, fileType, username, modifyTime, joinAppId
+  </sql>
+  <sql id="ChargeRecord_Column_List" >
+   	a.chargeRecordId, a.agencyId, a.caseId, a.chargeItemId, a.descChn, a.descEng, a.price, a.number, 
+    a.amount, a.creater, a.createTime, a.status, a.verifyPerson, a.verifyDate, b.fullname as createrFullname, 
+    c.fullname as verifyFullname, d.chargeType, d.currency
+  </sql>
+   <sql id="Base_Column_List_m">
+    m.materialId, m.custId, m.applicantId, m.title, m.subject, m.description, m.type, m.format, m.status, m.creater, 
+    m.createTime, m.modifier, m.modifyTime, m.tmNumber, m.caseId, m.address, m.size, m.versionNo, m.fileName, m.joinAppId
+  </sql>
+ <sql id="Version_Column_List_mv">
+   mv.versionId,mv.materialId,mv.versionNo,mv.address,mv.format,mv.size,mv.creater,mv.createTime
+  </sql>
+  
+   
+  <select id="selectProcessId" resultMap="BaseResultMap" parameterType="java.lang.String" >  
+  	select b.id, b.processId from trademark_case b
+	where
+	b.appCnName=#{appCnName,jdbcType=VARCHAR} 
+	and b.id not in 
+	(
+		select b.id from
+		(
+			select  id , caseId, status  from trademark_case_process where id in(select max(id) as id from trademark_case_process group by caseId ) 
+			and (status='网申提交失败' or status='网申待支付') 
+			
+		) a , trademark_case b 
+		where appCnName=#{appCnName,jdbcType=VARCHAR} 
+		and a.caseId=b.id
+	)	 
+  </select>
+  
+  
+  
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select  id, caseType
+    from trademark_case
+    where 1=1
+    and parentId=#{parentId,jdbcType=INTEGER}
+ 
+  </select>
+  
+  <select id="selectByRegNumberList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select  id, regNumber
+    from trademark_case
+    where 1=1
+    and caseTypeId=#{caseTypeId,jdbcType=INTEGER}
+    <if test="regNumberList != null">
+		and regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>
+  </select>
+  
+  
+  <select id="selectByCaseGroup" resultMap="BaseResultMap"  > 
+    select id from trademark_case   
+    where 1=1
+    and caseGroup in
+   <foreach collection="caseGroups" index="index" item="item" open="(" separator="," close=")">
+	   #{item}
+   </foreach>   
+  </select>
+  
+  <select id="selectByAppNameGoodClass" resultMap="BaseResultMap"  > 
+    select id, agencyId  from trademark_case   
+    where 1=1
+    <if test="tmcase.appNumber != null and tmcase.appNumber!=''">
+    	and  appNumber=#{tmcase.appNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+    	and appCnName = #{tmcase.appCnName ,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.goodClasses != null and tmcase.goodClasses!=''">
+    	 and goodClasses = #{tmcase.goodClasses ,jdbcType=VARCHAR}
+	</if>	
+   
+  </select>
+   
+   <select id="getAppOnlineCaseList" resultMap="TmCaseAppOnlineMap" >
+     select c.id as caseId, c.agentNum, c.caseType, c.appCnName, c.appEnName, c.appDate, c.goodClasses, c.imageFile, d.caseStatus
+     from 
+     (
+	    select a.id, a.agentNum, a.caseType, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile
+	    from trademark_case a
+	    <if test="userId!=null">
+		    left join agency_user b on a.agencyId=b.agencyId 
+		 	where 
+		 	1=1
+		 	and a.custId in (select custId from user_customer where userId = #{userId,jdbcType=INTEGER})
+		 	and b.userId= #{userId,jdbcType=INTEGER}
+	    </if>  
+	    <if test="userId==null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+		 	where a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+		 	and a.cotag=0
+	    </if> 
+	        and a.submitType='网上申请'   
+	    <if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+			<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+			and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+			</if> 
+		<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+			<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+			and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+		</if> 	
+	    <if test="userId!=null and tmcase.custId != null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+			and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+	    </if>  
+	    <if test="userId!=null and tmcase.cotag != null">
+	    	<bind name="tmcase.cotag" value="tmcase.cotag" />
+			and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId!=null and tmcase.coagencyId != null">
+	    	<bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+			and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId==null and tmcase.agencyId != null">
+	    	<bind name="tmcase.agencyId" value="tmcase.agencyId" />
+			and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+	    </if>
+    )c    
+    left join  
+	(
+		select a.id, a.caseId, a.status as caseStatus , a.statusTime
+		from trademark_case_process a 	
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process
+	       where caseId in (select id from trademark_case where submitType='网上申请') 
+	       group by caseId
+		)			
+	)d 
+	on  c.id=d.caseId
+	
+		 
+	 <if test="gcon.orderCol != null and gcon.orderCol != '' and gcon.orderAsc!=null and gcon.orderAsc!=''">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>	 
+	 <bind name="gcon.offset" value="gcon.offset" />
+	 <bind name="gcon.rows" value="gcon.rows" />
+	 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  <select id="getMaxCaseGroup" resultType="java.lang.Integer" >
+     select max(ifnull(caseGroup,0)) +1
+	    from trademark_case a      
+    
+  </select>
+  <select id="getAppOnlineCaseCount" resultType="java.lang.Long" >
+     select count(*) 
+	    from trademark_case a
+	    <if test="userId!=null">
+		    left join agency_user b on a.agencyId=b.agencyId 
+		 	where a.custId in (select custId from user_customer where userId = #{userId,jdbcType=INTEGER})
+		 	and b.userId= #{userId,jdbcType=INTEGER}
+	    </if>  
+	    <if test="userId==null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+		 	where a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+		 	and a.cotag=0
+	    </if> 
+	        and a.submitType='网上申请'   
+	    <if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+			<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+			and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+			</if> 
+		<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+			<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+			and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+		</if> 	
+	    <if test="userId!=null and tmcase.custId != null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+			and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+	    </if>  
+	    <if test="userId!=null and tmcase.cotag != null">
+	    	<bind name="tmcase.cotag" value="tmcase.cotag" />
+			and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId!=null and tmcase.coagencyId != null">
+	    	<bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+			and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId==null and tmcase.agencyId != null">
+	    	<bind name="tmcase.agencyId" value="tmcase.agencyId" />
+			and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+	    </if>
+        
+    
+  </select>
+  <select id="selectAllAppOnlineCaseList" resultMap="TmCaseAppOnlineMap" >
+     select c.id as caseId, c.agentNum, c.caseType, c.appCnName, c.appEnName, c.appDate, c.goodClasses, c.imageFile, d.caseStatus 
+     from 
+     (
+	    select a.id, a.agentNum, a.caseType, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile
+	    from trademark_case a
+	    left join agency_user b on a.agencyId=b.agencyId 
+		where 
+		1=1
+		and a.custId in (select custId from agency_customer where agencyId = b.agencyId)
+		and b.userId= #{userId,jdbcType=INTEGER}
+	        and a.submitType='网上申请'   
+	    <if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+			<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+			and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+			</if> 
+		<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+			<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+			and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+		</if> 	
+	    <if test="userId!=null and tmcase.custId != null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+			and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+	    </if>  
+	    <if test="userId!=null and tmcase.cotag != null">
+	    	<bind name="tmcase.cotag" value="tmcase.cotag" />
+			and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId!=null and tmcase.coagencyId != null">
+	    	<bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+			and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId==null and tmcase.agencyId != null">
+	    	<bind name="tmcase.agencyId" value="tmcase.agencyId" />
+			and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+	    </if>
+    )c    
+    left join  
+	(
+		select a.id, a.caseId, a.status as caseStatus , a.statusTime
+		from trademark_case_process a 	
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process
+	       where caseId in (select id from trademark_case where submitType='网上申请') 
+	       group by caseId
+		)	
+	)d 
+	on  c.id=d.caseId
+	
+		 
+	 <if test="gcon.orderCol != null and gcon.orderCol != '' and gcon.orderAsc!=null and gcon.orderAsc!=''">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>	 
+	 <bind name="gcon.offset" value="gcon.offset" />
+	 <bind name="gcon.rows" value="gcon.rows" />
+	 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllAppOnlineCaseCount" resultMap="SimpleCountResultMap">
+     select count(*) as count
+     from 
+     (
+	    select a.id, a.agentNum, a.caseType, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile
+	    from trademark_case a
+	    left join agency_user b on a.agencyId=b.agencyId 
+		where a.custId in (select custId from agency_customer where agencyId = b.agencyId)
+		and b.userId= #{userId,jdbcType=INTEGER}
+	        and a.submitType='网上申请'   
+	    <if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+			<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+			and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+			</if> 
+		<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+			<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+			and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+		</if> 	
+	    <if test="userId!=null and tmcase.custId != null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+			and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+	    </if>  
+	    <if test="userId!=null and tmcase.cotag != null">
+	    	<bind name="tmcase.cotag" value="tmcase.cotag" />
+			and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId!=null and tmcase.coagencyId != null">
+	    	<bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+			and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId==null and tmcase.agencyId != null">
+	    	<bind name="tmcase.agencyId" value="tmcase.agencyId" />
+			and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+	    </if>
+    )c    
+    
+	</select>
+	<select id="selectAppOnlineCaseListByDept" resultMap="TmCaseAppOnlineMap" >
+     select c.id as caseId, c.agentNum, c.caseType, c.appCnName, c.appEnName, c.appDate, c.goodClasses, c.imageFile, d.caseStatus 
+     from 
+     (
+	    select a.id, a.agentNum, a.caseType, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile
+	    from trademark_case a
+	    left join user_customer b on a.custId = b.custId
+		where b.userId in (
+		select d.userId
+		from department a 
+		left join user_department b on a.id = b.departmentId
+		<if test="level!=null and level==0">
+			left join department c on a.id = c.parent
+			left join user_department d on c.id = d.departmentId
+		</if>
+		<if test="level!=null and level==1">
+			left join user_department d on a.id = d.departmentId
+		</if>
+		where a.level=#{level,jdbcType=INTEGER} 
+		and b.userId=#{userId,jdbcType=INTEGER} 
+		and d.userId is not null 
+		<if test="level!=null and level==0">
+			union
+			select a.userId
+			from user_department a
+			left join department b on a.departmentId=b.id
+			left join user_department c on b.id = c.departmentId
+			where c.userId=#{userId,jdbcType=INTEGER} and b.level=#{level,jdbcType=INTEGER} 
+		</if>
+		)
+		and a.agencyId = (
+		select agencyId from agency_user where userId=#{userId,jdbcType=INTEGER}
+		)
+	        and a.submitType='网上申请'   
+	    <if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+			<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+			and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+			</if> 
+		<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+			<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+			and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+		</if> 	
+	    <if test="userId!=null and tmcase.custId != null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+			and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+	    </if>  
+	    <if test="userId!=null and tmcase.cotag != null">
+	    	<bind name="tmcase.cotag" value="tmcase.cotag" />
+			and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId!=null and tmcase.coagencyId != null">
+	    	<bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+			and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId==null and tmcase.agencyId != null">
+	    	<bind name="tmcase.agencyId" value="tmcase.agencyId" />
+			and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+	    </if>
+    )c    
+    left join  
+	(
+		select a.id, a.caseId, a.status as caseStatus , a.statusTime
+		from trademark_case_process a 	
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process
+	       where caseId in (select id from trademark_case where submitType='网上申请') 
+	       group by caseId
+		)	
+	)d 
+	on  c.id=d.caseId
+	
+		 
+	 <if test="gcon.orderCol != null and gcon.orderCol != '' and gcon.orderAsc!=null and gcon.orderAsc!=''">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>	 
+	 <bind name="gcon.offset" value="gcon.offset" />
+	 <bind name="gcon.rows" value="gcon.rows" />
+	 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAppOnlineCaseListByDeptCount" resultMap="SimpleCountResultMap">
+     select count(*) as count
+     from 
+     (
+	    select a.id, a.agentNum, a.caseType, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile
+	    from trademark_case a
+	    left join user_customer b on a.custId = b.custId
+		where b.userId in (
+		select d.userId
+		from department a 
+		left join user_department b on a.id = b.departmentId
+		<if test="level!=null and level==0">
+			left join department c on a.id = c.parent
+			left join user_department d on c.id = d.departmentId
+		</if>
+		<if test="level!=null and level==1">
+			left join user_department d on a.id = d.departmentId
+		</if>
+		where a.level=#{level,jdbcType=INTEGER} 
+		and b.userId=#{userId,jdbcType=INTEGER} 
+		and d.userId is not null 
+		<if test="level!=null and level==0">
+			union
+			select a.userId
+			from user_department a
+			left join department b on a.departmentId=b.id
+			left join user_department c on b.id = c.departmentId
+			where c.userId=#{userId,jdbcType=INTEGER} and b.level=#{level,jdbcType=INTEGER} 
+		</if>
+		)
+		and a.agencyId = (
+		select agencyId from agency_user where userId=#{userId,jdbcType=INTEGER}
+		)
+	        and a.submitType='网上申请'   
+	    <if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+			<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+			and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+			</if> 
+		<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+			<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+			and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+		</if> 	
+	    <if test="userId!=null and tmcase.custId != null">
+	    	<bind name="tmcase.custId" value="tmcase.custId" />
+			and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+	    </if>  
+	    <if test="userId!=null and tmcase.cotag != null">
+	    	<bind name="tmcase.cotag" value="tmcase.cotag" />
+			and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId!=null and tmcase.coagencyId != null">
+	    	<bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+			and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+	    </if>
+	    <if test="userId==null and tmcase.agencyId != null">
+	    	<bind name="tmcase.agencyId" value="tmcase.agencyId" />
+			and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+	    </if>
+    )c    
+    
+	</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" > 
+    select 
+    <include refid="Base_Column_List_a" />, e.name as custContactName, 
+    e.tel as custContactTel, e.email as custContactEmail,f.caseType as tmcaseType
+    from trademark_case a
+    left join agency ag on a.agencyId = ag.id
+    left join customer_contact e on a.custContactId=e.id
+    left join trademark_case_type f on  a.caseTypeId =f.caseTypeId 
+    where a.id = #{id,jdbcType=INTEGER}
+    limit 0,1
+  </select>
+  <!-- 异议理由书 -->
+  <select id="selectMaterial" resultType="java.util.Map">
+		SELECT * FROM material
+		WHERE caseId =#{caseId} AND fileName=214 
+		ORDER BY createTime DESC
+		limit 0,1
+  </select>
+  <!-- 异议申请书 -->
+  <select id="selectMaterialForApplicant" resultType="java.util.Map">
+  		SELECT * FROM material
+		WHERE caseId =#{caseId} AND fileName=213 
+		ORDER BY createTime DESC
+		limit 0,1
+  </select>
+  <!-- 代理委托书 -->
+  <select id="selectMaterialForProxy" resultType="java.util.Map">
+  		SELECT * FROM material
+		WHERE caseId =#{caseId} AND fileName=215 
+		ORDER BY createTime DESC
+		limit 0,1
+  </select>
+  <!-- 异议答辩文件书 -->
+  <select id="selectMaterialForReply" resultType="java.util.Map">
+  		SELECT * FROM material
+		WHERE caseId =#{caseId} AND fileName=340 
+		ORDER BY createTime DESC
+		limit 0,1
+  </select>
+  <update id="updateMaterialForReply" parameterType="java.util.Map">
+  	UPDATE material 
+  	SET createTime=#{createTime}
+  	WHERE materialId = #{materialId}
+  </update>
+   <select id="selectTmCaseByProcessId" resultMap="BaseResultMap" >
+    select id, custId, caseTypeId from trademark_case    
+    where 1=1 
+	and processId = #{tmcase.processId,jdbcType=VARCHAR}
+    limit 0,1
+   </select> 
+  <select id="selectByTmCaseSimple" resultMap="BaseResultMap" >
+  select 
+    <include refid="Base_Column_List_a" />, e.name as custContactName, e.tel as custContactTel, e.email as custContactEmail
+    from trademark_case a
+    left join agency ag on a.agencyId = ag.id
+    left join customer_contact e on a.custContactId=e.id
+    where 1=1 
+	<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+	<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+		and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+	<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+		and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+	<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+		and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+	<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+		and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+		</if> 
+	<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+	<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+		and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	</if>
+		
+	<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+	<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+		and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+	<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+		and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.status != null and tmcase.status != '' ">
+	<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+		and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	</if>
+	<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+	<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+		and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	</if>
+	 <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+    </if>  
+    <if test="userId!=null and tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="userId!=null and tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="userId==null and tmcase.agencyId != null">
+    <bind name="tmcase.agencyId" value="tmcase.agencyId" />
+		and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+    </if>
+    limit 0,1
+   </select> 
+   
+   
+   <!-- 客户和普通代理人查询 -->
+  <select id="selectByTmCase" resultMap="BaseResultMap" >
+   select c.*, d.caseStatus, d.fullname as username,
+   e.name as custContactName, e.tel as custContactTel, e.email as custContactEmail,
+   f.billStatus from
+   (
+    select 
+    <include refid="Base_Column_List_a" />
+    from trademark_case a
+    left join agency ag on a.agencyId = ag.id
+    <if test="userId!=null">
+	    left join agency_user b on a.agencyId=b.agencyId 
+	 	where a.custId in (select custId from user_customer where userId = #{userId,jdbcType=INTEGER})
+	 	and b.userId= #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userId==null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+	 	where a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+	 	and a.cotag=0
+    </if>
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+				a.appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentPerson like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.status like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+					<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+					and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+				</if>
+				
+				<!-- 商标申请号过滤 -->
+				<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+					<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+					and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+				</if>
+				<!-- 注册号过滤 -->
+				<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+					<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+					and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+				<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+					and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+	 			</if> 
+				<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+				<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+					and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	 			</if>
+	 			<!-- 代理文号过滤 -->
+	 			<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+				<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+					and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	 			</if>
+	 			<!-- 案件类型过滤 -->
+	 			<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+				<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+					and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.status != null and tmcase.status != '' ">
+				<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+					and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	 			</if>
+	 			<!--注册时间过滤  -->
+	 			<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+				<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+					and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	 			</if>
+			</otherwise>
+		</choose>
+		<!-- 过滤正在进行中的案件 -->
+	<if test="isFinished==1">
+		<![CDATA[
+			and a.status<>'成功'
+		]]>
+	</if>
+    <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+    </if>  
+    <if test="userId!=null and tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="userId!=null and tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="userId==null and tmcase.agencyId != null">
+    <bind name="tmcase.agencyId" value="tmcase.agencyId" />
+		and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.appStartTime != null">
+    <bind name="tmcase.appStartTime" value="tmcase.appStartTime" />
+		<![CDATA[ 
+		and  a.appDate > #{tmcase.appStartTime,jdbcType=TIMESTAMP}
+		]]>
+	 </if> 
+	 <if test="tmcase.appEndTime != null">
+	 <bind name="tmcase.appEndTime" value="tmcase.appEndTime" />
+		<![CDATA[ 
+		and  a.appDate < #{tmcase.appEndTime,jdbcType=TIMESTAMP}
+		]]>				
+	 </if> 
+	 <if test="tmcase.regStartTime != null">
+	 <bind name="tmcase.regStartTime" value="tmcase.regStartTime" />
+		<![CDATA[ 
+		and  a.regDate > #{tmcase.regStartTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <if test="tmcase.regEndTime != null">
+	 <bind name="tmcase.regEndTime" value="tmcase.regEndTime" />
+		<![CDATA[ 
+		and  a.regDate < #{tmcase.regEndTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 )c	 
+	 <if test="tmcase.billStatus != null">
+    	<bind name="tmcase.billStatus" value="tmcase.billStatus" />
+		inner join 
+    	(
+    	select distinct(caseId) as caseId from charge_record 
+    	where status= #{tmcase.billStatus,jdbcType=INTEGER}
+    	) m 
+    	on c.id=m.caseId		
+     </if> 
+	 left join  
+	 (
+		select a.caseId, a.status as caseStatus, c.fullname
+		from trademark_case_process a, user c			
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		)	
+		and a.userId=c.userId
+		<![CDATA[
+			and a.userId<>0
+		]]> 
+				
+		union
+				
+		select a.caseId, a.status as caseStatus, c.fullname
+		from trademark_case_process a, 	customer c		
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		) 
+		and a.custId=c.id
+		and a.userId=0
+		<![CDATA[
+			and a.custId<>0
+		]]>
+		
+		union
+				
+		select a.caseId, a.status as caseStatus, a.username as fullname
+		from trademark_case_process a 			
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		) 
+		and a.username='系统'
+		
+	 )d  on  c.id=d.caseId
+	 left join customer_contact e on c.custContactId=e.id
+	 left join (select distinct(caseId) as caseId, status as billStatus from charge_record)f on  c.id=f.caseId
+	 <!-- 案件处理人过滤 -->
+	 <if test="tmcase.username!=null and tmcase.username!=''">
+	 	<bind name="tmcase.username" value="'%' + tmcase.username + '%'" />
+	 	and d.fullname like #{tmcase.username,jdbcType=VARCHAR}
+	 </if>
+	 
+	 <if test="gcon.orderCol != null and gcon.orderAsc!=null">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>
+	 <if test="gcon.orderCol == null and gcon.orderAsc==null">
+		order by modifyDate desc				
+	 </if>
+	 
+	 <bind name="gcon.offset" value="gcon.offset" />
+	 <bind name="gcon.rows" value="gcon.rows" />
+	 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByTmCaseCount" resultMap="SimpleCountResultMap" >
+    select count(*) as count
+    from trademark_case a
+    left join agency ag on a.agencyId = ag.id
+    <if test="userId!=null">
+	    left join agency_user b on a.agencyId=b.agencyId 
+	 	where a.custId in (select custId from user_customer where userId = #{userId,jdbcType=INTEGER})
+	 	and b.userId= #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userId==null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+	 	where a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+	 	and a.cotag=0 
+    </if>
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+				a.appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentPerson like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.status like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+					<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+					and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+					<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+					and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+					<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+					and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+				<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+					and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+	 			</if> 
+				<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+				<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+					and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	 			</if>
+	 			
+	 			<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+				<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+					and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+				<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+					and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.status != null and tmcase.status != '' ">
+				<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+					and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+				<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+					and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	 			</if>
+			</otherwise>
+		</choose>
+	<!-- 案件处理人过滤 -->
+	 <if test="tmcase.username!=null and tmcase.username!=''">
+	 	<bind name="tmcase.username" value="'%' + tmcase.username + '%'" />
+	 	and d.fullname like #{tmcase.username,jdbcType=VARCHAR}
+	 </if>
+	 <!-- 过滤正在进行中的案件 -->
+	 <if test="isFinished==1">
+	 	<![CDATA[
+			and a.status<>'成功'
+		]]>
+	 </if>
+    <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+    </if>  
+    <if test="userId!=null and tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="userId!=null and tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="userId==null and tmcase.agencyId != null">
+    <bind name="tmcase.agencyId" value="tmcase.agencyId" />
+		and a.agencyId = #{tmcase.agencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.appStartTime != null">
+    <bind name="tmcase.appStartTime" value="tmcase.appStartTime" />
+		<![CDATA[ 
+		and  a.appDate > #{tmcase.appStartTime,jdbcType=TIMESTAMP}
+		]]>
+	 </if> 
+	 <if test="tmcase.appEndTime != null">
+	 <bind name="tmcase.appEndTime" value="tmcase.appEndTime" />
+		<![CDATA[ 
+		and  a.appDate < #{tmcase.appEndTime,jdbcType=TIMESTAMP}
+		]]>				
+	 </if> 
+	 <if test="tmcase.regStartTime != null">
+	 <bind name="tmcase.regStartTime" value="tmcase.regStartTime" />
+		<![CDATA[ 
+		and  a.regDate > #{tmcase.regStartTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <if test="tmcase.regEndTime != null">
+	 <bind name="tmcase.regEndTime" value="tmcase.regEndTime" />
+		<![CDATA[ 
+		and  a.regDate < #{tmcase.regEndTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if>  
+  </select>
+  <!--代理机构管理员||公司领导  查询  -->
+ <select id="selectAllByTmCase" resultMap="BaseResultMap" >
+    select c.*, d.caseStatus, d.fullname as username, 
+    e.name as custContactName, e.tel as custContactTel, e.email as custContactEmail,
+    f.billStatus from
+    (
+    select 
+    <include refid="Base_Column_List_a" />
+    from trademark_case a
+	    left join agency ag on a.agencyId = ag.id
+		left join agency_user b on a.agencyId=b.agencyId 
+		<!-- LEFT JOIN trademark_case_process tcp
+	    ON a.id = tcp.caseId -->
+	where a.custId in (select custId from agency_customer where agencyId = b.agencyId)
+		and b.userId= #{userId,jdbcType=INTEGER}
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+				a.appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentPerson like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.status like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+					<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+					and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+				</if>
+				
+				<!-- 商标申请号过滤 -->
+				<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+					<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+					and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+				</if>
+				<!-- 注册号过滤 -->
+				<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+					<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+					and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+				<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+					and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+	 			</if> 
+				<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+				<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+					and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	 			</if>
+	 			<!-- 代理文号过滤 -->
+	 			<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+				<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+					and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	 			</if>
+	 			<!-- 案件类型过滤 -->
+	 			<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+				<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+					and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.status != null and tmcase.status != '' ">
+				<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+					and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	 			</if>
+	 			<!--注册时间过滤  -->
+	 			<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+				<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+					and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	 			</if>
+	 			
+			</otherwise>
+		</choose>
+	<!-- 过滤状态为正在进行中的案件 -->
+	<if test="isFinished == 1">
+		<![CDATA[
+			and a.status<>'成功'
+		]]>
+	</if>	
+    <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+    </if>  
+    <if test="tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.appStartTime != null">
+    <bind name="tmcase.appStartTime" value="tmcase.appStartTime" />
+		<![CDATA[ 
+		and  a.appDate > #{tmcase.appStartTime,jdbcType=TIMESTAMP}
+		]]>
+	 </if> 
+	 <if test="tmcase.appEndTime != null">
+	 <bind name="tmcase.appEndTime" value="tmcase.appEndTime" />
+		<![CDATA[ 
+		and  a.appDate < #{tmcase.appEndTime,jdbcType=TIMESTAMP}
+		]]>				
+	 </if> 
+	 <if test="tmcase.regStartTime != null">
+	 <bind name="tmcase.regStartTime" value="tmcase.regStartTime" />
+		<![CDATA[ 
+		and  a.regDate > #{tmcase.regStartTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <if test="tmcase.regEndTime != null">
+	 <bind name="tmcase.regEndTime" value="tmcase.regEndTime" />
+		<![CDATA[ 
+		and  a.regDate < #{tmcase.regEndTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 )c
+	 <if test="tmcase.billStatus != null">
+    	<bind name="tmcase.billStatus" value="tmcase.billStatus" />
+    	inner join 
+    	(
+    	select distinct(caseId) as caseId from charge_record 
+    	where status= #{tmcase.billStatus,jdbcType=INTEGER}
+    	) m 
+    	on c.id=m.caseId		
+     </if>
+	 left join  
+	 (
+		select a.caseId, a.status as caseStatus, c.fullname
+		from trademark_case_process a, user c			
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		)	
+		and a.userId=c.userId
+		<![CDATA[
+			and a.userId<>0
+		]]>
+		
+		union
+				
+		select a.caseId, a.status as caseStatus, c.fullname
+		from trademark_case_process a, 	customer c		
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		) 
+		and a.custId=c.id
+		and a.userId=0
+		<![CDATA[
+			and a.custId<>0
+		]]> 
+				
+		union
+				
+		select a.caseId, a.status as caseStatus, a.username as fullname
+		from trademark_case_process a 			
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		) 
+		and a.username='系统'
+		
+	 )d  on  c.id=d.caseId
+	 left join customer_contact e on c.custContactId=e.id
+	 left join (select distinct(caseId) as caseId, status as billStatus from charge_record)f on  c.id=f.caseId
+	 <!-- 案件处理人过滤 -->
+	 <if test="tmcase.username!=null and tmcase.username!=''">
+	 	<bind name="tmcase.username" value="'%' + tmcase.username + '%'" />
+	 	where d.fullname like #{tmcase.username,jdbcType=VARCHAR}
+	 </if>
+	 
+	 <if test="gcon.orderCol != null and gcon.orderAsc!=null">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>
+	 <if test="gcon.orderCol == null and gcon.orderAsc==null">
+		order by modifyDate desc				
+	 </if>
+	 <bind name="gcon.offset" value="gcon.offset" />
+	 <bind name="gcon.rows" value="gcon.rows" />
+	 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllByTmCaseCount" resultMap="SimpleCountResultMap" >
+    select count(*) as count
+    from trademark_case a
+    	left join agency ag 
+    	on a.agencyId = ag.id left join agency_user b 
+    	on a.agencyId=b.agencyId <!-- LEFT JOIN trademark_case_process tcp
+    	ON a.id = tcp.caseId -->
+	where a.custId in 
+		(select custId from agency_customer where agencyId = b.agencyId)
+		and b.userId= #{userId,jdbcType=INTEGER}
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+				a.appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentPerson like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.status like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+					<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+					and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+					<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+					and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+					<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+					and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+				<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+					and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+	 			</if> 
+				<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+				<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+					and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	 			</if>
+	 			
+	 			<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+				<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+					and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+				<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+					and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.status != null and tmcase.status != '' ">
+				<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+					and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+				<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+					and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	 			</if>
+			</otherwise>
+		</choose>
+    <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+    </if>  
+    <if test="tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.appStartTime != null">
+    <bind name="tmcase.appStartTime" value="tmcase.appStartTime" />
+		<![CDATA[ 
+		and  a.appDate > #{tmcase.appStartTime,jdbcType=TIMESTAMP}
+		]]>
+	 </if> 
+	 <if test="tmcase.appEndTime != null">
+	 <bind name="tmcase.appEndTime" value="tmcase.appEndTime" />
+		<![CDATA[ 
+		and  a.appDate < #{tmcase.appEndTime,jdbcType=TIMESTAMP}
+		]]>				
+	 </if> 
+	 <if test="tmcase.regStartTime != null">
+	 <bind name="tmcase.regStartTime" value="tmcase.regStartTime" />
+		<![CDATA[ 
+		and  a.regDate > #{tmcase.regStartTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <if test="tmcase.regEndTime != null">
+	 <bind name="tmcase.regEndTime" value="tmcase.regEndTime" />
+		<![CDATA[ 
+		and  a.regDate < #{tmcase.regEndTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <!-- 进行中的案件 -->
+	 <if test="isFinished == 1">
+	 	<![CDATA[
+			and a.status<>'成功'
+		]]>
+	 </if>
+  </select>
+  
+  <!--一、二级部门负责人  查询  -->
+  <select id="selectTmCaseByDept" resultMap="BaseResultMap" >
+    select c.*, d.caseStatus, d.fullname as username, 
+    e.name as custContactName, e.tel as custContactTel, e.email as custContactEmail,
+    f.billStatus from
+    (
+  	SELECT distinct
+  	<include refid="Base_Column_List_a" /> 
+	FROM bdy_db.trademark_case a 
+	left join agency ag on a.agencyId = ag.id
+	left join user_customer b on a.custId = b.custId
+	where b.userId in (
+	select d.userId
+	from department a 
+	left join user_department b on a.id = b.departmentId
+	<if test="level!=null and level==0">
+		left join department c on a.id = c.parent
+		left join user_department d on c.id = d.departmentId
+	</if>
+	<if test="level!=null and level==1">
+		left join user_department d on a.id = d.departmentId
+	</if>
+	where a.level=#{level,jdbcType=INTEGER} 
+	and b.userId=#{userId,jdbcType=INTEGER} 
+	and d.userId is not null 
+	<if test="level!=null and level==0">
+		union
+		select a.userId
+		from user_department a
+		left join department b on a.departmentId=b.id
+		left join user_department c on b.id = c.departmentId
+		where c.userId=#{userId,jdbcType=INTEGER} and b.level=#{level,jdbcType=INTEGER} 
+	</if>
+	)
+	and a.agencyId = (
+	select agencyId from agency_user where userId=#{userId,jdbcType=INTEGER}
+	)
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+				a.appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentPerson like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.status like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+					<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+					and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+				</if>
+				<!-- 商标申请号过滤 -->
+				<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+					<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+					and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+				</if>
+					<!-- 注册号过滤 -->
+				<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+					<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+					and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+				<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+					and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+	 			</if> 
+				<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+				<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+					and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	 			</if>
+	 			<!-- 代理文号过滤 -->
+	 			<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+				<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+					and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	 			</if>
+	 			<!-- 案件类型过滤 -->
+	 			<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+				<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+					and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.status != null and tmcase.status != '' ">
+				<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+					and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	 			</if>
+	 			<!--注册时间过滤  -->
+	 			<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+				<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+					and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	 			</if>
+			</otherwise>
+		</choose>
+		<!-- 案件处理人 过滤 -->	
+	<if test="tmcase.username!=null and tmcase.username!=''">
+		<bind name="tmcase.username" value="%'+tmcase.username+'%'"/>
+		OR d.fullname like #{tmcase.username,jdbcType=VARCHAR}
+	</if>
+	<!-- 进行中的案件 -->
+	<if test="isFinished==1">
+		<![CDATA[
+			and a.status<>'成功'
+		]]>
+	</if>	
+    <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.appStartTime != null">
+    <bind name="tmcase.appStartTime" value="tmcase.appStartTime" />
+		<![CDATA[ 
+		and  a.appDate > #{tmcase.appStartTime,jdbcType=TIMESTAMP}
+		]]>
+	 </if> 
+	 <if test="tmcase.appEndTime != null">
+	 <bind name="tmcase.appEndTime" value="tmcase.appEndTime" />
+		<![CDATA[ 
+		and  a.appDate < #{tmcase.appEndTime,jdbcType=TIMESTAMP}
+		]]>				
+	 </if> 
+	 <if test="tmcase.regStartTime != null">
+	 <bind name="tmcase.regStartTime" value="tmcase.regStartTime" />
+		<![CDATA[ 
+		and  a.regDate > #{tmcase.regStartTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <if test="tmcase.regEndTime != null">
+	 <bind name="tmcase.regEndTime" value="tmcase.regEndTime" />
+		<![CDATA[ 
+		and  a.regDate < #{tmcase.regEndTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 )c
+	 <if test="tmcase.billStatus != null">
+    	<bind name="tmcase.billStatus" value="tmcase.billStatus" />
+		inner join 
+    	(
+    	select distinct(caseId) as caseId from charge_record 
+    	where status= #{tmcase.billStatus,jdbcType=INTEGER}
+    	) m 
+    	on c.id=m.caseId		
+     </if>
+	 left join  
+	 (
+		select a.caseId, a.status as caseStatus, c.fullname
+		from trademark_case_process a, user c			
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		)	
+		and a.userId=c.userId
+		<![CDATA[
+			and a.userId<>0
+		]]> 
+				
+		union
+				
+		select a.caseId, a.status as caseStatus, c.fullname
+		from trademark_case_process a, 	customer c		
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		) 
+		and a.custId=c.id
+		and a.userId=0
+		<![CDATA[
+			and a.custId<>0
+		]]>
+				
+		union
+				
+		select a.caseId, a.status as caseStatus, a.username as fullname
+		from trademark_case_process a 			
+		where a.id in
+	    (
+	       select max(id) from trademark_case_process group by caseId
+		) 
+		and a.username='系统'
+		
+	 )d on  c.id=d.caseId
+	 left join customer_contact e on c.custContactId=e.id
+	 left join (select distinct(caseId) as caseId, status as billStatus from charge_record)f on  c.id=f.caseId
+	 <!-- 案件处理人 过滤 -->	
+	 <!-- <if test="gcon.keyword!=null and gcon.keyword!=''">
+	 	<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+	 	where d.fullname like #{gcon.keyword,jdbcType=VARCHAR}
+	 </if> -->
+	 <if test="gcon.orderCol != null and gcon.orderAsc!=null">
+	 <bind name="gcon.orderCol" value="gcon.orderCol" />
+	 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>
+	 <if test="gcon.orderCol == null and gcon.orderAsc==null">
+		order by modifyDate desc				
+	 </if>
+	 <bind name="gcon.offset" value="gcon.offset" />
+	 <bind name="gcon.rows" value="gcon.rows" />
+	 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTmCaseByDeptCount" resultMap="SimpleCountResultMap" >
+   SELECT count(*) as count 
+   from (
+    select distinct a.id
+	FROM bdy_db.trademark_case a 
+	left join agency ag on a.agencyId = ag.id
+	left join user_customer b on a.custId = b.custId
+	where b.userId in (
+	select d.userId
+	from department a 
+	left join user_department b on a.id = b.departmentId
+	<if test="level!=null and level==0">
+		left join department c on a.id = c.parent
+		left join user_department d on c.id = d.departmentId
+	</if>
+	<if test="level!=null and level==1">
+		left join user_department d on a.id = d.departmentId
+	</if>
+	where a.level=#{level,jdbcType=INTEGER} 
+	and b.userId=#{userId,jdbcType=INTEGER} 
+	and d.userId is not null 
+	<if test="level!=null and level==0">
+		union
+		select a.userId
+		from user_department a
+		left join department b on a.departmentId=b.id
+		left join user_department c on b.id = c.departmentId
+		where c.userId=#{userId,jdbcType=INTEGER} and b.level=#{level,jdbcType=INTEGER} 
+	</if>
+	)
+	and a.agencyId = (
+	select agencyId from agency_user where userId=#{userId,jdbcType=INTEGER}
+	)
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.tmName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+				a.appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentPerson like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.status like #{gcon.keyword,jdbcType=VARCHAR} )
+			</when>
+			<otherwise>
+				<if test="tmcase.tmName!=null and tmcase.tmName!=''">
+					<bind name="tmcase.tmName" value="'%' + tmcase.tmName + '%'" />
+					and a.tmName like #{tmcase.tmName,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appNumber!=null and tmcase.appNumber!=''">
+					<bind name="tmcase.appNumber" value="'%'+tmcase.appNumber+'%'" />
+					and a.appNumber like #{tmcase.appNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.regNumber!=null and tmcase.regNumber!=''">
+					<bind name="tmcase.regNumber" value="'%'+tmcase.regNumber+'%'" />
+					and a.regNumber like #{tmcase.regNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="tmcase.appCnName != null and tmcase.appCnName!=''">
+				<bind name="tmcase.appCnName" value="'%'+tmcase.appCnName+'%'" />
+					and  a.appCnName like #{tmcase.appCnName,jdbcType=VARCHAR}
+	 			</if> 
+				<if test="tmcase.appEnName != null and tmcase.appEnName != '' ">
+				<bind name="tmcase.appEnName" value="'%'+tmcase.appEnName+'%'" />
+					and  a.appEnName like #{tmcase.appEnName,jdbcType=VARCHAR}
+	 			</if>
+	 			
+	 			<if test="tmcase.agentNum != null and tmcase.agentNum != '' ">
+				<bind name="tmcase.agentNum" value="'%'+tmcase.agentNum+'%'" />
+					and  a.agentNum like #{tmcase.agentNum,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.caseType != null and tmcase.caseType != '' ">
+				<bind name="tmcase.caseType" value="'%'+tmcase.caseType+'%'" />
+					and  a.caseType like #{tmcase.caseType,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.status != null and tmcase.status != '' ">
+				<bind name="tmcase.status" value="'%'+tmcase.status+'%'" />
+					and  a.status like #{tmcase.status,jdbcType=VARCHAR}
+	 			</if>
+	 			<if test="tmcase.appDate != null and tmcase.appDate != '' ">
+				<bind name="tmcase.appDate" value="'%'+tmcase.appDate+'%'" />
+					and  a.appDate like #{tmcase.appDate,jdbcType=TIMESTAMP}
+	 			</if>
+			</otherwise>
+		</choose>
+	<!-- 案件处理人 过滤 -->	
+	<if test="tmcase.username!=null and tmcase.username!=''">
+		<bind name="tmcase.username" value="%'+tmcase.username+'%'"/>
+		OR d.fullname like #{tmcase.username,jdbcType=VARCHAR}
+	</if>
+	<!-- 进行中的案件 -->
+	<if test="isFinished==1">
+		<![CDATA[
+			and a.status<>'成功'
+		]]>
+	</if>	
+    <if test="userId!=null and tmcase.custId != null">
+    <bind name="tmcase.custId" value="tmcase.custId" />
+		and a.custId= #{tmcase.custId,jdbcType=INTEGER} 
+    </if> 
+    <if test="tmcase.cotag != null">
+    <bind name="tmcase.cotag" value="tmcase.cotag" />
+		and a.cotag = #{tmcase.cotag,jdbcType=INTEGER} 
+    </if>
+    <if test="tmcase.coagencyId != null">
+    <bind name="tmcase.coagencyId" value="tmcase.coagencyId" />
+		and a.coagencyId = #{tmcase.coagencyId,jdbcType=INTEGER} 
+    </if> 
+    <if test="tmcase.appStartTime != null">
+    <bind name="tmcase.appStartTime" value="tmcase.appStartTime" />
+		<![CDATA[ 
+		and  a.appDate > #{tmcase.appStartTime,jdbcType=TIMESTAMP}
+		]]>
+	 </if> 
+	 <if test="tmcase.appEndTime != null">
+	 <bind name="tmcase.appEndTime" value="tmcase.appEndTime" />
+		<![CDATA[ 
+		and  a.appDate < #{tmcase.appEndTime,jdbcType=TIMESTAMP}
+		]]>				
+	 </if> 
+	 <if test="tmcase.regStartTime != null">
+	 <bind name="tmcase.regStartTime" value="tmcase.regStartTime" />
+		<![CDATA[ 
+		and  a.regDate > #{tmcase.regStartTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 <if test="tmcase.regEndTime != null">
+	 <bind name="tmcase.regEndTime" value="tmcase.regEndTime" />
+		<![CDATA[ 
+		and  a.regDate < #{tmcase.regEndTime,jdbcType=TIMESTAMP}
+		]]>					
+	 </if> 
+	 ) a
+  </select>
+  
+  
+  <select id="getApplicantId" parameterType="String"
+	resultType="java.lang.Integer">
+	SELECT
+	distinct(mainAppId)
+	FROM applicant 
+	WHERE applicantName=#{appCnName}
+	limit 0,1
+  </select>
+  <select id="getGoods" parameterType="int"
+	resultType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory">
+	SELECT
+	<include refid="TradeMarkCaseCategory_Column_List" />
+	FROM trademark_case_category 
+	WHERE caseId=#{id}
+  </select>
+  <select id="getJoinApps" parameterType="int"
+	resultType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp">
+	SELECT
+	<include refid="TradeMarkCaseJoinApp_Column_List" />
+	FROM trademark_case_join_app 
+	WHERE caseId=#{id}
+  </select>
+  
+ <!--  <select id="getTradeMarkCaseFiles" parameterType="int"
+	resultType="com.yootii.bdy.tmcase.model.TradeMarkCaseFile">
+	SELECT
+	<include refid="TradeMarkCaseFile_Column_List" />
+	FROM trademark_case_file 
+	WHERE caseId=#{id}
+  </select> -->
+  <select id="getMaterial" parameterType="int"
+	resultMap="BaseResultMap1">
+	SELECT
+	<include refid="Base_Column_List_m" /><!-- ,<include refid="Version_Column_List_mv" /> -->
+	FROM material  as m <!--  left join material_version as mv on m.materialId = mv.materialId -->
+	WHERE m.caseId=#{id}
+	AND m.materialId NOT IN (SELECT materialId FROM material WHERE  precase=1)
+	<!-- GROUP BY title -->
+  </select>
+  <select id="getVersions" parameterType="int" resultType="com.yootii.bdy.material.model.MaterialVersion">
+		SELECT 
+		    <include refid="Version_Column_List_mv" />
+		FROM material_version as mv WHERE materialId=#{materialId,jdbcType=INTEGER} 
+		order by versionNo desc
+  </select>
+  <select id="getChargeRecords" parameterType="int"
+	resultType="com.yootii.bdy.bill.model.ChargeRecord">
+	SELECT
+	<include refid="ChargeRecord_Column_List" />
+	from charge_record a
+	left join user b on a.creater = b.username
+	left join user c on a.verifyPerson = c.username
+	left join charge_item d on a.chargeItemId = d.chargeItemId
+	WHERE caseId=#{id}
+  </select>
+  <select id="checkRole" parameterType="int"
+	resultType="string">
+	select a.name 
+	from role a
+	left join user_role b on a.id=b.roleId
+	where b.userId=#{id}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase" >
+    insert into trademark_case (id, parentId, processId, custId, custContactId, agencyId, caseTypeId, 
+      caseType, status, statusDate, 
+      tmName, appNumber, regNumber,appDate, 
+      regDate, rejectDate, validStartDate, 
+      validEndDate, objectionDate, approvalNumber, approvalDate, 
+      regNoticeNumber,createDate,submitType,cotag, coagencyId, couserId,
+      applicantType, appGJdq, agentNum, agentPerson, certCode,
+      appCnName, appEnName, appCertificate, 
+      appCertificateNum, appCertFileIsCn, appRegionalism, 
+      appCountryOrRegion, appCnAddr, appEnAddr, 
+      appContactPerson, appContactTel, appContaceFax, 
+      appContactZip, acceptPerson, acceptPersonAddr, 
+      acceptPersonZip, tmType, isDlbz, 
+      memberRule, memberNamelist, isAppWithDetectAbility, 
+      tmVoice, ifSolidTm, colorSign, 
+      tmDesignDeclare, ifShareTm, priorityType, 
+      isLoadPriorityFile, priorityBaseCrty, priorityAppDate, 
+      priorityAppNum, imageFile, isPortraitAsApp, goodClasses,
+      isResend,transfer,whoIsApp,caseGroupa,supplement,docNumber,
+      zrCertCode, srCertCode, reason, registrant,cancelPersonName_CN,
+      cancelPersonAgent,respondentName,respondentAddr,quoteTm,quoteTmClass,quoteRegNumber,
+      invalidPersonName_CN,invalidPersonAgent,legalBasic,recheckPersonName_CN,recheckPersonAgent,
+      cancelSubmitDate,dissentSubmitDate
+      )
+    values (#{id,jdbcType=INTEGER},#{parentId,jdbcType=INTEGER}, #{processId,jdbcType=VARCHAR}, #{custId,jdbcType=INTEGER}, #{custContactId,jdbcType=INTEGER}, #{agencyId,jdbcType=INTEGER}, #{caseTypeId,jdbcType=INTEGER}, 
+      #{caseType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{statusDate,jdbcType=TIMESTAMP}, 
+      #{tmName,jdbcType=VARCHAR}, #{appNumber,jdbcType=VARCHAR}, #{regNumber,jdbcType=VARCHAR}, #{appDate,jdbcType=TIMESTAMP}, 
+      #{regDate,jdbcType=TIMESTAMP}, #{rejectDate,jdbcType=TIMESTAMP}, #{validStartDate,jdbcType=TIMESTAMP}, 
+      #{validEndDate,jdbcType=TIMESTAMP}, #{objectionDate,jdbcType=TIMESTAMP},  
+      #{approvalNumber,jdbcType=VARCHAR}, #{approvalDate,jdbcType=TIMESTAMP}, #{regNoticeNumber,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{submitType,jdbcType=VARCHAR}, #{cotag,jdbcType=INTEGER},#{coagencyId,jdbcType=INTEGER},#{couserId,jdbcType=INTEGER},
+      #{applicantType,jdbcType=VARCHAR},  #{appGJdq,jdbcType=VARCHAR}, #{agentNum,jdbcType=VARCHAR}, #{agentPerson,jdbcType=VARCHAR}, #{certCode,jdbcType=VARCHAR}, 
+      #{appCnName,jdbcType=VARCHAR}, #{appEnName,jdbcType=VARCHAR}, #{appCertificate,jdbcType=VARCHAR}, 
+      #{appCertificateNum,jdbcType=VARCHAR}, #{appCertFileIsCn,jdbcType=VARCHAR}, #{appRegionalism,jdbcType=VARCHAR}, 
+      #{appCountryOrRegion,jdbcType=VARCHAR}, #{appCnAddr,jdbcType=VARCHAR}, #{appEnAddr,jdbcType=VARCHAR}, 
+      #{appContactPerson,jdbcType=VARCHAR}, #{appContactTel,jdbcType=VARCHAR}, #{appContaceFax,jdbcType=VARCHAR}, 
+      #{appContactZip,jdbcType=VARCHAR}, #{acceptPerson,jdbcType=VARCHAR}, #{acceptPersonAddr,jdbcType=VARCHAR}, 
+      #{acceptPersonZip,jdbcType=VARCHAR}, #{tmType,jdbcType=VARCHAR}, #{isDlbz,jdbcType=VARCHAR}, 
+      #{memberRule,jdbcType=VARCHAR}, #{memberNamelist,jdbcType=CHAR}, #{isAppWithDetectAbility,jdbcType=CHAR}, 
+      #{tmVoice,jdbcType=VARCHAR}, #{ifSolidTm,jdbcType=VARCHAR}, #{colorSign,jdbcType=VARCHAR}, 
+      #{tmDesignDeclare,jdbcType=VARCHAR}, #{ifShareTm,jdbcType=VARCHAR}, #{priorityType,jdbcType=VARCHAR}, 
+      #{isLoadPriorityFile,jdbcType=VARCHAR}, #{priorityBaseCrty,jdbcType=VARCHAR}, #{priorityAppDate,jdbcType=TIMESTAMP}, 
+      #{priorityAppNum,jdbcType=VARCHAR}, #{imageFile,jdbcType=VARCHAR}, #{isPortraitAsApp,jdbcType=VARCHAR},
+      #{goodClasses,jdbcType=VARCHAR}, #{isResend,jdbcType=VARCHAR}, #{transfer,jdbcType=VARCHAR},
+      #{whoIsApp,jdbcType=VARCHAR},#{caseGroup,jdbcType=INTEGER},#{supplement,jdbcType=INTEGER},#{docNumber,jdbcType=VARCHAR},
+      #{zrCertCode,jdbcType=VARCHAR},#{srCertCode,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{registrant,jdbcType=VARCHAR},
+      #{cancelPersonName_CN,jdbcType=VARCHAR},
+      #{cancelPersonAgent,jdbcType=VARCHAR},
+      #{respondentName,jdbcType=VARCHAR},
+      #{respondentAddr,jdbcType=VARCHAR},
+      #{quoteTm,jdbcType=VARCHAR},
+      #{quoteTmClass,jdbcType=VARCHAR},
+      #{quoteRegNumber,jdbcType=VARCHAR},
+      #{invalidPersonName_CN,jdbcType=VARCHAR},
+      #{invalidPersonAgent,jdbcType=VARCHAR},
+      #{legalBasic,jdbcType=VARCHAR},
+      #{recheckPersonName_CN,jdbcType=VARCHAR},
+      #{recheckPersonAgent,jdbcType=VARCHAR},
+      #{cancelSubmitDate},
+      #{dissentSubmitDate}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase" 
+  useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_case
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parentId,
+      </if>      
+      <if test="processId != null" >
+        processId,
+      </if> 
+      <if test="custId != null" >
+        custId,
+      </if>     
+      <if test="custContactId != null" >
+        custContactId,
+      </if>      
+      <if test="agencyId != null" >
+        agencyId,
+      </if>
+      <if test="caseTypeId != null" >
+        caseTypeId,
+      </if>
+      <if test="caseType != null" >
+        caseType,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="statusDate != null" >
+        statusDate,
+      </if>
+      <if test="tmName != null" >
+        tmName,
+      </if>
+      <if test="appNumber != null" >
+        appNumber,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="appDate != null" >
+        appDate,
+      </if>
+      <if test="regDate != null" >
+        regDate,
+      </if>
+      <if test="rejectDate != null" >
+        rejectDate,
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate,
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate,
+      </if>
+      <if test="objectionDate != null" >
+        objectionDate,
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber,
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate,
+      </if>
+      <if test="regNoticeNumber != null" >
+        regNoticeNumber,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="submitType != null" >
+      	submitType,
+      </if>
+      <if test="cotag != null" >
+      	cotag,
+      </if>
+      <if test="coagencyId != null" >
+      	coagencyId,
+      </if>
+      <if test="couserId != null" >
+      	couserId,
+      </if>
+      <if test="applicantType != null" >
+        applicantType,
+      </if>
+      <if test="appGJdq != null" >
+        appGJdq,
+      </if>
+      <if test="agentNum != null" >
+        agentNum,
+      </if>
+      <if test="agentPerson != null" >
+        agentPerson,
+      </if>
+      <if test="certCode != null" >
+        certCode,
+      </if>
+      <if test="appCnName != null" >
+        appCnName,
+      </if>
+      <if test="appEnName != null" >
+        appEnName,
+      </if>
+      <if test="appCertificate != null" >
+        appCertificate,
+      </if>
+      <if test="appCertificateNum != null" >
+        appCertificateNum,
+      </if>
+      <if test="appCertFileIsCn != null" >
+        appCertFileIsCn,
+      </if>
+      <if test="appRegionalism != null" >
+        appRegionalism,
+      </if>
+      <if test="appCountryOrRegion != null" >
+        appCountryOrRegion,
+      </if>
+      <if test="appCnAddr != null" >
+        appCnAddr,
+      </if>
+      <if test="appEnAddr != null" >
+        appEnAddr,
+      </if>
+      <if test="appContactPerson != null" >
+        appContactPerson,
+      </if>
+      <if test="appContactTel != null" >
+        appContactTel,
+      </if>
+      <if test="appContaceFax != null" >
+        appContaceFax,
+      </if>
+      <if test="appContactZip != null" >
+        appContactZip,
+      </if>
+      <if test="acceptPerson != null" >
+        acceptPerson,
+      </if>
+      <if test="acceptPersonAddr != null" >
+        acceptPersonAddr,
+      </if>
+      <if test="acceptPersonZip != null" >
+        acceptPersonZip,
+      </if>
+      <if test="tmType != null" >
+        tmType,
+      </if>
+      <if test="isDlbz != null" >
+        isDlbz,
+      </if>
+      <if test="memberRule != null" >
+        memberRule,
+      </if>
+      <if test="memberNamelist != null" >
+        memberNamelist,
+      </if>
+      <if test="isAppWithDetectAbility != null" >
+        isAppWithDetectAbility,
+      </if>
+      <if test="tmVoice != null" >
+        tmVoice,
+      </if>
+      <if test="ifSolidTm != null" >
+        ifSolidTm,
+      </if>
+      <if test="colorSign != null" >
+        colorSign,
+      </if>
+      <if test="tmDesignDeclare != null" >
+        tmDesignDeclare,
+      </if>
+      <if test="ifShareTm != null" >
+        ifShareTm,
+      </if>
+      <if test="priorityType != null" >
+        priorityType,
+      </if>
+      <if test="isLoadPriorityFile != null" >
+        isLoadPriorityFile,
+      </if>
+      <if test="priorityBaseCrty != null" >
+        priorityBaseCrty,
+      </if>
+      <if test="priorityAppDate != null" >
+        priorityAppDate,
+      </if>
+      <if test="priorityAppNum != null" >
+        priorityAppNum,
+      </if>
+      <if test="imageFile != null" >
+        imageFile,
+      </if>
+      <if test="isPortraitAsApp != null" >
+        isPortraitAsApp,
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses,
+      </if>      
+      <if test="changeType != null" >
+        changeType,
+      </if>
+      <if test="uploadFileLanguage != null" >
+        uploadFileLanguage,
+      </if>
+      <if test="isChangeAgency != null" >
+        isChangeAgency,
+      </if>
+      <if test="preChangeCnName != null" >
+        preChangeCnName,
+      </if>
+      <if test="preChangeEnName != null" >
+        preChangeEnName,
+      </if>
+      <if test="preChangeCnAdress != null" >
+        preChangeCnAdress,
+      </if>
+      <if test="preChangeEnAdress != null" >
+        preChangeEnAdress,
+      </if>
+      <if test="beforeChangeMessage != null" >
+        beforeChangeMessage,
+      </if>
+      <if test="afterChangeMessage != null" >
+        afterChangeMessage,
+      </if>
+      <if test="assignorCnName != null" >
+        assignorCnName,
+      </if>
+      <if test="assignorEnName != null" >
+        assignorEnName,
+      </if>
+      <if test="assignorCnAdress != null" >
+        assignorCnAdress,
+      </if>
+      <if test="assignorEnAdress != null" >
+        assignorEnAdress,
+      </if>
+      <if test="assignorNationality != null" >
+        assignorNationality,
+      </if>
+      <if test="assignorCountryAndregion != null" >
+        assignorCountryAndregion,
+      </if>
+      <if test="assignorType != null" >
+        assignorType,
+      </if>
+      <if test="assignorUploadFileLanguage != null" >
+        assignorUploadFileLanguage,
+      </if>
+      <if test="assignorCertificateName != null" >
+        assignorCertificateName,
+      </if>
+      <if test="assignorCertificateNumber != null" >
+        assignorCertificateNumber,
+      </if>
+      <if test="transferorCnName != null" >
+        transferorCnName,
+      </if>
+      <if test="transferorEnName != null" >
+        transferorEnName,
+      </if>
+      <if test="transferorCnAdress != null" >
+        transferorCnAdress,
+      </if>
+      <if test="transferorEnAdress != null" >
+        transferorEnAdress,
+      </if>
+      <if test="transferorNationality != null" >
+        transferorNationality,
+      </if>
+      <if test="transferorCountryAndregion != null" >
+        transferorCountryAndregion,
+      </if>
+      <if test="transferorType != null" >
+        transferorType,
+      </if>
+      <if test="transferorUploadFileLanguage != null" >
+        transferorUploadFileLanguage,
+      </if>
+      <if test="transferorCertificateName != null" >
+        transferorCertificateName,
+      </if>
+      <if test="transferorCertificateNumber != null" >
+        transferorCertificateNumber,
+      </if>
+      <if test="preChangeAgencyName != null" >
+        preChangeAgencyName,
+      </if>
+      <if test="isResend != null" >
+        isResend,
+      </if>
+      <if test="transfer != null" >
+        transfer,
+      </if>
+      <if test="whoIsApp != null" >
+        whoIsApp,
+      </if>
+      <if test="caseGroup != null" >
+        caseGroup,
+      </if>
+      <if test="supplement != null" >
+        supplement,
+      </if>
+      <if test="docNumber != null" >
+        docNumber,
+      </if>
+      <if test="zrCertCode != null" >
+        zrCertCode,
+      </if>
+      <if test="srCertCode != null" >
+        srCertCode,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="registrant != null" >
+        registrant,
+      </if>
+      <if test="cancelPersonName_CN !=null">
+      	cancelPersonName_CN,
+      </if>
+      <if test="cancelPersonAgent !=null">
+      		cancelPersonAgent,
+      </if>
+      <if test="respondentName !=null">
+      		respondentName,
+      </if>
+      <if test="respondentAddr !=null">
+     		 respondentAddr,
+      </if>
+      <if test="quoteTm !=null">
+     		 quoteTm,
+      </if>
+      <if test="quoteTmClass !=null">
+     		 quoteTmClass,
+      </if>
+      <if test="quoteRegNumber !=null">
+     		 quoteRegNumber,
+      </if>
+      <if test="invalidPersonName_CN !=null">
+      		invalidPersonName_CN,
+      </if>
+      <if test="invalidPersonAgent !=null">
+      		invalidPersonAgent,
+      </if>
+      <if test="legalBasic !=null">
+      		legalBasic,
+      </if>
+      <if test="recheckPersonName_CN !=null and recheckPersonName_CN!=''">
+      	recheckPersonName_CN,
+      </if>
+      <if test="recheckPersonAgent!=null and recheckPersonAgent!=''">
+      	recheckPersonAgent
+      </if>
+      <if test="cancelSubmitDate !=null">
+      	cancelSubmitDate
+      </if>
+      <if test="dissentSubmitDate !=null">
+      	dissentSubmitDate
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>     
+      <if test="processId != null" >
+        #{processId,jdbcType=VARCHAR},
+      </if>  
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>    
+      <if test="custContactId != null" >
+        #{custContactId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseTypeId != null" >
+        #{caseTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="caseType != null" >
+        #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null" >
+        #{statusDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmName != null" >
+        #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="appNumber != null" >
+        #{appNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectDate != null" >
+        #{rejectDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectionDate != null" >
+        #{objectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalNumber != null" >
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNoticeNumber != null" >
+        #{regNoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitType != null" >
+        #{submitType,jdbcType=VARCHAR},
+      </if>     
+      <if test="cotag != null" >
+       	#{cotag,jdbcType=INTEGER},
+      </if>
+      <if test="coagencyId != null" >
+     	#{coagencyId,jdbcType=INTEGER},
+      </if>
+      <if test="couserId != null" >
+      	#{couserId,jdbcType=INTEGER},
+      </if>
+      
+      
+      <if test="applicantType != null" >
+        #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="appGJdq != null" >
+        #{appGJdq,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNum != null" >
+        #{agentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPerson != null" >
+        #{agentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null" >
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificate != null" >
+        #{appCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificateNum != null" >
+        #{appCertificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertFileIsCn != null" >
+        #{appCertFileIsCn,jdbcType=VARCHAR},
+      </if>
+      <if test="appRegionalism != null" >
+        #{appRegionalism,jdbcType=VARCHAR},
+      </if>
+      <if test="appCountryOrRegion != null" >
+        #{appCountryOrRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnAddr != null" >
+        #{appCnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnAddr != null" >
+        #{appEnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactPerson != null" >
+        #{appContactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactTel != null" >
+        #{appContactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="appContaceFax != null" >
+        #{appContaceFax,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactZip != null" >
+        #{appContactZip,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPerson != null" >
+        #{acceptPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonAddr != null" >
+        #{acceptPersonAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonZip != null" >
+        #{acceptPersonZip,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDlbz != null" >
+        #{isDlbz,jdbcType=VARCHAR},
+      </if>
+      <if test="memberRule != null" >
+        #{memberRule,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNamelist != null" >
+        #{memberNamelist,jdbcType=CHAR},
+      </if>
+      <if test="isAppWithDetectAbility != null" >
+        #{isAppWithDetectAbility,jdbcType=CHAR},
+      </if>
+      <if test="tmVoice != null" >
+        #{tmVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="ifSolidTm != null" >
+        #{ifSolidTm,jdbcType=VARCHAR},
+      </if>
+      <if test="colorSign != null" >
+        #{colorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="tmDesignDeclare != null" >
+        #{tmDesignDeclare,jdbcType=VARCHAR},
+      </if>
+      <if test="ifShareTm != null" >
+        #{ifShareTm,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityType != null" >
+        #{priorityType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLoadPriorityFile != null" >
+        #{isLoadPriorityFile,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityBaseCrty != null" >
+        #{priorityBaseCrty,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityAppDate != null" >
+        #{priorityAppDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priorityAppNum != null" >
+        #{priorityAppNum,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFile != null" >
+        #{imageFile,jdbcType=VARCHAR},
+      </if>
+      <if test="isPortraitAsApp != null" >
+        #{isPortraitAsApp,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        #{goodClasses,jdbcType=VARCHAR},
+      </if>      
+      <if test="changeType != null" >
+        #{changeType,jdbcType=INTEGER},
+      </if>
+      <if test="uploadFileLanguage != null" >
+        #{uploadFileLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="isChangeAgency != null" >
+        #{isChangeAgency,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeCnName != null" >
+        #{preChangeCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeEnName != null" >
+        #{preChangeEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeCnAdress != null" >
+        #{preChangeCnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeEnAdress != null" >
+        #{preChangeEnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeChangeMessage != null" >
+        #{beforeChangeMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="afterChangeMessage != null" >
+        #{afterChangeMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCnName != null" >
+        #{assignorCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorEnName != null" >
+        #{assignorEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCnAdress != null" >
+        #{assignorCnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorEnAdress != null" >
+        #{assignorEnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorNationality != null" >
+        #{assignorNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCountryAndregion != null" >
+        #{assignorCountryAndregion,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorType != null" >
+        #{assignorType,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorUploadFileLanguage != null" >
+        #{assignorUploadFileLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCertificateName != null" >
+        #{assignorCertificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCertificateNumber != null" >
+        #{assignorCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCnName != null" >
+        #{transferorCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorEnName != null" >
+        #{transferorEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCnAdress != null" >
+        #{transferorCnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorEnAdress != null" >
+        #{transferorEnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorNationality != null" >
+        #{transferorNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCountryAndregion != null" >
+        #{transferorCountryAndregion,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorType != null" >
+        #{transferorType,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorUploadFileLanguage != null" >
+        #{transferorUploadFileLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCertificateName != null" >
+        #{transferorCertificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCertificateNumber != null" >
+        #{transferorCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeAgencyName != null" >
+        #{preChangeAgencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="isResend != null" >
+        #{isResend,jdbcType=VARCHAR},
+      </if>
+      <if test="transfer != null" >
+        #{transfer,jdbcType=VARCHAR},
+      </if>
+      <if test="whoIsApp != null" >
+        #{whoIsApp,jdbcType=VARCHAR},
+      </if>
+      <if test="caseGroup != null" >
+        #{caseGroup,jdbcType=INTEGER},
+      </if>
+      <if test="supplement != null" >
+        #{supplement,jdbcType=INTEGER},
+      </if>
+      <if test="docNumber != null" >
+        #{docNumber,jdbcType=VARCHAR},
+      </if>      
+      <if test="zrCertCode != null" >
+        #{zrCertCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srCertCode != null" >
+        #{srCertCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+       	#{reason,jdbcType=VARCHAR},        
+      </if>
+      <if test="registrant != null" >
+        #{registrant,jdbcType=VARCHAR},  
+      </if>
+      
+      
+      <if test="cancelPersonName_CN !=null">
+      	#{cancelPersonName_CN,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelPersonAgent !=null">
+      		#{cancelPersonAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="respondentName !=null">
+      		#{respondentName,jdbcType=VARCHAR},
+      </if>
+      <if test="respondentAddr !=null">
+     	#{respondentAddr,jdbcType=VARCHAR}	, 
+      </if>
+      <if test="quoteTm !=null">
+     	#{quoteTm,jdbcType=VARCHAR}	 ,
+      </if>
+      <if test="quoteTmClass !=null">
+     	#{quoteTmClass,jdbcType=VARCHAR},	 
+      </if>
+      <if test="quoteRegNumber !=null">
+     	#{quoteRegNumber,jdbcType=VARCHAR},	 
+      </if>
+      <if test="invalidPersonName_CN !=null">
+      	#{invalidPersonName_CN,jdbcType=VARCHAR},	
+      </if>
+      <if test="invalidPersonAgent !=null">
+      	#{invalidPersonAgent,jdbcType=VARCHAR},	
+      </if>
+      <if test="legalBasic !=null">
+      	#{legalBasic,jdbcType=VARCHAR},	
+      </if>
+      <if test="recheckPersonName_CN !=null and recheckPersonName_CN !='' ">
+      	#{recheckPersonName_CN,jdbcType=VARCHAR},	
+      </if>
+      <if test="recheckPersonAgent !=null and recheckPersonAgent !='' ">
+      	#{recheckPersonAgent,jdbcType=VARCHAR},	
+      </if>
+      <if test="cancelSubmitDate !=null">
+      	#{cancelSubmitDate},
+      </if>
+      <if test="dissentSubmitDate !=null">
+      	#{dissentSubmitDate}
+      </if>
+    </trim>
+  </insert>
+  <insert id="copyTrademarkCase" parameterType="int" 
+  useGeneratedKeys="true" keyProperty="id">
+  insert into trademark_case(id, parentId, processId, custId, custContactId, caseType, status, statusDate, tmName, appNumber, regNumber,appDate, regDate, 
+    rejectDate, validStartDate, validEndDate, objectionDate, approvalNumber, approvalDate, regNoticeNumber,
+    applicantType, appGJdq, 
+    agentNum, agentPerson, certCode, appCnName, appEnName, appCertificate, appCertificateNum, appCertFileIsCn, 
+    appRegionalism, appCountryOrRegion, appCnAddr, appEnAddr, appContactPerson, appContactTel, 
+    appContaceFax, appContactZip, acceptPerson, acceptPersonAddr, acceptPersonZip, tmType, 
+    isDlbz, memberRule, memberNamelist, isAppWithDetectAbility, tmVoice, ifSolidTm, colorSign, 
+    tmDesignDeclare, ifShareTm, priorityType, isLoadPriorityFile, priorityBaseCrty, priorityAppDate, 
+    priorityAppNum, imageFile, isPortraitAsApp, goodClasses,isResend,transfer,whoIsApp,caseGroup,supplement,docNumber,
+    zrCertCode,srCertCode, reason, registrant,cancelPersonName_CN,
+    cancelPersonAgent,respondentName,respondentAddr,quoteTm,quoteTmClass,
+    quoteRegNumber,invalidPersonName_CN,invalidPersonAgent,legalBasic,recheckPersonName_CN,recheckPersonAgent,
+    cancelSubmitDate,dissentSubmitDate) 
+    select 
+	null, parentId, processId, custId, custContactId, caseType, status, statusDate, tmName, appNumber, regNumber, appDate, regDate, 
+    rejectDate, validStartDate, validEndDate, objectionDate, approvalNumber, approvalDate, regNoticeNumber,
+    applicantType, appGJdq, 
+    agentNum, agentPerson, certCode, appCnName, appEnName, appCertificate, appCertificateNum, appCertFileIsCn, 
+    appRegionalism, appCountryOrRegion, appCnAddr, appEnAddr, appContactPerson, appContactTel, 
+    appContaceFax, appContactZip, acceptPerson, acceptPersonAddr, acceptPersonZip, tmType, 
+    isDlbz, memberRule, memberNamelist, isAppWithDetectAbility, tmVoice, ifSolidTm, colorSign, 
+    tmDesignDeclare, ifShareTm, priorityType, isLoadPriorityFile, priorityBaseCrty, priorityAppDate, 
+    priorityAppNum, imageFile, isPortraitAsApp, goodClasses,isResend,transfer,whoIsApp,caseGroup,supplement,docNumber,zrCertCode,
+    srCertCode, reason, registrant,cancelPersonName_CN,
+    cancelPersonAgent,respondentName,respondentAddr,quoteTm,quoteTmClass,quoteRegNumber,invalidPersonName_CN,invalidPersonAgent,legalBasic,
+    recheckPersonName_CN,recheckPersonAgent,cancelSubmitDate,dissentSubmitDate
+ from trademark_case where id=#{id,jdbcType=INTEGER}
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase" >
+    update trademark_case
+    <set >
+      <if test="parentId != null" >
+        parentId = #{parentId,jdbcType=INTEGER},
+      </if> 
+      <if test="processId != null" >
+        processId = #{processId,jdbcType=VARCHAR},
+      </if> 
+      <if test="custId != null" >
+        custId = #{custId,jdbcType=INTEGER},
+      </if>           
+      <if test="custContactId != null" >
+        custContactId = #{custContactId,jdbcType=INTEGER},
+      </if>      
+      <if test="agencyId != null" >
+        agencyId = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseType != null" >
+        caseType = #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null" >
+        statusDate = #{statusDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmName != null" >
+        tmName = #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="appNumber != null" >
+        appNumber = #{appNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>      
+      <if test="appDate != null" >
+        appDate = #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        regDate = #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectDate != null" >
+        rejectDate = #{rejectDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectionDate != null" >
+        objectionDate = #{objectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalNumber != null and approvalNumber!=''"  >
+        approvalNumber= #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate= #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNoticeNumber != null" >
+        regNoticeNumber= #{regNoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        createDate= #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitType != null" >
+        submitType= #{submitType,jdbcType=VARCHAR},
+      </if>
+      <if test="cotag != null" >
+        cotag = #{cotag,jdbcType=INTEGER},
+      </if>
+      <if test="coagencyId != null" >
+     	coagencyId = #{coagencyId,jdbcType=INTEGER},
+      </if>
+      <if test="couserId != null" >
+      	couserId = #{couserId,jdbcType=INTEGER},
+      </if>
+      
+      <if test="applicantType != null" >
+        applicantType = #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="appGJdq != null" >
+        appGJdq = #{appGJdq,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNum != null" >
+        agentNum = #{agentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPerson != null" >
+        agentPerson = #{agentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null" >
+        certCode = #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        appCnName = #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        appEnName = #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificate != null" >
+        appCertificate = #{appCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificateNum != null" >
+        appCertificateNum = #{appCertificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertFileIsCn != null" >
+        appCertFileIsCn = #{appCertFileIsCn,jdbcType=VARCHAR},
+      </if>
+      <if test="appRegionalism != null" >
+        appRegionalism = #{appRegionalism,jdbcType=VARCHAR},
+      </if>
+      <if test="appCountryOrRegion != null" >
+        appCountryOrRegion = #{appCountryOrRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnAddr != null" >
+        appCnAddr = #{appCnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnAddr != null" >
+        appEnAddr = #{appEnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactPerson != null" >
+        appContactPerson = #{appContactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactTel != null" >
+        appContactTel = #{appContactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="appContaceFax != null" >
+        appContaceFax = #{appContaceFax,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactZip != null" >
+        appContactZip = #{appContactZip,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPerson != null" >
+        acceptPerson = #{acceptPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonAddr != null" >
+        acceptPersonAddr = #{acceptPersonAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonZip != null" >
+        acceptPersonZip = #{acceptPersonZip,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        tmType = #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDlbz != null" >
+        isDlbz = #{isDlbz,jdbcType=VARCHAR},
+      </if>
+      <if test="memberRule != null" >
+        memberRule = #{memberRule,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNamelist != null" >
+        memberNamelist = #{memberNamelist,jdbcType=CHAR},
+      </if>
+      <if test="isAppWithDetectAbility != null" >
+        isAppWithDetectAbility = #{isAppWithDetectAbility,jdbcType=CHAR},
+      </if>
+      <if test="tmVoice != null" >
+        tmVoice = #{tmVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="ifSolidTm != null" >
+        ifSolidTm = #{ifSolidTm,jdbcType=VARCHAR},
+      </if>
+      <if test="colorSign != null" >
+        colorSign = #{colorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="tmDesignDeclare != null" >
+        tmDesignDeclare = #{tmDesignDeclare,jdbcType=VARCHAR},
+      </if>
+      <if test="ifShareTm != null" >
+        ifShareTm = #{ifShareTm,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityType != null" >
+        priorityType = #{priorityType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLoadPriorityFile != null" >
+        isLoadPriorityFile = #{isLoadPriorityFile,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityBaseCrty != null" >
+        priorityBaseCrty = #{priorityBaseCrty,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityAppDate != null" >
+        priorityAppDate = #{priorityAppDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priorityAppNum != null" >
+        priorityAppNum = #{priorityAppNum,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFile != null" >
+        imageFile = #{imageFile,jdbcType=VARCHAR},
+      </if>
+      <if test="isPortraitAsApp != null" >
+        isPortraitAsApp = #{isPortraitAsApp,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses = #{goodClasses,jdbcType=VARCHAR},
+      </if>      
+      <if test="changeType != null" >
+        changeType = #{changeType,jdbcType=INTEGER},
+      </if>
+      <if test="uploadFileLanguage != null" >
+        uploadFileLanguage = #{uploadFileLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="isChangeAgency != null" >
+        isChangeAgency = #{isChangeAgency,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeCnName != null" >
+        preChangeCnName = #{preChangeCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeEnName != null" >
+        preChangeEnName = #{preChangeEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeCnAdress != null" >
+        preChangeCnAdress = #{preChangeCnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeEnAdress != null" >
+        preChangeEnAdress = #{preChangeEnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeChangeMessage != null" >
+        beforeChangeMessage = #{beforeChangeMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="afterChangeMessage != null" >
+        afterChangeMessage = #{afterChangeMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCnName != null" >
+        assignorCnName = #{assignorCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorEnName != null" >
+        assignorEnName = #{assignorEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCnAdress != null" >
+        assignorCnAdress = #{assignorCnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorEnAdress != null" >
+        assignorEnAdress = #{assignorEnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorNationality != null" >
+        assignorNationality = #{assignorNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCountryAndregion != null" >
+        assignorCountryAndregion = #{assignorCountryAndregion,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorType != null" >
+        assignorType = #{assignorType,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorUploadFileLanguage != null" >
+        assignorUploadFileLanguage = #{assignorUploadFileLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCertificateName != null" >
+        assignorCertificateName = #{assignorCertificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="assignorCertificateNumber != null" >
+        assignorCertificateNumber = #{assignorCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCnName != null" >
+        transferorCnName = #{transferorCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorEnName != null" >
+        transferorEnName = #{transferorEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCnAdress != null" >
+        transferorCnAdress = #{transferorCnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorEnAdress != null" >
+        transferorEnAdress = #{transferorEnAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorNationality != null" >
+        transferorNationality = #{transferorNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCountryAndregion != null" >
+        transferorCountryAndregion = #{transferorCountryAndregion,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorType != null" >
+        transferorType = #{transferorType,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorUploadFileLanguage != null" >
+        transferorUploadFileLanguage = #{transferorUploadFileLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCertificateName != null" >
+        transferorCertificateName = #{transferorCertificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="transferorCertificateNumber != null" >
+        transferorCertificateNumber = #{transferorCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="preChangeAgencyName != null" >
+        preChangeAgencyName = #{preChangeAgencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="isResend != null" >
+        isResend = #{isResend,jdbcType=VARCHAR},
+      </if>
+      <if test="transfer != null" >
+        transfer = #{transfer,jdbcType=VARCHAR},
+      </if>
+      <if test="whoIsApp != null" >
+        whoIsApp = #{whoIsApp,jdbcType=VARCHAR},
+      </if>
+      <if test="caseGroup != null" >
+        caseGroup = #{caseGroup,jdbcType=INTEGER},
+      </if>
+      <if test="supplement != null" >
+        supplement = #{supplement,jdbcType=INTEGER},
+      </if>
+      <if test="docNumber != null" >
+        docNumber = #{docNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dissentName !=null">
+      	dissentName = #{dissentName,jdbcType=VARCHAR},
+      </if>
+      <if test="dissentAddress !=null">
+   		dissentAddress =#{dissentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="dissentAgent !=null">
+   		dissentAgent = #{dissentAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="dissentAgentId !=null">
+      	dissentAgentId =#{dissentAgentId,jdbcType=INTEGER},
+      </if>
+      <if test="dissentGist !=null">
+      	dissentGist = #{dissentGist,jdbcType=VARCHAR},
+      </if>
+      <if test="zrCertCode != null" >
+        zrCertCode = #{zrCertCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srCertCode != null" >
+        srCertCode = #{srCertCode,jdbcType=VARCHAR},
+      </if>
+       <if test="reason != null" >
+       	reason = #{reason,jdbcType=VARCHAR},        
+      </if>
+      <if test="registrant != null" >
+        registrant = #{registrant,jdbcType=VARCHAR},  
+      </if>
+      <if test="cancelPersonName_CN !=null">
+     	 cancelPersonName_CN = #{cancelPersonName_CN,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="cancelPersonAgent !=null">
+      	cancelPersonAgent =#{cancelPersonAgent},
+      </if>
+      <if test="respondentName !=null">
+     	 respondentName =#{respondentName},
+      </if>
+      <if test="respondentAddr !=null">
+     	 respondentAddr =#{respondentAddr},
+      </if>
+      <if test="quoteTm !=null">
+     	 quoteTm =#{quoteTm},
+      </if>
+      <if test="quoteTmClass !=null">
+     	  quoteTmClass =#{quoteTmClass},
+      </if>
+      <if test="quoteRegNumber !=null">
+      		quoteRegNumber =#{quoteRegNumber},
+      </if>
+      <if test="invalidPersonName_CN !=null">
+     	 invalidPersonName_CN =#{invalidPersonName_CN},
+      </if>
+      <if test="invalidPersonAgent !=null">
+      		invalidPersonAgent =#{invalidPersonAgent},
+      </if>
+      <if test="legalBasic !=null ">
+      		legalBasic =#{legalBasic},
+      </if>
+      <if test="recheckPersonName_CN !=null">
+      		recheckPersonName_CN =#{recheckPersonName_CN},
+      </if>
+      <if test="recheckPersonAgent !=null">
+      		recheckPersonAgent =#{recheckPersonAgent},
+      </if>
+      <if test="cancelSubmitDate !=null">
+      		cancelSubmitDate =#{cancelSubmitDate},
+      </if>
+      <if test="dissentSubmitDate !=null">
+      		dissentSubmitDate =#{dissentSubmitDate}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase" >
+    update trademark_case
+    set parentId = #{parentId,jdbcType=INTEGER},
+      processId = #{processId,jdbcType=VARCHAR},
+      custId = #{custId,jdbcType=INTEGER},
+      custContactId = #{custContactId,jdbcType=INTEGER},    
+      agencyId = #{agencyId,jdbcType=INTEGER},
+      caseType = #{caseType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      statusDate = #{statusDate,jdbcType=TIMESTAMP},
+      tmName = #{tmName,jdbcType=VARCHAR},
+      appNumber = #{appNumber,jdbcType=VARCHAR},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      appDate = #{appDate,jdbcType=TIMESTAMP},
+      regDate = #{regDate,jdbcType=TIMESTAMP},
+      rejectDate = #{rejectDate,jdbcType=TIMESTAMP},
+      validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      objectionDate = #{objectionDate,jdbcType=TIMESTAMP},
+      approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      regNoticeNumber = #{regNoticeNumber,jdbcType=VARCHAR},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      submitType = #{submitType,jdbcType=VARCHAR},
+      cotag = #{cotag,jdbcType=INTEGER},
+      coagencyId = #{coagencyId,jdbcType=INTEGER},
+      couserId = #{couserId,jdbcType=INTEGER},
+      applicantType = #{applicantType,jdbcType=VARCHAR},
+      appGJdq = #{appGJdq,jdbcType=VARCHAR},
+      agentNum = #{agentNum,jdbcType=VARCHAR},
+      agentPerson = #{agentPerson,jdbcType=VARCHAR},
+      certCode = #{certCode,jdbcType=VARCHAR},
+      appCnName = #{appCnName,jdbcType=VARCHAR},
+      appEnName = #{appEnName,jdbcType=VARCHAR},
+      appCertificate = #{appCertificate,jdbcType=VARCHAR},
+      appCertificateNum = #{appCertificateNum,jdbcType=VARCHAR},
+      appCertFileIsCn = #{appCertFileIsCn,jdbcType=VARCHAR},
+      appRegionalism = #{appRegionalism,jdbcType=VARCHAR},
+      appCountryOrRegion = #{appCountryOrRegion,jdbcType=VARCHAR},
+      appCnAddr = #{appCnAddr,jdbcType=VARCHAR},
+      appEnAddr = #{appEnAddr,jdbcType=VARCHAR},
+      appContactPerson = #{appContactPerson,jdbcType=VARCHAR},
+      appContactTel = #{appContactTel,jdbcType=VARCHAR},
+      appContaceFax = #{appContaceFax,jdbcType=VARCHAR},
+      appContactZip = #{appContactZip,jdbcType=VARCHAR},
+      acceptPerson = #{acceptPerson,jdbcType=VARCHAR},
+      acceptPersonAddr = #{acceptPersonAddr,jdbcType=VARCHAR},
+      acceptPersonZip = #{acceptPersonZip,jdbcType=VARCHAR},
+      tmType = #{tmType,jdbcType=VARCHAR},
+      isDlbz = #{isDlbz,jdbcType=VARCHAR},
+      memberRule = #{memberRule,jdbcType=VARCHAR},
+      memberNamelist = #{memberNamelist,jdbcType=CHAR},
+      isAppWithDetectAbility = #{isAppWithDetectAbility,jdbcType=CHAR},
+      tmVoice = #{tmVoice,jdbcType=VARCHAR},
+      ifSolidTm = #{ifSolidTm,jdbcType=VARCHAR},
+      colorSign = #{colorSign,jdbcType=VARCHAR},
+      tmDesignDeclare = #{tmDesignDeclare,jdbcType=VARCHAR},
+      ifShareTm = #{ifShareTm,jdbcType=VARCHAR},
+      priorityType = #{priorityType,jdbcType=VARCHAR},
+      isLoadPriorityFile = #{isLoadPriorityFile,jdbcType=VARCHAR},
+      priorityBaseCrty = #{priorityBaseCrty,jdbcType=VARCHAR},
+      priorityAppDate = #{priorityAppDate,jdbcType=TIMESTAMP},
+      priorityAppNum = #{priorityAppNum,jdbcType=VARCHAR},
+      imageFile = #{imageFile,jdbcType=VARCHAR},
+      isPortraitAsApp = #{isPortraitAsApp,jdbcType=VARCHAR},
+      goodClasses = #{goodClasses,jdbcType=VARCHAR}    ,
+      changeType = #{changeType,jdbcType=INTEGER},
+      uploadFileLanguage = #{uploadFileLanguage,jdbcType=VARCHAR},
+      isChangeAgency = #{isChangeAgency,jdbcType=VARCHAR},
+      preChangeCnName = #{preChangeCnName,jdbcType=VARCHAR},
+      preChangeEnName = #{preChangeEnName,jdbcType=VARCHAR},
+      preChangeCnAdress = #{preChangeCnAdress,jdbcType=VARCHAR},
+      preChangeEnAdress = #{preChangeEnAdress,jdbcType=VARCHAR},
+      beforeChangeMessage = #{beforeChangeMessage,jdbcType=VARCHAR},
+      afterChangeMessage = #{afterChangeMessage,jdbcType=VARCHAR},
+      assignorCnName = #{assignorCnName,jdbcType=VARCHAR},
+      assignorEnName = #{assignorEnName,jdbcType=VARCHAR},
+      assignorCnAdress = #{assignorCnAdress,jdbcType=VARCHAR},
+      assignorEnAdress = #{assignorEnAdress,jdbcType=VARCHAR},
+      assignorNationality = #{assignorNationality,jdbcType=VARCHAR},
+      assignorCountryAndregion = #{assignorCountryAndregion,jdbcType=VARCHAR},
+      assignorType = #{assignorType,jdbcType=VARCHAR},
+      assignorUploadFileLanguage = #{assignorUploadFileLanguage,jdbcType=VARCHAR},
+      assignorCertificateName = #{assignorCertificateName,jdbcType=VARCHAR},
+      assignorCertificateNumber = #{assignorCertificateNumber,jdbcType=VARCHAR},
+      transferorCnName = #{transferorCnName,jdbcType=VARCHAR},
+      transferorEnName = #{transferorEnName,jdbcType=VARCHAR},
+      transferorCnAdress = #{transferorCnAdress,jdbcType=VARCHAR},
+      transferorEnAdress = #{transferorEnAdress,jdbcType=VARCHAR},
+      transferorNationality = #{transferorNationality,jdbcType=VARCHAR},
+      transferorCountryAndregion = #{transferorCountryAndregion,jdbcType=VARCHAR},
+      transferorType = #{transferorType,jdbcType=VARCHAR},
+      transferorUploadFileLanguage = #{transferorUploadFileLanguage,jdbcType=VARCHAR},
+      transferorCertificateName = #{transferorCertificateName,jdbcType=VARCHAR},
+      transferorCertificateNumber = #{transferorCertificateNumber,jdbcType=VARCHAR} ,
+      preChangeAgencyName = #{preChangeAgencyName,jdbcType=VARCHAR}  ,
+      isResend= #{isResend,jdbcType=VARCHAR},
+      transfer= #{transfer,jdbcType=VARCHAR},
+      whoIsApp= #{whoIsApp,jdbcType=VARCHAR},
+      caseGroup=#{caseGroup,jdbcType=INTEGER},
+      supplement= #{supplement,jdbcType=INTEGER},
+      docNumber= #{docNumber,jdbcType=VARCHAR},
+      zrCertCode = #{zrCertCode,jdbcType=VARCHAR},
+      srCertCode = #{srCertCode,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      registrant = #{registrant,jdbcType=VARCHAR},
+      cancelPersonName_CN = #{cancelPersonName_CN,jdbcType=VARCHAR},
+      cancelPersonAgent =#{cancelPersonAgent,jdbcType=VARCHAR},
+      respondentName =#{respondentName,jdbcType=VARCHAR},
+      respondentAddr =#{respondentAddr,jdbcType=VARCHAR},
+      quoteTm =#{quoteTm,jdbcType=VARCHAR},
+      quoteTmClass =#{quoteTmClass,jdbcType=VARCHAR},
+      quoteRegNumber =#{quoteRegNumber,jdbcType=VARCHAR},
+      invalidPersonName_CN =#{invalidPersonName_CN,jdbcType=VARCHAR},
+      invalidPersonAgent =#{invalidPersonAgent,jdbcType=VARCHAR},
+      legalBasic =#{legalBasic,jdbcType=VARCHAR},
+      recheckPersonName_CN =#{recheckPersonName_CN,jdbcType=VARCHAR},
+      recheckPersonAgent =#{recheckPersonAgent,jdbcType=VARCHAR},
+      cancelSubmitDate =#{cancelSubmitDate},
+      dissentSubmitDate = #{dissentSubmitDate}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertAgencyCustomer" >
+  	insert into agency_customer(agencyId,custId,cotag)
+  	select #{agencyId,jdbcType=INTEGER},#{custId,jdbcType=INTEGER},#{cotag,jdbcType=INTEGER}
+	from dual
+  	where not exists (select id
+	from agency_customer
+	where agencyId = #{agencyId,jdbcType=INTEGER} and custId = #{custId,jdbcType=INTEGER})
+  </insert>
+  
+  
+  <!--  -->
+  <select id="selectRemindList" resultMap="RemindResultMap">
+  	select 
+	  	a.rid, 
+	  	a.title,
+	  	a.message,
+	  	a.isclose,
+	  	a.depid, 
+	  	a.userid,
+	  	a.custid, 
+	  	 a.agencyid,
+	    a.createuser,
+	    a.closeuser,
+	    a.limitdate,
+	    a.createdate,
+	    a.closedate,a.caseId,
+	    b.fullname as username,
+	    c.name custname
+    from remind a
+    left join user b on b.userId = a.userid
+    left join customer c on c.id = a.custid
+    where 
+    	a.isclose = 0 
+    	AND message = #{message}
+    	<if test="custId !=null">
+    	AND	custid = #{custId}
+    	</if>
+    	<if test="userId !=null">
+    		<!-- and a.userid =#{userId} -->
+    	AND	custid in(SELECT custId FROM user_customer WHERE userid = #{userId})
+    	</if>
+  </select>
+  
+  <!--根据各种条件查询 案件时限  -->
+  <select id="queryByCondition" resultMap="RemindResultMap">
+  		select 
+	  	a.rid, 
+	  	a.title,
+	  	a.message,
+	  	a.isclose,
+	  	a.depid, 
+	  	a.userid,
+	  	a.custid, 
+	  	 a.agencyid,
+	    a.createuser,
+	    a.closeuser,
+	    a.limitdate,
+	    a.createdate,
+	    a.closedate,a.caseId,
+	    b.fullname as username,
+	    c.name custname
+    from remind a
+    left join user b on b.userId = a.userid
+    left join customer c on c.id = a.custid
+    where
+    	1=1
+    	and rid in 
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+    		#{item}
+    	</foreach>
+    	<!--筛选条件  -->
+    	<choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="gcon.keyword" />
+				and (
+						a.createdate = #{gcon.keyword} or
+						a.limitdate = #{gcon.keyword}
+					)
+			</when>
+			<otherwise>
+				<if test="remind.qlimitdate!=null and remind.qlimitdate!='' ">
+						AND a.limitdate =#{remind.qlimitdate}
+					</if>
+					<if test="remind.qcreatedate!=null and remind.qcreatedate!='' ">
+						AND a.createdate = #{remind.qcreatedate}
+					</if>
+			</otherwise>
+		</choose>
+    <!-- 排序 -->
+     <if test="gcon.orderCol != null and gcon.orderAsc!=null">
+		 <bind name="gcon.orderCol" value="gcon.orderCol" />
+		 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>
+	 <if test="gcon.orderCol==null and gcon.orderAsc==null">
+		ORDER BY createdate DESC				
+	 </if>
+	 <!-- 分页 -->
+		<bind name="gcon.offset" value="gcon.offset" />
+	 	<bind name="gcon.rows" value="gcon.rows" />
+	  limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据各种条件查询 案件时限数量 -->
+  <select id="queryByConditionCount" resultType="int">
+  		select 
+	  		count(a.rid)
+    from remind a
+    left join user b on b.userId = a.userid
+    left join customer c on c.id = a.custid
+    where
+    	1=1
+    	and rid in 
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+    		#{item}
+    	</foreach>
+    	<!--筛选条件  -->
+    	<choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="gcon.keyword" />
+				and (
+						a.createdate = #{gcon.keyword} or
+						a.limitdate = #{gcon.keyword}
+					)
+			</when>
+			<otherwise>
+					<if test="remind.qlimitdate!=null and remind.qlimitdate!='' ">
+						AND a.limitdate =#{remind.qlimitdate}
+					</if>
+					<if test="remind.qcreatedate!=null and remind.qcreatedate!='' ">
+						AND a.createdate = #{remind.qcreatedate}
+					</if>
+			</otherwise>
+		</choose>
+    <!-- 排序 -->
+     <if test="gcon.orderCol != null and gcon.orderAsc!=null">
+		 <bind name="gcon.orderCol" value="gcon.orderCol" />
+		 <bind name="gcon.orderAsc" value="gcon.orderAsc" />
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	 </if>
+	 <if test="gcon.orderCol==null and gcon.orderAsc==null">
+		ORDER BY createdate DESC				
+	 </if>
+	 <!-- 分页 -->
+		<bind name="gcon.offset" value="gcon.offset" />
+	 	<bind name="gcon.rows" value="gcon.rows" />
+	  limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 批量 关闭 时限提醒 -->
+  <update id="updateTmCaseDeadLine" parameterType="String">
+		UPDATE remind 
+		SET isclose = 1,
+			closedate = SYSDATE()
+			 WHERE rid = #{rid} 
+  </update>
+  
+  <select id="selectRemindByMessage" resultType="java.util.Map">
+  		SELECT * FROM remind WHERE message=#{message} AND caseId=#{caseId}
+  </select>
+  <delete id="deleteById" parameterType="int">
+  		DELETE  FROM remind WHERE rid =#{rid}
+  </delete>              
+  <update id="updateById" parameterType="java.util.Map">
+  		UPDATE remind SET limitdate =#{limitdate} WHERE rid =#{rid}
+  </update>
+  <!-- 同步案件 优先权信息 -->
+  <update id="updatePriority">
+  		UPDATE trademark_case 
+  		SET 
+  				priorityType='无',
+  				isLoadPriorityFile = NULL,
+  				priorityBaseCrty=NULL,
+  				priorityAppDate = NULL,
+  				priorityAppNum = NULL
+  		WHERE id=#{id}
+  </update>
+  <!-- 创建 商标异议答辩 案件   -->
+  <insert id="createDissentTmCase" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase">
+		INSERT INTO trademark_case(
+				custId,
+				caseType,
+				caseTypeId,
+				regNumber,
+				goodClasses,
+				appCnName,
+				
+				approvalDate,
+				approvalNumber,
+				
+				agencyId,
+				appCnAddr,
+				imageFile,
+				dissentName,
+				dissentAddress,
+				dissentAgentId,
+				tmName,
+				
+				docNumber,
+				createDate
+			) VALUES (
+				#{custId},
+				#{tmcaseType},
+				9,
+				#{regNumber},
+				#{goodClasses},
+				#{appCnName},
+				
+				#{approvalDate},
+				#{approvalNumber},
+				#{agencyId},
+				#{appCnAddr},
+				#{imageFile},
+				
+				#{dissentName},
+				#{dissentAddress},
+				#{dissentAgentId},
+				
+				#{tmName},
+				
+				#{docNumber},
+				SYSDATE()
+			) 
+  </insert>
+  	<!-- 修改商标异议答辩  案件 -->
+   <update id="modifyDissentTmCase" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase" >
+    update trademark_case
+    set 
+	      custId = #{custId},
+	      appCnName =#{appCnName},
+	      appContactPerson=#{appContactPerson},
+	   
+	      supplement =#{supplement},
+	      approvalNumber=#{approvalNumber},
+	      approvalDate =#{approvalDate},
+	      tmName = #{tmName},
+	      goodClasses = #{goodClasses},
+	      imageFile = #{imageFile},
+	      
+	      dissentName = #{dissentName},
+	      dissentAddress = #{dissentAddress},
+	      dissentAgent = #{dissentAgent},
+	      modifyDate = SYSDATE()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByReg" resultType="java.util.Map">
+  		SELECT * FROM trademark_case 
+  		WHERE casetypeId = 8 and regNumber = #{regNumber} 
+  		ORDER BY createDate DESC
+  		LIMIT 0,1
+  </select>
+  <select id="selectByRegAndType" resultType="java.util.Map">
+  		SELECT *
+  		FROM trademark_case a LEFT JOIN agency b ON a.agencyId = b.id
+  		WHERE casetypeId = #{caseTypeId} and regNumber = #{regNumber} 
+  		ORDER BY createDate DESC
+  		LIMIT 0,1
+  </select>
+  <!-- 通过注册号查询商标信息 -->
+  <select id = "selectByRegFromTM" resultType = "java.util.Map">
+  		SELECT * FROM trademark WHERE regNumber = #{regNumber} 
+  </select>
+  
+     <!-- 创建 异议申请 类型案件 -->
+	 <insert id="createApplicantDissent" useGeneratedKeys="true" keyProperty="id" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase">
+	  		INSERT INTO trademark_case(
+				custId,
+				caseType,
+				caseTypeId,
+				regNumber,
+				goodClasses,
+				appCnName,
+				tmName,
+				approvalDate,
+				approvalNumber,
+				
+				agencyId,
+				appCnAddr,
+				imageFile,
+				dissentName,
+				dissentAddress,				
+				dissentAgent,
+				
+				appContactPerson,
+				appContactTel,
+				appContactZip,
+				
+				applicantType,
+				tmType,
+				createDate
+			) VALUES (
+				#{custId},
+				#{tmcaseType},
+				8,
+				#{regNumber},
+				#{goodClasses},
+				#{appCnName},
+				#{tmName},
+				#{approvalDate},
+				#{approvalNumber},
+				
+				#{agencyId},
+				#{appCnAddr},
+				#{imageFile},
+				#{dissentName},
+				#{dissentAddress},
+				#{dissentAgent},
+				
+				#{appContactPerson},
+				#{appContactTel},
+				#{appContactZip},
+				
+				#{applicantType},
+				#{tmType},
+				SYSDATE()
+			) 
+	 </insert>
+	 <!--  修改 异议申请案件 的信息-->
+	 <update id="modifyApplicantDissent" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCase">
+	 	 update trademark_case
+   		 set 
+		      custId = #{custId},
+		      appCnName =#{appCnName},
+		      appContactPerson=#{appContactPerson},
+		      supplement =#{supplement},
+		      appContactZip = #{appContactZip},
+		      appContactTel =#{appContactTel},
+		      agencyId #{agencyId},
+		      agentPerson #{agentPerson},
+		      modifyDate = SYSDATE()
+    	where id = #{id,jdbcType=INTEGER}	
+	 </update>
+	 
+	 <select id="selectContactByCustId" resultType = "java.util.Map">
+	 		SELECT * FROM customer_contact WHERE custId = #{custId}
+	 </select>
+	 <!-- 根据机构号 查找 代理人 -->
+	 <select id="selectUserByAgencyId" resultType = "java.util.Map">
+	 		SELECT * FROM  agency_user a, 
+	 						`user` b,agency c 
+	 		WHERE a.userId = b.userId 
+	 				AND c.id= #{agencyId} 
+	 				AND a.agencyId = #{agencyId}
+	 </select>
+	 
+	 <!-- 判断该时限是否已存在 -->
+	 <select id="isExist" resultType="int">
+	 SELECT COUNT(rid) FROM remind WHERE caseId=#{caseId} AND message = '补充材料时限'
+	 </select>
+</mapper>

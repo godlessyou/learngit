@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseRecord" >
+    <id column="recordId" property="recordId" jdbcType="INTEGER" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="custId" property="custId" jdbcType="INTEGER" />
+    <result column="agencyId" property="agencyId" jdbcType="INTEGER" />
+    <result column="caseType" property="caseType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="statusDate" property="statusDate" jdbcType="TIMESTAMP" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="regDate" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="rejectDate" property="rejectDate" jdbcType="TIMESTAMP" />
+    <result column="validStartDate" property="validStartDate" jdbcType="TIMESTAMP" />
+    <result column="validEndDate" property="validEndDate" jdbcType="TIMESTAMP" />
+    <result column="objectionDate" property="objectionDate" jdbcType="TIMESTAMP" />
+    <result column="applicantType" property="applicantType" jdbcType="VARCHAR" />
+    <result column="appGJdq" property="appGJdq" jdbcType="VARCHAR" />
+    <result column="agentNum" property="agentNum" jdbcType="VARCHAR" />
+    <result column="agentPerson" property="agentPerson" jdbcType="VARCHAR" />
+    <result column="appCnName" property="appCnName" jdbcType="VARCHAR" />
+    <result column="appEnName" property="appEnName" jdbcType="VARCHAR" />
+    <result column="appCertificate" property="appCertificate" jdbcType="VARCHAR" />
+    <result column="appCertificateNum" property="appCertificateNum" jdbcType="VARCHAR" />
+    <result column="appCertFileIsCn" property="appCertFileIsCn" jdbcType="VARCHAR" />
+    <result column="appRegionalism" property="appRegionalism" jdbcType="VARCHAR" />
+    <result column="appCountryOrRegion" property="appCountryOrRegion" jdbcType="VARCHAR" />
+    <result column="appCnAddr" property="appCnAddr" jdbcType="VARCHAR" />
+    <result column="appEnAddr" property="appEnAddr" jdbcType="VARCHAR" />
+    <result column="appContactPerson" property="appContactPerson" jdbcType="VARCHAR" />
+    <result column="appContactTel" property="appContactTel" jdbcType="VARCHAR" />
+    <result column="appContaceFax" property="appContaceFax" jdbcType="VARCHAR" />
+    <result column="appContactZip" property="appContactZip" jdbcType="VARCHAR" />
+    <result column="acceptPerson" property="acceptPerson" jdbcType="VARCHAR" />
+    <result column="acceptPersonAddr" property="acceptPersonAddr" jdbcType="VARCHAR" />
+    <result column="acceptPersonZip" property="acceptPersonZip" jdbcType="VARCHAR" />
+    <result column="tmType" property="tmType" jdbcType="VARCHAR" />
+    <result column="isDlbz" property="isDlbz" jdbcType="VARCHAR" />
+    <result column="memberRule" property="memberRule" jdbcType="VARCHAR" />
+    <result column="memberNamelist" property="memberNamelist" jdbcType="CHAR" />
+    <result column="isAppWithDetectAbility" property="isAppWithDetectAbility" jdbcType="CHAR" />
+    <result column="tmVoice" property="tmVoice" jdbcType="VARCHAR" />
+    <result column="ifSolidTm" property="ifSolidTm" jdbcType="VARCHAR" />
+    <result column="tmDesignDeclare" property="tmDesignDeclare" jdbcType="VARCHAR" />
+    <result column="ifShareTm" property="ifShareTm" jdbcType="VARCHAR" />
+    <result column="priorityType" property="priorityType" jdbcType="VARCHAR" />
+    <result column="isLoadPriorityFile" property="isLoadPriorityFile" jdbcType="VARCHAR" />
+    <result column="priorityBaseCrty" property="priorityBaseCrty" jdbcType="VARCHAR" />
+    <result column="priorityAppDate" property="priorityAppDate" jdbcType="TIMESTAMP" />
+    <result column="priorityAppNum" property="priorityAppNum" jdbcType="VARCHAR" />
+    <result column="imageFile" property="imageFile" jdbcType="VARCHAR" />
+    <result column="isPortraitAsApp" property="isPortraitAsApp" jdbcType="VARCHAR" />
+    <result column="colorSign" property="colorSign" jdbcType="VARCHAR" />
+    <result column="goodClasses" property="goodClasses" jdbcType="VARCHAR" />
+    <result column="approvalNumber" property="approvalNumber" jdbcType="VARCHAR" />
+    <result column="approvalDate" property="approvalDate" jdbcType="TIMESTAMP" />
+    <result column="regNoticeNumber" property="regNoticeNumber" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="submitType" property="submitType" jdbcType="VARCHAR" />
+    <result column="appNumber" property="appNumber" jdbcType="VARCHAR" />
+    <result column="cotag" property="cotag" jdbcType="INTEGER" />
+    <result column="coagencyId" property="coagencyId" jdbcType="INTEGER" />
+    <result column="couserId" property="couserId" jdbcType="INTEGER" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifyUserName" property="modifyUserName" jdbcType="VARCHAR" />
+    <result column="modifyFlag" property="modifyFlag" jdbcType="INTEGER" />  
+  </resultMap>
+  
+  <resultMap extends="BaseResultMap" id="TradeMarkCaseRecordMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseRecord">   
+    <collection property="goods" ofType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" column="recordId" select="getGoods"></collection>
+    <collection property="joinApps" ofType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" column="recordId" select="getJoinApps"></collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    recordId, id, custId, agencyId, caseType, status, statusDate, tmName, regNumber, 
+    appDate, regDate, rejectDate, validStartDate, validEndDate, objectionDate, applicantType, 
+    appGJdq, agentNum, agentPerson, appCnName, appEnName, appCertificate, appCertificateNum, 
+    appCertFileIsCn, appRegionalism, appCountryOrRegion, appCnAddr, appEnAddr, appContactPerson, 
+    appContactTel, appContaceFax, appContactZip, acceptPerson, acceptPersonAddr, acceptPersonZip, 
+    tmType, isDlbz, memberRule, memberNamelist, isAppWithDetectAbility, tmVoice, ifSolidTm, 
+    tmDesignDeclare, ifShareTm, priorityType, isLoadPriorityFile, priorityBaseCrty, priorityAppDate, 
+    priorityAppNum, imageFile, isPortraitAsApp, colorSign, goodClasses, approvalNumber, 
+    approvalDate, regNoticeNumber, createDate, submitType, appNumber, cotag, coagencyId, 
+    couserId, modifyTime, modifyUserName, modifyFlag
+  </sql>
+  <sql id="Base_Column_List_a" >
+    a.id, a.custId, a.agencyId, a.caseType, a.status, a.statusDate, a.tmName, a.regNumber, 
+    a.appDate, a.regDate, a.rejectDate, a.validStartDate, a.validEndDate, a.objectionDate, a.applicantType, 
+	a.appGJdq, a.agentNum, a.agentPerson, a.appCnName, a.appEnName, a.appCertificate, a.appCertificateNum, 
+	a.appCertFileIsCn, a.appRegionalism, a.appCountryOrRegion, a.appCnAddr, a.appEnAddr, a.appContactPerson, 
+	a.appContactTel, a.appContaceFax, a.appContactZip, a.acceptPerson, a.acceptPersonAddr, a.acceptPersonZip, 
+	a.tmType, a.isDlbz, a.memberRule, a.memberNamelist, a.isAppWithDetectAbility, a.tmVoice, a.ifSolidTm, 
+	a.tmDesignDeclare, a.ifShareTm, a.priorityType, a.isLoadPriorityFile, a.priorityBaseCrty, a.priorityAppDate, 
+	a.priorityAppNum, a.imageFile, a.isPortraitAsApp, a.colorSign, a.goodClasses, a.approvalNumber, 
+	a.approvalDate, a.regNoticeNumber, a.createDate, a.submitType, a.appNumber, a.cotag, a.coagencyId, a.couserId, 
+	a.modifyTime, a.modifyUserName, a.modifyFlag
+  </sql>
+  <sql id="TradeMarkCaseCategory_Column_List" >
+    id, caseId, goodClass, similarGroup, goodCode, goodName, goodNameEn, goodKey
+  </sql>
+  <sql id="TradeMarkCaseJoinApp_Column_List" >
+   	id, custId, agencyId, caseId, joinAppType, joinAppCoun, nameCn, nameEn, addrCn, addrEn, cardName, cardId, getFileIsEn
+  </sql>  
+  <select id="getGoods" parameterType="int"
+	resultType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory">
+	SELECT
+	<include refid="TradeMarkCaseCategory_Column_List" />
+	FROM trademark_case_category_record
+	WHERE recordId=#{recordId}
+  </select>
+  <select id="getJoinApps" parameterType="int"
+	resultType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp">
+	SELECT
+	<include refid="TradeMarkCaseJoinApp_Column_List" />
+	FROM trademark_case_join_app_record 
+	WHERE recordId=#{recordId}
+  </select>
+  
+  <select id="selecTmCaseRecordList" resultMap="TradeMarkCaseRecordMap" >
+    select 
+    <include refid="Base_Column_List" /> 
+    from trademark_case_record 
+    where 1=1
+    <if test="tmcase.id!=null">
+    	and id = #{tmcase.id,jdbcType=INTEGER}
+    </if>
+    <if test="tmcase.recordId!=null">
+    	 and recordId= #{tmcase.recordId,jdbcType=INTEGER}
+    </if>
+   
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_record
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_record
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseRecord" >
+    insert into trademark_case_record (recordId, id, custId, 
+      agencyId, caseType, status, 
+      statusDate, tmName, regNumber, 
+      appDate, regDate, rejectDate, 
+      validStartDate, validEndDate, objectionDate, 
+      applicantType, appGJdq, agentNum, 
+      agentPerson, appCnName, appEnName, 
+      appCertificate, appCertificateNum, appCertFileIsCn, 
+      appRegionalism, appCountryOrRegion, appCnAddr, 
+      appEnAddr, appContactPerson, appContactTel, 
+      appContaceFax, appContactZip, acceptPerson, 
+      acceptPersonAddr, acceptPersonZip, tmType, 
+      isDlbz, memberRule, memberNamelist, 
+      isAppWithDetectAbility, tmVoice, ifSolidTm, 
+      tmDesignDeclare, ifShareTm, priorityType, 
+      isLoadPriorityFile, priorityBaseCrty, priorityAppDate, 
+      priorityAppNum, imageFile, isPortraitAsApp, 
+      colorSign, goodClasses, approvalNumber, 
+      approvalDate, regNoticeNumber, createDate, 
+      submitType, appNumber, cotag, 
+      coagencyId, couserId, modifyTime, 
+      modifyUserName, modifyFlag)
+    values (#{recordId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, 
+      #{agencyId,jdbcType=INTEGER}, #{caseType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{statusDate,jdbcType=TIMESTAMP}, #{tmName,jdbcType=VARCHAR}, #{regNumber,jdbcType=VARCHAR}, 
+      #{appDate,jdbcType=TIMESTAMP}, #{regDate,jdbcType=TIMESTAMP}, #{rejectDate,jdbcType=TIMESTAMP}, 
+      #{validStartDate,jdbcType=TIMESTAMP}, #{validEndDate,jdbcType=TIMESTAMP}, #{objectionDate,jdbcType=TIMESTAMP}, 
+      #{applicantType,jdbcType=VARCHAR}, #{appGJdq,jdbcType=VARCHAR}, #{agentNum,jdbcType=VARCHAR}, 
+      #{agentPerson,jdbcType=VARCHAR}, #{appCnName,jdbcType=VARCHAR}, #{appEnName,jdbcType=VARCHAR}, 
+      #{appCertificate,jdbcType=VARCHAR}, #{appCertificateNum,jdbcType=VARCHAR}, #{appCertFileIsCn,jdbcType=VARCHAR}, 
+      #{appRegionalism,jdbcType=VARCHAR}, #{appCountryOrRegion,jdbcType=VARCHAR}, #{appCnAddr,jdbcType=VARCHAR}, 
+      #{appEnAddr,jdbcType=VARCHAR}, #{appContactPerson,jdbcType=VARCHAR}, #{appContactTel,jdbcType=VARCHAR}, 
+      #{appContaceFax,jdbcType=VARCHAR}, #{appContactZip,jdbcType=VARCHAR}, #{acceptPerson,jdbcType=VARCHAR}, 
+      #{acceptPersonAddr,jdbcType=VARCHAR}, #{acceptPersonZip,jdbcType=VARCHAR}, #{tmType,jdbcType=VARCHAR}, 
+      #{isDlbz,jdbcType=VARCHAR}, #{memberRule,jdbcType=VARCHAR}, #{memberNamelist,jdbcType=CHAR}, 
+      #{isAppWithDetectAbility,jdbcType=CHAR}, #{tmVoice,jdbcType=VARCHAR}, #{ifSolidTm,jdbcType=VARCHAR}, 
+      #{tmDesignDeclare,jdbcType=VARCHAR}, #{ifShareTm,jdbcType=VARCHAR}, #{priorityType,jdbcType=VARCHAR}, 
+      #{isLoadPriorityFile,jdbcType=VARCHAR}, #{priorityBaseCrty,jdbcType=VARCHAR}, #{priorityAppDate,jdbcType=TIMESTAMP}, 
+      #{priorityAppNum,jdbcType=VARCHAR}, #{imageFile,jdbcType=VARCHAR}, #{isPortraitAsApp,jdbcType=VARCHAR}, 
+      #{colorSign,jdbcType=VARCHAR}, #{goodClasses,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, 
+      #{approvalDate,jdbcType=TIMESTAMP}, #{regNoticeNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{submitType,jdbcType=VARCHAR}, #{appNumber,jdbcType=VARCHAR}, #{cotag,jdbcType=INTEGER}, 
+      #{coagencyId,jdbcType=INTEGER}, #{couserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyUserName,jdbcType=VARCHAR}, #{modifyFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseRecord" useGeneratedKeys="true" keyProperty="recordId" >
+    insert into trademark_case_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        recordId,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="custId != null" >
+        custId,
+      </if>
+      <if test="agencyId != null" >
+        agencyId,
+      </if>
+      <if test="caseType != null" >
+        caseType,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="statusDate != null" >
+        statusDate,
+      </if>
+      <if test="tmName != null" >
+        tmName,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="appDate != null" >
+        appDate,
+      </if>
+      <if test="regDate != null" >
+        regDate,
+      </if>
+      <if test="rejectDate != null" >
+        rejectDate,
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate,
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate,
+      </if>
+      <if test="objectionDate != null" >
+        objectionDate,
+      </if>
+      <if test="applicantType != null" >
+        applicantType,
+      </if>
+      <if test="appGJdq != null" >
+        appGJdq,
+      </if>
+      <if test="agentNum != null" >
+        agentNum,
+      </if>
+      <if test="agentPerson != null" >
+        agentPerson,
+      </if>
+      <if test="appCnName != null" >
+        appCnName,
+      </if>
+      <if test="appEnName != null" >
+        appEnName,
+      </if>
+      <if test="appCertificate != null" >
+        appCertificate,
+      </if>
+      <if test="appCertificateNum != null" >
+        appCertificateNum,
+      </if>
+      <if test="appCertFileIsCn != null" >
+        appCertFileIsCn,
+      </if>
+      <if test="appRegionalism != null" >
+        appRegionalism,
+      </if>
+      <if test="appCountryOrRegion != null" >
+        appCountryOrRegion,
+      </if>
+      <if test="appCnAddr != null" >
+        appCnAddr,
+      </if>
+      <if test="appEnAddr != null" >
+        appEnAddr,
+      </if>
+      <if test="appContactPerson != null" >
+        appContactPerson,
+      </if>
+      <if test="appContactTel != null" >
+        appContactTel,
+      </if>
+      <if test="appContaceFax != null" >
+        appContaceFax,
+      </if>
+      <if test="appContactZip != null" >
+        appContactZip,
+      </if>
+      <if test="acceptPerson != null" >
+        acceptPerson,
+      </if>
+      <if test="acceptPersonAddr != null" >
+        acceptPersonAddr,
+      </if>
+      <if test="acceptPersonZip != null" >
+        acceptPersonZip,
+      </if>
+      <if test="tmType != null" >
+        tmType,
+      </if>
+      <if test="isDlbz != null" >
+        isDlbz,
+      </if>
+      <if test="memberRule != null" >
+        memberRule,
+      </if>
+      <if test="memberNamelist != null" >
+        memberNamelist,
+      </if>
+      <if test="isAppWithDetectAbility != null" >
+        isAppWithDetectAbility,
+      </if>
+      <if test="tmVoice != null" >
+        tmVoice,
+      </if>
+      <if test="ifSolidTm != null" >
+        ifSolidTm,
+      </if>
+      <if test="tmDesignDeclare != null" >
+        tmDesignDeclare,
+      </if>
+      <if test="ifShareTm != null" >
+        ifShareTm,
+      </if>
+      <if test="priorityType != null" >
+        priorityType,
+      </if>
+      <if test="isLoadPriorityFile != null" >
+        isLoadPriorityFile,
+      </if>
+      <if test="priorityBaseCrty != null" >
+        priorityBaseCrty,
+      </if>
+      <if test="priorityAppDate != null" >
+        priorityAppDate,
+      </if>
+      <if test="priorityAppNum != null" >
+        priorityAppNum,
+      </if>
+      <if test="imageFile != null" >
+        imageFile,
+      </if>
+      <if test="isPortraitAsApp != null" >
+        isPortraitAsApp,
+      </if>
+      <if test="colorSign != null" >
+        colorSign,
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses,
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber,
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate,
+      </if>
+      <if test="regNoticeNumber != null" >
+        regNoticeNumber,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="submitType != null" >
+        submitType,
+      </if>
+      <if test="appNumber != null" >
+        appNumber,
+      </if>
+      <if test="cotag != null" >
+        cotag,
+      </if>
+      <if test="coagencyId != null" >
+        coagencyId,
+      </if>
+      <if test="couserId != null" >
+        couserId,
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyUserName != null" >
+        modifyUserName,
+      </if>
+      <if test="modifyFlag != null" >
+        modifyFlag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseType != null" >
+        #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null" >
+        #{statusDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmName != null" >
+        #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectDate != null" >
+        #{rejectDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectionDate != null" >
+        #{objectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicantType != null" >
+        #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="appGJdq != null" >
+        #{appGJdq,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNum != null" >
+        #{agentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPerson != null" >
+        #{agentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificate != null" >
+        #{appCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificateNum != null" >
+        #{appCertificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertFileIsCn != null" >
+        #{appCertFileIsCn,jdbcType=VARCHAR},
+      </if>
+      <if test="appRegionalism != null" >
+        #{appRegionalism,jdbcType=VARCHAR},
+      </if>
+      <if test="appCountryOrRegion != null" >
+        #{appCountryOrRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnAddr != null" >
+        #{appCnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnAddr != null" >
+        #{appEnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactPerson != null" >
+        #{appContactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactTel != null" >
+        #{appContactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="appContaceFax != null" >
+        #{appContaceFax,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactZip != null" >
+        #{appContactZip,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPerson != null" >
+        #{acceptPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonAddr != null" >
+        #{acceptPersonAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonZip != null" >
+        #{acceptPersonZip,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDlbz != null" >
+        #{isDlbz,jdbcType=VARCHAR},
+      </if>
+      <if test="memberRule != null" >
+        #{memberRule,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNamelist != null" >
+        #{memberNamelist,jdbcType=CHAR},
+      </if>
+      <if test="isAppWithDetectAbility != null" >
+        #{isAppWithDetectAbility,jdbcType=CHAR},
+      </if>
+      <if test="tmVoice != null" >
+        #{tmVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="ifSolidTm != null" >
+        #{ifSolidTm,jdbcType=VARCHAR},
+      </if>
+      <if test="tmDesignDeclare != null" >
+        #{tmDesignDeclare,jdbcType=VARCHAR},
+      </if>
+      <if test="ifShareTm != null" >
+        #{ifShareTm,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityType != null" >
+        #{priorityType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLoadPriorityFile != null" >
+        #{isLoadPriorityFile,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityBaseCrty != null" >
+        #{priorityBaseCrty,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityAppDate != null" >
+        #{priorityAppDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priorityAppNum != null" >
+        #{priorityAppNum,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFile != null" >
+        #{imageFile,jdbcType=VARCHAR},
+      </if>
+      <if test="isPortraitAsApp != null" >
+        #{isPortraitAsApp,jdbcType=VARCHAR},
+      </if>
+      <if test="colorSign != null" >
+        #{colorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        #{goodClasses,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null" >
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNoticeNumber != null" >
+        #{regNoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitType != null" >
+        #{submitType,jdbcType=VARCHAR},
+      </if>
+      <if test="appNumber != null" >
+        #{appNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cotag != null" >
+        #{cotag,jdbcType=INTEGER},
+      </if>
+      <if test="coagencyId != null" >
+        #{coagencyId,jdbcType=INTEGER},
+      </if>
+      <if test="couserId != null" >
+        #{couserId,jdbcType=INTEGER},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserName != null" >
+        #{modifyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyFlag != null" >
+        #{modifyFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseRecord" >
+    update trademark_case_record
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        custId = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        agencyId = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseType != null" >
+        caseType = #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null" >
+        statusDate = #{statusDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmName != null" >
+        tmName = #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        appDate = #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        regDate = #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectDate != null" >
+        rejectDate = #{rejectDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectionDate != null" >
+        objectionDate = #{objectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicantType != null" >
+        applicantType = #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="appGJdq != null" >
+        appGJdq = #{appGJdq,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNum != null" >
+        agentNum = #{agentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPerson != null" >
+        agentPerson = #{agentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        appCnName = #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        appEnName = #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificate != null" >
+        appCertificate = #{appCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertificateNum != null" >
+        appCertificateNum = #{appCertificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="appCertFileIsCn != null" >
+        appCertFileIsCn = #{appCertFileIsCn,jdbcType=VARCHAR},
+      </if>
+      <if test="appRegionalism != null" >
+        appRegionalism = #{appRegionalism,jdbcType=VARCHAR},
+      </if>
+      <if test="appCountryOrRegion != null" >
+        appCountryOrRegion = #{appCountryOrRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnAddr != null" >
+        appCnAddr = #{appCnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnAddr != null" >
+        appEnAddr = #{appEnAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactPerson != null" >
+        appContactPerson = #{appContactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactTel != null" >
+        appContactTel = #{appContactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="appContaceFax != null" >
+        appContaceFax = #{appContaceFax,jdbcType=VARCHAR},
+      </if>
+      <if test="appContactZip != null" >
+        appContactZip = #{appContactZip,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPerson != null" >
+        acceptPerson = #{acceptPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonAddr != null" >
+        acceptPersonAddr = #{acceptPersonAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPersonZip != null" >
+        acceptPersonZip = #{acceptPersonZip,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        tmType = #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDlbz != null" >
+        isDlbz = #{isDlbz,jdbcType=VARCHAR},
+      </if>
+      <if test="memberRule != null" >
+        memberRule = #{memberRule,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNamelist != null" >
+        memberNamelist = #{memberNamelist,jdbcType=CHAR},
+      </if>
+      <if test="isAppWithDetectAbility != null" >
+        isAppWithDetectAbility = #{isAppWithDetectAbility,jdbcType=CHAR},
+      </if>
+      <if test="tmVoice != null" >
+        tmVoice = #{tmVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="ifSolidTm != null" >
+        ifSolidTm = #{ifSolidTm,jdbcType=VARCHAR},
+      </if>
+      <if test="tmDesignDeclare != null" >
+        tmDesignDeclare = #{tmDesignDeclare,jdbcType=VARCHAR},
+      </if>
+      <if test="ifShareTm != null" >
+        ifShareTm = #{ifShareTm,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityType != null" >
+        priorityType = #{priorityType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLoadPriorityFile != null" >
+        isLoadPriorityFile = #{isLoadPriorityFile,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityBaseCrty != null" >
+        priorityBaseCrty = #{priorityBaseCrty,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityAppDate != null" >
+        priorityAppDate = #{priorityAppDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priorityAppNum != null" >
+        priorityAppNum = #{priorityAppNum,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFile != null" >
+        imageFile = #{imageFile,jdbcType=VARCHAR},
+      </if>
+      <if test="isPortraitAsApp != null" >
+        isPortraitAsApp = #{isPortraitAsApp,jdbcType=VARCHAR},
+      </if>
+      <if test="colorSign != null" >
+        colorSign = #{colorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="goodClasses != null" >
+        goodClasses = #{goodClasses,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNoticeNumber != null" >
+        regNoticeNumber = #{regNoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitType != null" >
+        submitType = #{submitType,jdbcType=VARCHAR},
+      </if>
+      <if test="appNumber != null" >
+        appNumber = #{appNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cotag != null" >
+        cotag = #{cotag,jdbcType=INTEGER},
+      </if>
+      <if test="coagencyId != null" >
+        coagencyId = #{coagencyId,jdbcType=INTEGER},
+      </if>
+      <if test="couserId != null" >
+        couserId = #{couserId,jdbcType=INTEGER},
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserName != null" >
+        modifyUserName = #{modifyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyFlag != null" >
+        modifyFlag = #{modifyFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseRecord" >
+    update trademark_case_record
+    set id = #{id,jdbcType=INTEGER},
+      custId = #{custId,jdbcType=INTEGER},
+      agencyId = #{agencyId,jdbcType=INTEGER},
+      caseType = #{caseType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      statusDate = #{statusDate,jdbcType=TIMESTAMP},
+      tmName = #{tmName,jdbcType=VARCHAR},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      appDate = #{appDate,jdbcType=TIMESTAMP},
+      regDate = #{regDate,jdbcType=TIMESTAMP},
+      rejectDate = #{rejectDate,jdbcType=TIMESTAMP},
+      validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      objectionDate = #{objectionDate,jdbcType=TIMESTAMP},
+      applicantType = #{applicantType,jdbcType=VARCHAR},
+      appGJdq = #{appGJdq,jdbcType=VARCHAR},
+      agentNum = #{agentNum,jdbcType=VARCHAR},
+      agentPerson = #{agentPerson,jdbcType=VARCHAR},
+      appCnName = #{appCnName,jdbcType=VARCHAR},
+      appEnName = #{appEnName,jdbcType=VARCHAR},
+      appCertificate = #{appCertificate,jdbcType=VARCHAR},
+      appCertificateNum = #{appCertificateNum,jdbcType=VARCHAR},
+      appCertFileIsCn = #{appCertFileIsCn,jdbcType=VARCHAR},
+      appRegionalism = #{appRegionalism,jdbcType=VARCHAR},
+      appCountryOrRegion = #{appCountryOrRegion,jdbcType=VARCHAR},
+      appCnAddr = #{appCnAddr,jdbcType=VARCHAR},
+      appEnAddr = #{appEnAddr,jdbcType=VARCHAR},
+      appContactPerson = #{appContactPerson,jdbcType=VARCHAR},
+      appContactTel = #{appContactTel,jdbcType=VARCHAR},
+      appContaceFax = #{appContaceFax,jdbcType=VARCHAR},
+      appContactZip = #{appContactZip,jdbcType=VARCHAR},
+      acceptPerson = #{acceptPerson,jdbcType=VARCHAR},
+      acceptPersonAddr = #{acceptPersonAddr,jdbcType=VARCHAR},
+      acceptPersonZip = #{acceptPersonZip,jdbcType=VARCHAR},
+      tmType = #{tmType,jdbcType=VARCHAR},
+      isDlbz = #{isDlbz,jdbcType=VARCHAR},
+      memberRule = #{memberRule,jdbcType=VARCHAR},
+      memberNamelist = #{memberNamelist,jdbcType=CHAR},
+      isAppWithDetectAbility = #{isAppWithDetectAbility,jdbcType=CHAR},
+      tmVoice = #{tmVoice,jdbcType=VARCHAR},
+      ifSolidTm = #{ifSolidTm,jdbcType=VARCHAR},
+      tmDesignDeclare = #{tmDesignDeclare,jdbcType=VARCHAR},
+      ifShareTm = #{ifShareTm,jdbcType=VARCHAR},
+      priorityType = #{priorityType,jdbcType=VARCHAR},
+      isLoadPriorityFile = #{isLoadPriorityFile,jdbcType=VARCHAR},
+      priorityBaseCrty = #{priorityBaseCrty,jdbcType=VARCHAR},
+      priorityAppDate = #{priorityAppDate,jdbcType=TIMESTAMP},
+      priorityAppNum = #{priorityAppNum,jdbcType=VARCHAR},
+      imageFile = #{imageFile,jdbcType=VARCHAR},
+      isPortraitAsApp = #{isPortraitAsApp,jdbcType=VARCHAR},
+      colorSign = #{colorSign,jdbcType=VARCHAR},
+      goodClasses = #{goodClasses,jdbcType=VARCHAR},
+      approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      regNoticeNumber = #{regNoticeNumber,jdbcType=VARCHAR},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      submitType = #{submitType,jdbcType=VARCHAR},
+      appNumber = #{appNumber,jdbcType=VARCHAR},
+      cotag = #{cotag,jdbcType=INTEGER},
+      coagencyId = #{coagencyId,jdbcType=INTEGER},
+      couserId = #{couserId,jdbcType=INTEGER},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      modifyUserName = #{modifyUserName,jdbcType=VARCHAR},
+      modifyFlag = #{modifyFlag,jdbcType=INTEGER}
+    where recordId = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>

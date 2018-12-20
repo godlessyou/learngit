@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.agency.dao.AgencyUserMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.agency.model.AgencyUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="agencyId" property="agencyId" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, agencyId, userId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from agency_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from agency_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.agency.model.AgencyUser" >
+    insert into agency_user (id, agencyId, userId
+      )
+    values (#{id,jdbcType=INTEGER}, #{agencyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.agency.model.AgencyUser" useGeneratedKeys="true" keyProperty="id">
+    insert into agency_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="agencyId != null" >
+        agencyId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.agency.model.AgencyUser" >
+    update agency_user
+    <set >
+      <if test="agencyId != null" >
+        agencyId = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.agency.model.AgencyUser" >
+    update agency_user
+    set agencyId = #{agencyId,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByAgencyAndUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select count(id) from agency_user 
+  where agencyId=#{agencyId,jdbcType=INTEGER}
+  and userId=#{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectUserCountByAgencId"	parameterType="java.lang.Integer" resultType="java.lang.Integer">
+   SELECT COUNT(id) FROM agency_user WHERE agencyId= #{agencyId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAgencyIdByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select agencyId
+    from agency_user
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByUserId" parameterType="java.lang.Integer" >
+    delete from agency_user
+    where userId = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectUserIdByAgencyId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select userId from agency_user 
+  where agencyId=#{agencyId,jdbcType=INTEGER}
+  </select>
+</mapper>

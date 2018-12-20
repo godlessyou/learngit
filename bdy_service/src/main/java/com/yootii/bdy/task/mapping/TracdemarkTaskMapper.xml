@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.task.dao.TracdemarkTaskMapper" >
+	<resultMap id="baseResultMap" type="com.yootii.bdy.trademark.model.Trademark">
+		<id column="tmId" property="tmId" jdbcType="INTEGER"/>
+		<result column="validStartDate" property="validStartDate"/>
+		<result column="validEndDate" property="validEndDate"/>
+		<result column="tmName" property="tmName"/>
+	</resultMap>   
+	
+	<resultMap  id="notificationResultMap" type="com.yootii.bdy.task.model.MailInfor">
+		<id column="userId" property="userId" jdbcType="INTEGER"/>
+		<collection property="list" ofType="com.yootii.bdy.task.model.Notification" javaType="java.util.ArrayList">
+			<id column="id" property="id" jdbcType="INTEGER"/>
+			<result column="tmId" property="tmId" jdbcType="INTEGER"/>
+			<result column="tmName" property="tmName" jdbcType="VARCHAR"/>
+			<result column="status" property="status" jdbcType="INTEGER"/>
+			<result column="tmDeadTime" property="tmDeadTime" jdbcType="TIMESTAMP"/>
+			<result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+			<result column="tmType" property="tmType" jdbcType="TIMESTAMP"/>
+			<result column="imgFilePath" property="imgFilePath" jdbcType="VARCHAR"/>
+			<result column="appDate" property="appDate" jdbcType="TIMESTAMP"/>
+			<result column="appId" property="appId" jdbcType="INTEGER"/>
+			<result column="applicantName" property="applicantName" jdbcType="VARCHAR"/>
+			<result column="applicantEnName" property="applicantEnName" jdbcType="VARCHAR"/>
+			<result column="email" property="email" jdbcType="VARCHAR"/>
+			<result column="name" property="name" jdbcType="VARCHAR"/>
+			<result column="contactName" property="contactName" jdbcType="VARCHAR"/>
+		</collection>
+	</resultMap>
+	
+	 <resultMap  id="mailDTOResultMap" type="com.yootii.bdy.task.model.MailDTO">
+	 		<result column="custId" property="custId"/>
+			<result column="toAddress" property="toAddress" jdbcType="VARCHAR"/>
+			<result column="customerName" property="customerName" jdbcType="VARCHAR"/>
+			<result column="toPerson" property="toPerson" jdbcType="VARCHAR"/>
+		<collection property="contents" ofType="com.yootii.bdy.trademark.model.Trademark" javaType="java.util.ArrayList">
+			<result column="tmId" property="tmId"/>
+			<result column="regNumber" property="regNumber"/>
+			<result column="tmType" property="tmType"/>
+			<result column="appDate" property="appDate"/>
+			<result column="validEndDate" property="validEndDate"/>
+			<result column="imgFileUrl" property="imgFileUrl"/>
+			<result column="applicantName" property="applicantName"/>
+		</collection>
+	</resultMap> 
+	
+	<resultMap  id="dataResult"  type="java.util.HashMap">
+		<id column="id" property="id"/>
+		<result column="tmId" property="tmId"/>
+		<result column="tmName" property="tmName"/>
+		<result column="batchNo" property="batchNo"/>
+		<result column="tmType" property="tmType"/>
+		<result column="regNumber" property="regNumber"/>
+		<result column="imgFilePath" property="imgFilePath"/>
+		<result column="appDate" property="appDate" jdbcType="TIMESTAMP"/>
+		<result column="validEndDate" property="validEndDate" jdbcType="TIMESTAMP"/>
+		<result column="applicantName" property="applicantName"/>
+		<result column="applicantEnName" property="applicantEnName"/>
+		<result column="no" property="no"/>
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<resultMap id="renewalRemindResult" type="java.util.HashMap">
+			<id column="reId" property="reId"/>
+			<result column="custId"  property="custId"/>
+			<result column="userId"  property="userId"/>
+			<result column="toAddress"  property="toAddress"/>
+			<result column="fromAddress"  property="fromAddress"/>
+			<result column="subject"  property="subject"/>
+			<result column="batchNo"  property="batchNo"/>
+			<result column="mailStatus"  property="mailStatus"/>
+			<result column="failReason"  property="failReason"/>
+			<result column="createTime"  property="createTime" jdbcType="DATE"/>
+			<result column="mailPath"  property="mailPath"/>
+			<result column="count"  property="count"/>
+
+			<!-- <result column="tmName"  property="tmName"/>
+			<result column="status"  property="status"/>
+			<result column="tmDeadTime"  property="tmDeadTime" jdbcType="DATE"/>
+			<result column="tmId"  property="tmId"/> -->
+			<result column="name" property="name"/>
+	</resultMap>
+  
+  <!--查询符合条件的商标  -->
+  	<select id="selectTMByDate" resultMap="baseResultMap">
+  		SELECT tmId,
+  			   validStartDate,
+  			   date(validEndDate) AS validEndDate,
+  			   tmName
+		FROM trademark
+		WHERE validEndDate &gt;#{beforeDate}
+			  AND  validEndDate &lt;#{afterDate}
+		ORDER BY validEndDate DESC
+  	</select>
+  	<!-- 判断是否已经存在 -->
+  	<select id="isRepeat" parameterType="java.util.HashMap" resultType="int">
+			SELECT count(a.id)
+			FROM(
+				SELECT *,date(tmDeadTime) AS deadTime  
+				FROM notification 
+				WHERE tmId = #{tmId} 
+				AND  tmName = #{tmName}
+				)a
+			WHERE 
+				1=1
+				<if test="validatEndDate!=null ">
+				AND	deadTime = #{validatEndDate}
+				</if>
+  	</select>
+  	
+  	<!-- 批量生成商标通知 -->
+  	<insert id="insert" parameterType="java.util.List">
+  		insert into 
+  		notification(
+  					tmId,tmName,tmDeadTime,batchNo,createTime
+  					)
+  		values 
+  			<foreach collection="list" separator="," item="item" index="index">
+  				(#{item.tmId},
+  				 #{item.tmName},
+  				 #{item.tmDeadTime},
+  				 #{item.batchNo},
+  				 SYSDATE()) 
+  			</foreach>
+  	</insert>
+  	
+  	<!-- 查询 商标续展通知列表 -->
+  	<select id="selectNotificationList" resultMap="notificationResultMap" parameterType="int">
+		SELECT  a.id,
+				a.tmName,
+				a.tmDeadTime,
+				a.createTime,
+				a.status,
+				b.tmId,
+				b.tmType,
+				b.imgFilePath,
+				b.appDate,
+				c.id AS appId,
+				c.applicantName,
+				c.applicantEnName,
+				e.`name`,
+				e.email,
+				f.name AS contactName,
+				h.userId
+		FROM notification a LEFT JOIN trademark b
+			ON a.tmId = b.tmId LEFT JOIN  applicant c
+			ON b.applicantName = c.applicantName LEFT JOIN customer_applicant d
+			ON c.mainAppId = d.appId LEFT JOIN customer e
+			ON d.custId = e.id LEFT JOIN customer_contact f
+			ON e.id = f.custId LEFT JOIN user_customer g 
+			ON e.id = g.custId LEFT JOIN `user` h 
+			ON g.userId = h.userId
+		WHERE 1=1
+		<if test="time==1"> <!-- 获取当天的数据 -->
+		  AND  a.createTime = CURDATE() 
+		</if>
+		ORDER BY a.createTime DESC
+  	</select>
+  	
+  	
+  	<!-- 关联查询 -->
+  	<select id="selectTmForMails" resultMap="mailDTOResultMap" >
+  		SELECT c.name AS customerName,
+		  		c.email AS toAddress,
+		  		b.custId,
+		  		d.name AS toPerson,
+		  		a.applicantName,
+		  		e.tmId,
+		  		e.regNumber,
+		  		e.tmType,
+		  		e.appDate,
+		  		e.validEndDate,
+		  		e.imgFileUrl
+		FROM (
+				SELECT id,mainAppId,applicantName
+				FROM applicant 
+				where applicantName in(
+									SELECT a.applicantName
+									from trademark a RIGHT JOIN notification b
+									ON a.tmId = b.tmId
+									<!--  WHERE b.createTime =CURDATE()   -->
+									WHERE b.createTime BETWEEN (SELECT DATE_ADD(NOW(),INTERVAL-1 MONTH)) AND NOW()
+									)
+		)a LEFT JOIN customer_applicant b
+		ON a.mainAppId = b.appId LEFT JOIN customer c
+		ON b.custId = c.id LEFT JOIN customer_contact d
+		ON b.custId = d.custId LEFT JOIN trademark e
+		ON a.applicantName = e.applicantName
+		  	
+  	</select>
+  		
+  	<!-- 根据custId 查询userId -->
+  	<select id="queryUserByCustId" resultType="Integer" parameterType="int">
+  		SELECT  b.userId
+		FROM user_customer a LEFT JOIN `user` b
+			 ON a.userId = b.userId
+		WHERE a.custId = #{custId}
+		LIMIT  0,1
+  	</select>
+  	
+  	<select id="queryNotification" parameterType="Integer" resultMap="dataResult">
+		SELECT 
+			a.id,
+			a.tmId,
+			a.tmName,
+			a.batchNo,
+			a.createTime,
+			
+			b.tmType,
+			b.regNumber,
+			b.imgFilePath,
+			b.appDate,
+			b.validEndDate,
+			
+			b.applicantName,
+			b.applicantEnName
+		
+		FROM notification a,trademark b
+	    WHERE
+	    a.tmId = b.tmId 
+	    and b.applicantName in
+	    ( 	
+	        select applicantName from applicant a,customer_applicant b
+	        where  
+	        b.appId=a.mainAppId
+	        and b.custId=#{custId}
+	    )
+			AND batchNO =(select max(batchNo) from notification)
+    	and b.regNumber not in (SELECT  regNumber from trademark_case WHERE caseType ='商标续展')	
+  	</select>
+  	
+  	
+  	<select id="queryRenewalRemindList" resultMap="renewalRemindResult">
+  		
+		 SELECT a.*,b.name
+		FROM remind_record a LEFT JOIN customer b
+		ON a.custId = b.id
+		where b.id= #{custId} 
+		<if test="gcon.type != null and gcon.type!=''">
+			<bind name="gcon.type" value="gcon.type"/>
+			AND a.type=#{gcon.type}
+		</if>
+		<if test="gcon.createTime!=null and gcon.createTime!=''">
+			<bind name="gcon.createTime" value="gcon.createTime"/>
+			AND date(a.createTime) = #{gcon.createTime}
+		</if>
+		<!-- keyword 过滤 -->
+		<if test="gcon.keyword!=null and gcon.keyword!=''">
+			<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				  and (
+						subject like #{gcon.keyword,jdbcType=VARCHAR} or
+						b.name like #{gcon.keyword,jdbcType=VARCHAR}
+					 )
+		</if>
+    	
+		<if test="gcon.rows != null and gcon.offset!='' ">
+		<bind name="gcon.rows" value="gcon.rows"/>
+		<bind name="gcon.offset" value="gcon.offset"/>
+		 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+		</if>
+  	</select>
+  	
+  	<select id="queryRenewalRemindListCount" resultType="Long">
+  		SELECT COUNT(reId)
+		FROM remind_record a LEFT JOIN customer b
+		ON a.custId = b.id
+		where custId= #{custId}
+		<if test="gcon.type!=null and gcon.type!=''">
+		<bind name="gcon.type" value="gcon.type"/>
+			AND type= #{gcon.type,jdbcType=VARCHAR}
+		</if>
+		<if test="gcon.createTime!= null and gcon.createTime!=''">
+		<bind name="gcon.createTime" value="gcon.createTime"/>
+			AND date(a.createTime) = #{gcon.createTime,jdbcType=VARCHAR}
+		</if>
+		<!-- keyword 过滤 -->
+			 <if test="gcon.keyword!= null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				  and (
+						subject like #{gcon.keyword,jdbcType=VARCHAR} or
+						b.name like #{gcon.keyword,jdbcType=VARCHAR}
+					 )
+			</if>
+  	</select>
+  	
+  	
+  	<!--定时拉取商标流程数据    从trademark_process表-->
+  	<select id="queryTmProcess" resultType="java.util.HashMap">
+  		SELECT id,
+  			status,
+  			statusDate,
+  			tmId,
+  			regNumber,
+  			spwNumber,
+  			bussName
+		FROM trademark_process
+		WHERE 	`status` LIKE #{status}
+			AND	 statusDate BETWEEN #{beganDate} AND #{endDate}
+		ORDER BY statusDate DESC
+  	</select>
+  	<!--定时拉取商标流程 被驳回 数据    从trademark_process表-->
+  	<select id="queryRejectTmProcess" resultType="java.util.HashMap" parameterType="java.util.Map">
+  		SELECT id,
+  			status,
+  			statusDate,
+  			tmId,
+  			regNumber,
+  			spwNumber,
+  			bussName
+		FROM trademark_process
+		WHERE 	`status` LIKE #{status1} OR 
+				`status` LIKE #{status2} OR
+				`status` LIKE #{status3} OR
+				`status` LIKE #{status4} OR
+				`status` LIKE #{status5} 
+			AND	 statusDate BETWEEN #{beganDate} AND #{endDate}
+		ORDER BY statusDate DESC
+  	</select>
+  	
+  	<select id="queryTmAbnormal" resultType="java.util.HashMap">
+		SELECT id,
+			tmId,
+			tmProcessId,
+			regNum,
+			abnormalType,
+			isDelete,
+			statusDate,
+			createDate,
+			modifyUser,
+			modifyDate
+		FROM tm_abnormal
+		WHERE  abnormalType = #{abnormalType} 
+				AND date(createDate) &gt;= #{beganDate} 
+				AND date(createDate) &lt;= #{endDate}
+  	</select>
+  	
+  	
+  	<insert id="insertTmAbnormal" parameterType="java.util.HashMap">
+		INSERT INTO 
+			tm_abnormal(
+						tmId,
+						tmProcessId,
+						regNum,
+						abnormalType,
+						statusDate,
+						createDate
+					)
+					VALUES(
+						#{tmId},
+						#{id},
+						#{regNumber},
+						#{abnormalType},
+						#{statusDate},
+						 SYSDATE()
+						)
+  	</insert>
+  	
+  	<!-- 判断是否 在abnormal表中存在-->
+  	<select id="isExist" parameterType="java.util.Map" resultType="int">
+  		SELECT count(id) FROM tm_abnormal
+  		WHERE 
+  		<!-- regNum=#{regNum} -->
+  		tmId= #{tmId}
+  		AND abnormalType = #{abnormalType} 
+		AND date(createDate) &gt;= #{beganDate} 
+		AND date(createDate) &lt;= #{endDate} 
+  	</select>
+  	
+  	<!-- 查询 公告表中信息 -->
+  	<select id="queryGongGao" resultType="java.util.HashMap">
+  		<!-- SELECT a.id,
+  			   a.ggTypeId,
+  			   a.ggQihao,
+  			   a.ggDate,
+  			   a.regNumber,
+  			   a.tmName,
+  			   a.tmType,
+  			   a.agent,
+  			   a.appCnName,
+  			   b.ggType
+		FROM trademark_gonggao a,trademark_gonggao_type b
+		WHERE a.ggTypeId = b.ggTypeId
+		AND b.ggTypeId = 1
+		AND a.appCnName in (
+				SELECT  DISTINCT a.applicantName FROM applicant a 
+			)
+		ORDER BY a.ggQihao DESC -->
+		
+		SELECT a.*,b.custId
+		FROM 
+		(
+		SELECT a.id,a.ggTypeId,a.ggQihao,a.ggDate,a.regNumber,a.tmName,a.tmType,a.agent,a.appCnName,a.appDate,
+					a.appEnName,
+					a.imagePath,
+					b.ggType
+		FROM trademark_gonggao a,trademark_gonggao_type b
+		WHERE 
+		a.ggQihao = (SELECT MAX(ggQihao) FROM trademark_gonggao)
+		AND a.ggTypeId = b.ggTypeId
+		AND b.ggTypeId in(1,5)
+		AND a.appCnName in (
+				SELECT  DISTINCT a.applicantName FROM applicant a 
+			)
+		) a ,
+
+	(	SELECT DISTINCT a.applicantName,b.custId
+		FROM applicant a , customer_applicant b
+		WHERE a.mainAppId = b.appId
+	) b
+		WHERE a.appCnName = b.applicantName
+		ORDER BY a.ggQihao DESC
+  	</select>
+  	<!-- 查询公告提醒表 -->
+  	<select id="queryAnnouncementRemind" resultType="java.util.HashMap">
+  		SELECT * from announcement_remind
+  		ORDER BY ggQihao DESC
+  	</select>
+  	
+  	<!-- 插入公告生成公告表 -->
+  	<insert id="insertAnnouncementRemind" parameterType="java.util.List">
+  		INSERT INTO announcement_remind(ggId,
+  										regNumber,
+  										tmName,
+  										tmType,
+  										ggTypeName,
+  										ggTypeId,
+  										ggDate,
+  										ggQihao,
+  										accept,
+  										acceptId,
+  										agent,
+  										appDate,
+  										imagePath,
+  										appEnName,
+  										createDate
+  										)
+  			   VALUES
+  			   	 <foreach collection="list" separator="," item="item" index="index">
+  			   		(
+  			   			#{item.id},
+  			   			#{item.regNumber},
+  			   			#{item.tmName},
+  			   			#{item.tmType},
+  			   			#{item.ggType},
+  			   			#{item.ggTypeId},
+  			   			#{item.ggDate},
+  			   			#{item.ggQihao},
+  			   			#{item.appCnName},
+  			   			#{item.custId},
+  			   			#{item.agent},
+  			   			#{item.appDate},
+  			   			#{item.imagePath},
+  			   			#{item.appEnName},
+  			   			SYSDATE()
+  			   			)
+  			   	</foreach>
+    	</insert>
+
+  		<select id="isExists" resultType="int">
+  			select count(id) from announcement_remind
+  			where ggId = #{ggId}
+  		</select>
+  	
+  	
+  	
+</mapper>

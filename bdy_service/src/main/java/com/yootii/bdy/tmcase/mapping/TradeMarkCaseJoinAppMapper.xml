@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseJoinAppMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="joinAppType" property="joinAppType" jdbcType="VARCHAR" />
+    <result column="joinAppCoun" property="joinAppCoun" jdbcType="VARCHAR" />
+    <result column="nameCn" property="nameCn" jdbcType="VARCHAR" />
+    <result column="nameEn" property="nameEn" jdbcType="VARCHAR" />
+    <result column="addrCn" property="addrCn" jdbcType="VARCHAR" />
+    <result column="addrEn" property="addrEn" jdbcType="VARCHAR" />
+    <result column="cardName" property="cardName" jdbcType="VARCHAR" />
+    <result column="cardId" property="cardId" jdbcType="VARCHAR" />
+    <result column="getFileIsEn" property="getFileIsEn" jdbcType="VARCHAR" />
+    <result column="custId" property="custId" jdbcType="INTEGER" />
+    <result column="agencyId" property="agencyId" jdbcType="INTEGER" />
+    <result column="casePreId" property="casePreId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, caseId, joinAppType, joinAppCoun, nameCn, nameEn, addrCn, addrEn, cardName, 
+    cardId, getFileIsEn, custId, agencyId, casePreId,type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_join_app
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCustIdAndAgencyId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_join_app
+    where custId = #{custId,jdbcType=INTEGER} 
+    and agencyId = #{agencyId,jdbcType=INTEGER}
+    and caseId is null
+  </select>
+  <select id="selectByCasePreId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_join_app
+    where casePreId = #{casePreId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTradeMarkCaseJoinApp" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_join_app
+    where 1=1
+    <if test="casePreId!=null">
+    	and casePreId = #{casePreId,jdbcType=INTEGER}
+    </if>
+    <if test="caseId!=null">
+    	and caseId = #{caseId,jdbcType=INTEGER}
+    </if>
+    <if test="custId!=null">
+    	and custId = #{custId,jdbcType=INTEGER}
+    </if>
+    <if test="agencyId!=null">
+    	and agencyId = #{agencyId,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <delete id="deleteByCaseId" parameterType="java.lang.Integer" >
+    delete from trademark_case_join_app
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_join_app
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByCustIdAndAgencyId" >
+    delete from trademark_case_join_app
+    where custId = #{custId,jdbcType=INTEGER} 
+    and agencyId = #{agencyId,jdbcType=INTEGER}
+    and caseId is null
+    and casePreId &lt; #{casePreId,jdbcType=INTEGER} 
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" >
+    insert into trademark_case_join_app (id, caseId, 
+      joinAppType, joinAppCoun, nameCn, 
+      nameEn, addrCn, addrEn, 
+      cardName, cardId, getFileIsEn, custId, agencyId, casePreId,
+      type
+      )
+    values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, 
+      #{joinAppType,jdbcType=VARCHAR}, #{joinAppCoun,jdbcType=VARCHAR}, #{nameCn,jdbcType=VARCHAR}, 
+      #{nameEn,jdbcType=VARCHAR}, #{addrCn,jdbcType=VARCHAR}, #{addrEn,jdbcType=VARCHAR}, 
+      #{cardName,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, #{getFileIsEn,jdbcType=VARCHAR},
+      #{custId,jdbcType=INTEGER},#{agencyId,jdbcType=INTEGER},#{casePreId,jdbcType=INTEGER},#{type,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" 
+  useGeneratedKeys="true" keyProperty="id" >
+    insert into trademark_case_join_app
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="joinAppType != null" >
+        joinAppType,
+      </if>
+      <if test="joinAppCoun != null" >
+        joinAppCoun,
+      </if>
+      <if test="nameCn != null" >
+        nameCn,
+      </if>
+      <if test="nameEn != null" >
+        nameEn,
+      </if>
+      <if test="addrCn != null" >
+        addrCn,
+      </if>
+      <if test="addrEn != null" >
+        addrEn,
+      </if>
+      <if test="cardName != null" >
+        cardName,
+      </if>
+      <if test="cardId != null" >
+        cardId,
+      </if>
+      <if test="getFileIsEn != null" >
+        getFileIsEn,
+      </if>
+      <if test="custId != null" >
+        custId,
+      </if>
+      <if test="agencyId != null" >
+        agencyId,
+      </if>
+      <if test="casePreId != null" >
+        casePreId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="joinAppType != null" >
+        #{joinAppType,jdbcType=VARCHAR},
+      </if>
+      <if test="joinAppCoun != null" >
+        #{joinAppCoun,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCn != null" >
+        #{nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCn != null" >
+        #{addrCn,jdbcType=VARCHAR},
+      </if>
+      <if test="addrEn != null" >
+        #{addrEn,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="getFileIsEn != null" >
+        #{getFileIsEn,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="casePreId != null" >
+        #{casePreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+      	#{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="copyTmCaseJoinAppRecord" >
+    insert into trademark_case_join_app (caseId, joinAppType, joinAppCoun, nameCn, 
+      nameEn, addrCn, addrEn, cardName, cardId, getFileIsEn, custId, agencyId, casePreId,type)
+	select #{assoCaseId,jdbcType=INTEGER},joinAppType, joinAppCoun, nameCn, 
+      nameEn, addrCn, addrEn, cardName, cardId, getFileIsEn, custId, #{agencyId,jdbcType=INTEGER}, casePreId,type
+      from trademark_case_join_app
+      where caseId=#{caseId,jdbcType=INTEGER}
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" >
+    update trademark_case_join_app
+    <set >
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="joinAppType != null" >
+        joinAppType = #{joinAppType,jdbcType=VARCHAR},
+      </if>
+      <if test="joinAppCoun != null" >
+        joinAppCoun = #{joinAppCoun,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCn != null" >
+        nameCn = #{nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        nameEn = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCn != null" >
+        addrCn = #{addrCn,jdbcType=VARCHAR},
+      </if>
+      <if test="addrEn != null" >
+        addrEn = #{addrEn,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        cardName = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        cardId = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="getFileIsEn != null" >
+        getFileIsEn = #{getFileIsEn,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        custId = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null" >
+        agencyId = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="casePreId != null" >
+        casePreId = #{casePreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >	
+      	type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseJoinApp" >
+    update trademark_case_join_app
+    set
+      caseId = #{caseId,jdbcType=INTEGER},
+      joinAppType = #{joinAppType,jdbcType=VARCHAR},
+      joinAppCoun = #{joinAppCoun,jdbcType=VARCHAR},
+      nameCn = #{nameCn,jdbcType=VARCHAR},
+      nameEn = #{nameEn,jdbcType=VARCHAR},
+      addrCn = #{addrCn,jdbcType=VARCHAR},
+      addrEn = #{addrEn,jdbcType=VARCHAR},
+      cardName = #{cardName,jdbcType=VARCHAR},
+      cardId = #{cardId,jdbcType=VARCHAR},
+      getFileIsEn = #{getFileIsEn,jdbcType=VARCHAR},
+      custId = #{custId,jdbcType=INTEGER},
+      agencyId = #{agencyId,jdbcType=INTEGER},
+      casePreId = #{casePreId,jdbcType=INTEGER},
+      type =#{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

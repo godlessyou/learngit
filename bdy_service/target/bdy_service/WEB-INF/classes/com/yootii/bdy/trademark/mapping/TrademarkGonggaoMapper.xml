@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkGonggaoMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.trademark.model.TrademarkGonggao" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ggTypeId" property="ggTypeId" jdbcType="INTEGER" />
+    <result column="ggQihao" property="ggQihao" jdbcType="INTEGER" />
+    <result column="ggDate" property="ggDate" jdbcType="TIMESTAMP" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="tmType" property="tmType" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="oldAppCnName" property="oldAppCnName" jdbcType="VARCHAR" />
+    <result column="oldAppEnName" property="oldAppEnName" jdbcType="VARCHAR" />
+    <result column="oldAppCnAddress" property="oldAppCnAddress" jdbcType="VARCHAR" />
+    <result column="oldAppEnAddress" property="oldAppEnAddress" jdbcType="VARCHAR" />
+    <result column="appCnName" property="appCnName" jdbcType="VARCHAR" />
+    <result column="appEnName" property="appEnName" jdbcType="VARCHAR" />
+    <result column="appCnAddress" property="appCnAddress" jdbcType="VARCHAR" />
+    <result column="appEnAddress" property="appEnAddress" jdbcType="VARCHAR" />
+    <result column="joinAppName" property="joinAppName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ggTypeId, ggQihao, ggDate, regNumber, tmName, tmType, appDate, agent, oldAppCnName, 
+    oldAppEnName, oldAppCnAddress, oldAppEnAddress, appCnName, appEnName, appCnAddress, 
+    appEnAddress, joinAppName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_gonggao
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_gonggao
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.trademark.model.TrademarkGonggao" >
+    insert into trademark_gonggao (id, ggTypeId, ggQihao, 
+      ggDate, regNumber, tmName, 
+      tmType, appDate, agent, 
+      oldAppCnName, oldAppEnName, oldAppCnAddress, 
+      oldAppEnAddress, appCnName, appEnName, 
+      appCnAddress, appEnAddress, joinAppName
+      )
+    values (#{id,jdbcType=INTEGER}, #{ggTypeId,jdbcType=INTEGER}, #{ggQihao,jdbcType=INTEGER}, 
+      #{ggDate,jdbcType=TIMESTAMP}, #{regNumber,jdbcType=VARCHAR}, #{tmName,jdbcType=VARCHAR}, 
+      #{tmType,jdbcType=VARCHAR}, #{appDate,jdbcType=TIMESTAMP}, #{agent,jdbcType=VARCHAR}, 
+      #{oldAppCnName,jdbcType=VARCHAR}, #{oldAppEnName,jdbcType=VARCHAR}, #{oldAppCnAddress,jdbcType=VARCHAR}, 
+      #{oldAppEnAddress,jdbcType=VARCHAR}, #{appCnName,jdbcType=VARCHAR}, #{appEnName,jdbcType=VARCHAR}, 
+      #{appCnAddress,jdbcType=VARCHAR}, #{appEnAddress,jdbcType=VARCHAR}, #{joinAppName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.trademark.model.TrademarkGonggao" >
+    insert into trademark_gonggao
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ggTypeId != null" >
+        ggTypeId,
+      </if>
+      <if test="ggQihao != null" >
+        ggQihao,
+      </if>
+      <if test="ggDate != null" >
+        ggDate,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="tmName != null" >
+        tmName,
+      </if>
+      <if test="tmType != null" >
+        tmType,
+      </if>
+      <if test="appDate != null" >
+        appDate,
+      </if>
+      <if test="agent != null" >
+        agent,
+      </if>
+      <if test="oldAppCnName != null" >
+        oldAppCnName,
+      </if>
+      <if test="oldAppEnName != null" >
+        oldAppEnName,
+      </if>
+      <if test="oldAppCnAddress != null" >
+        oldAppCnAddress,
+      </if>
+      <if test="oldAppEnAddress != null" >
+        oldAppEnAddress,
+      </if>
+      <if test="appCnName != null" >
+        appCnName,
+      </if>
+      <if test="appEnName != null" >
+        appEnName,
+      </if>
+      <if test="appCnAddress != null" >
+        appCnAddress,
+      </if>
+      <if test="appEnAddress != null" >
+        appEnAddress,
+      </if>
+      <if test="joinAppName != null" >
+        joinAppName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ggTypeId != null" >
+        #{ggTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="ggQihao != null" >
+        #{ggQihao,jdbcType=INTEGER},
+      </if>
+      <if test="ggDate != null" >
+        #{ggDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agent != null" >
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppCnName != null" >
+        #{oldAppCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppEnName != null" >
+        #{oldAppEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppCnAddress != null" >
+        #{oldAppCnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppEnAddress != null" >
+        #{oldAppEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnAddress != null" >
+        #{appCnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnAddress != null" >
+        #{appEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="joinAppName != null" >
+        #{joinAppName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.trademark.model.TrademarkGonggao" >
+    update trademark_gonggao
+    <set >
+      <if test="ggTypeId != null" >
+        ggTypeId = #{ggTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="ggQihao != null" >
+        ggQihao = #{ggQihao,jdbcType=INTEGER},
+      </if>
+      <if test="ggDate != null" >
+        ggDate = #{ggDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        tmName = #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        tmType = #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        appDate = #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agent != null" >
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppCnName != null" >
+        oldAppCnName = #{oldAppCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppEnName != null" >
+        oldAppEnName = #{oldAppEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppCnAddress != null" >
+        oldAppCnAddress = #{oldAppCnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="oldAppEnAddress != null" >
+        oldAppEnAddress = #{oldAppEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnName != null" >
+        appCnName = #{appCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnName != null" >
+        appEnName = #{appEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCnAddress != null" >
+        appCnAddress = #{appCnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="appEnAddress != null" >
+        appEnAddress = #{appEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="joinAppName != null" >
+        joinAppName = #{joinAppName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.trademark.model.TrademarkGonggao" >
+    update trademark_gonggao
+    set ggTypeId = #{ggTypeId,jdbcType=INTEGER},
+      ggQihao = #{ggQihao,jdbcType=INTEGER},
+      ggDate = #{ggDate,jdbcType=TIMESTAMP},
+      regNumber = #{regNumber,jdbcType=VARCHAR},
+      tmName = #{tmName,jdbcType=VARCHAR},
+      tmType = #{tmType,jdbcType=VARCHAR},
+      appDate = #{appDate,jdbcType=TIMESTAMP},
+      agent = #{agent,jdbcType=VARCHAR},
+      oldAppCnName = #{oldAppCnName,jdbcType=VARCHAR},
+      oldAppEnName = #{oldAppEnName,jdbcType=VARCHAR},
+      oldAppCnAddress = #{oldAppCnAddress,jdbcType=VARCHAR},
+      oldAppEnAddress = #{oldAppEnAddress,jdbcType=VARCHAR},
+      appCnName = #{appCnName,jdbcType=VARCHAR},
+      appEnName = #{appEnName,jdbcType=VARCHAR},
+      appCnAddress = #{appCnAddress,jdbcType=VARCHAR},
+      appEnAddress = #{appEnAddress,jdbcType=VARCHAR},
+      joinAppName = #{joinAppName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

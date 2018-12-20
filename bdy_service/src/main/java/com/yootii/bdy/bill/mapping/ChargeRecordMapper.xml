@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.bill.dao.ChargeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.bill.model.ChargeRecord">
+    <id column="chargeRecordId" jdbcType="INTEGER" property="chargeRecordId" />
+    <result column="agencyServiceId" jdbcType="INTEGER" property="agencyServiceId" />    
+    <result column="agencyId" jdbcType="INTEGER" property="agencyId" />
+    <result column="caseId" jdbcType="INTEGER" property="caseId" />
+    <result column="chargeItemId" jdbcType="INTEGER" property="chargeItemId" />
+    <result column="descChn" jdbcType="VARCHAR" property="descChn" />
+    <result column="descEng" jdbcType="VARCHAR" property="descEng" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="verifyPerson" jdbcType="VARCHAR" property="verifyPerson" />
+    <result column="verifyDate" jdbcType="TIMESTAMP" property="verifyDate" />
+    <result column="chargeType" jdbcType="VARCHAR" property="chargeType" />
+    <result column="createrFullname" jdbcType="VARCHAR" property="createrFullname" />
+    <result column="verifyFullname" jdbcType="VARCHAR" property="verifyFullname" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+  </resultMap>
+  <resultMap id="SimpleCountResultMap" type="java.util.HashMap">
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    chargeRecordId, agencyServiceId, agencyId, caseId, chargeItemId, descChn, descEng, price, number, 
+    amount, creater, createTime, status, verifyPerson, verifyDate
+  </sql>
+  <sql id="Base_Column_List_a">
+    a.chargeRecordId, a.agencyServiceId, a.agencyId, a.caseId, a.chargeItemId, a.descChn, a.descEng, a.price, a.number, 
+    a.amount, a.creater, a.createTime, a.status, a.verifyPerson, a.verifyDate, b.fullname as createrFullname, 
+    c.fullname as verifyFullname, d.chargeType, d.currency
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_a" />
+    from charge_record a
+	left join user b on a.creater = b.username
+	left join user c on a.verifyPerson = c.username
+	left join charge_item d on a.chargeItemId = d.chargeItemId
+    where a.chargeRecordId = #{chargeRecordId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByChargeRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_a" />
+    from charge_record a
+	left join user b on a.creater = b.username
+	left join user c on a.verifyPerson = c.username
+	left join charge_item d on a.chargeItemId = d.chargeItemId
+	<if test="userId!=null">
+	    left join agency_user e on e.userId= #{userId,jdbcType=INTEGER}
+	 	where a.agencyId=e.agencyId
+    </if>
+    <if test="userId==null and custId!=null">
+    	left join trademark_case e on a.caseId = e.id 
+	 	where e.custId = #{custId,jdbcType=INTEGER} 
+    </if>
+     <if test="userId==null and custId==null">    	
+	 	where 1=1
+    </if>
+    <if test="userId==null and chargeRecord.agencyId!=null">
+    <bind name="chargeRecord.agencyId" value="chargeRecord.agencyId" />
+	 	and a.agencyId = #{chargeRecord.agencyId,jdbcType=INTEGER} 
+    </if>
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.descChn like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.descEng like #{gcon.keyword,jdbcType=VARCHAR}
+				)
+			</when>
+			<otherwise>
+				<if test="chargeRecord.descChn!=null and chargeRecord.descChn!=''">
+					<bind name="chargeRecord.descChn" value="'%' + chargeRecord.descChn + '%'" />
+					and a.descChn like #{chargeRecord.descChn,jdbcType=VARCHAR}
+				</if>
+				<if test="chargeRecord.descEng!=null and chargeRecord.descEng!=''">
+					<bind name="chargeRecord.descEng" value="'%'+chargeRecord.descEng+'%'" />
+					and a.descEng like #{chargeRecord.descEng,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="chargeRecord.caseId!=null">
+			<bind name="chargeRecord.caseId" value="chargeRecord.caseId" />
+				and a.caseId = #{chargeRecord.caseId,jdbcType=INTEGER}
+		</if>
+		<if test="chargeRecord.chargeItemId!=null">
+			<bind name="chargeRecord.chargeItemId" value="chargeRecord.chargeItemId" />
+				and a.chargeItemId = #{chargeRecord.chargeItemId,jdbcType=INTEGER}
+		</if>
+		<if test="chargeRecord.chargeType!=null">
+			<bind name="chargeRecord.chargeType" value="chargeRecord.chargeType" />
+				and d.chargeType = #{chargeRecord.chargeType,jdbcType=VARCHAR}
+		</if>
+		<if test="chargeRecord.status!=null">
+			<bind name="chargeRecord.status" value="chargeRecord.status" />
+				and a.status = #{chargeRecord.status,jdbcType=INTEGER}
+		</if>
+		<if test="chargeRecord.createrFullname!=null and chargeRecord.createrFullname!='' ">
+			<bind name="chargeRecord.createrFullname" value="chargeRecord.createrFullname" />
+				and b.fullname = #{chargeRecord.createrFullname,jdbcType=INTEGER}
+		</if>
+		<if test="gcon.orderCol!=null and gcon.orderAsc !=null ">
+			<bind name="gcon.orderCol" value="gcon.orderCol" />
+			<bind name="gcon.orderAsc" value="gcon.orderAsc" />
+			order by ${gcon.orderCol} ${gcon.orderAsc}
+		</if>
+		<bind name="gcon.offset" value="gcon.offset" />
+		<bind name="gcon.rows" value="gcon.rows" />
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectChargeRecordCount" resultMap="SimpleCountResultMap">
+    select count(*) as count
+    from charge_record a
+	left join user b on a.creater = b.username
+	left join user c on a.verifyPerson = c.username
+	left join charge_item d on a.chargeItemId = d.chargeItemId
+    <if test="userId!=null">
+	    left join agency_user e on e.userId= #{userId,jdbcType=INTEGER}
+	 	where a.agencyId=e.agencyId
+    </if>
+    <if test="userId==null and custId!=null">
+    	left join trademark_case e on a.caseId = e.id 
+	 	where e.custId = #{custId,jdbcType=INTEGER} 
+    </if>
+    <if test="userId==null and chargeRecord.agencyId!=null">
+    <bind name="chargeRecord.agencyId" value="chargeRecord.agencyId" />
+	 	and a.agencyId = #{chargeRecord.agencyId,jdbcType=INTEGER} 
+    </if>
+    <choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+				a.descChn like #{gcon.keyword,jdbcType=VARCHAR} or
+				a.descEng like #{gcon.keyword,jdbcType=VARCHAR}
+				)
+			</when>
+			<otherwise>
+				<if test="chargeRecord.descChn!=null and chargeRecord.descChn!=''">
+					<bind name="chargeRecord.descChn" value="'%' + chargeRecord.descChn + '%'" />
+					and a.descChn like #{chargeRecord.descChn,jdbcType=VARCHAR}
+				</if>
+				<if test="chargeRecord.descEng!=null and chargeRecord.descEng!=''">
+					<bind name="chargeRecord.descEng" value="'%'+chargeRecord.descEng+'%'" />
+					and a.descEng like #{chargeRecord.descEng,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="chargeRecord.caseId!=null">
+			<bind name="chargeRecord.caseId" value="chargeRecord.caseId" />
+				and a.caseId = #{chargeRecord.caseId,jdbcType=INTEGER}
+		</if>
+		<if test="chargeRecord.chargeItemId!=null">
+			<bind name="chargeRecord.chargeItemId" value="chargeRecord.chargeItemId" />
+				and a.chargeItemId = #{chargeRecord.chargeItemId,jdbcType=INTEGER}
+		</if>
+		<if test="chargeRecord.chargeType!=null">
+			<bind name="chargeRecord.chargeType" value="chargeRecord.chargeType" />
+				and d.chargeType = #{chargeRecord.chargeType,jdbcType=VARCHAR}
+		</if>
+		<if test="chargeRecord.status!=null">
+			<bind name="chargeRecord.status" value="chargeRecord.status" />
+				and a.status = #{chargeRecord.status,jdbcType=INTEGER}
+		</if>
+		<if test="chargeRecord.createrFullname!=null and chargeRecord.createrFullname!='' ">
+			<bind name="chargeRecord.createrFullname" value="chargeRecord.createrFullname" />
+				and b.fullname = #{chargeRecord.createrFullname,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+  <select id="selectByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from charge_record	
+    where caseId = #{caseId,jdbcType=INTEGER}
+    limit 0,1
+   
+  </select>
+  
+  <select id="selectByCaseIds" parameterType="string" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_a" />
+    from charge_record a
+	left join user b on a.creater = b.username
+	left join user c on a.verifyPerson = c.username
+	left join charge_item d on a.chargeItemId = d.chargeItemId
+    where a.caseId in 
+	<foreach collection="array" index="idArr" item="caseId" open="(" separator="," close=")">
+            #{caseId}
+    </foreach>
+    and a.status=0
+  </select>
+  <select id="selectChargeRecordNoVerifyCount" parameterType="java.util.Map" resultType="int">
+	select count(*) as count
+	from charge_record
+	where status = 0 and agencyId=#{agencyId,jdbcType=INTEGER}
+	and chargeRecordId in
+     <foreach collection="ids" index="index" item="item"
+            open="(" separator="," close=")">
+            #{item}
+     </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from charge_record
+    where chargeRecordId = #{chargeRecordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.bill.model.ChargeRecord">
+    insert into charge_record (chargeRecordId, agencyServiceId, agencyId, caseId, 
+      chargeItemId, descChn, descEng, 
+      price, number, amount, 
+      creater, createTime, status, verifyPerson, verifyDate
+      )
+    values (#{chargeRecordId,jdbcType=INTEGER}, #{agencyServiceId,jdbcType=INTEGER}, #{agencyId,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, 
+      #{chargeItemId,jdbcType=INTEGER}, #{descChn,jdbcType=VARCHAR}, #{descEng,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{number,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+      #{verifyPerson,jdbcType=VARCHAR}, #{verifyDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.bill.model.ChargeRecord" useGeneratedKeys="true" keyProperty="chargeRecordId">
+    insert into charge_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chargeRecordId != null">
+        chargeRecordId,
+      </if>
+      <if test="agencyServiceId != null">
+        agencyServiceId,
+      </if>
+      <if test="agencyId != null">
+        agencyId,
+      </if>
+      <if test="caseId != null">
+        caseId,
+      </if>
+      <if test="chargeItemId != null">
+        chargeItemId,
+      </if>
+      <if test="descChn != null">
+        descChn,
+      </if>
+      <if test="descEng != null">
+        descEng,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="verifyPerson != null">
+        verifyPerson,
+      </if>
+      <if test="verifyDate != null">
+        verifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chargeRecordId != null">
+        #{chargeRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyServiceId != null">
+        #{agencyServiceId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null">
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null">
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeItemId != null">
+        #{chargeItemId,jdbcType=INTEGER},
+      </if>
+      <if test="descChn != null">
+        #{descChn,jdbcType=VARCHAR},
+      </if>
+      <if test="descEng != null">
+        #{descEng,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="verifyPerson != null">
+        #{verifyPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyDate != null">
+        #{verifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.bill.model.ChargeRecord">
+    update charge_record
+    <set>
+      <if test="agencyServiceId != null">
+        agencyServiceId = #{agencyServiceId,jdbcType=INTEGER},
+      </if>
+      <if test="agencyId != null">
+        agencyId = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null">
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeItemId != null">
+        chargeItemId = #{chargeItemId,jdbcType=INTEGER},
+      </if>
+      <if test="descChn != null">
+        descChn = #{descChn,jdbcType=VARCHAR},
+      </if>
+      <if test="descEng != null">
+        descEng = #{descEng,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="verifyPerson != null">
+        verifyPerson = #{verifyPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyDate != null">
+        verifyDate = #{verifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where chargeRecordId = #{chargeRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.bill.model.ChargeRecord">
+    update charge_record
+    set agencyServiceId = #{agencyServiceId,jdbcType=INTEGER},
+      agencyId = #{agencyId,jdbcType=INTEGER},
+      caseId = #{caseId,jdbcType=INTEGER},
+      chargeItemId = #{chargeItemId,jdbcType=INTEGER},
+      descChn = #{descChn,jdbcType=VARCHAR},
+      descEng = #{descEng,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      number = #{number,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      creater = #{creater,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      verifyPerson = #{verifyPerson,jdbcType=VARCHAR},
+      verifyDate = #{verifyDate,jdbcType=TIMESTAMP}
+    where chargeRecordId = #{chargeRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByChargeRecordIds" parameterType="java.util.List">
+    update charge_record
+    set status = 1
+    where chargeRecordId in
+    <foreach collection="array" index="index" item="item"
+            open="(" separator="," close=")">
+            #{item}
+    </foreach>
+  </update>
+</mapper>

@@ -1,0 +1,16 @@
+eclipse.preferences.version=1
+encoding//src/main/resources/log4j.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/classes/velocity/bhfs.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/cs2.vm=UTF-8
+encoding//src/main/webapp/WEB-INF/classes/velocity/sbbgdlr.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/sbbgsqrmydz.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/sbpsdlwt.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/sbxz.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/sbzc.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/yydbwt_CN.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/yyly.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/yyly3.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/yyly_success.vm=GBK
+encoding//src/main/webapp/WEB-INF/classes/velocity/zrzy.vm=UTF-8
+encoding//src/test/java=UTF-8
+encoding/src=UTF-8

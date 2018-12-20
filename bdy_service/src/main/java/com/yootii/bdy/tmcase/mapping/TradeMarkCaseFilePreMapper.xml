@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseFilePreMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseFilePre" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="fileName" property="fileName" jdbcType="INTEGER" />
+    <result column="fileUrl" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="fileType" property="fileType" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, caseId, fileName, fileUrl, fileType, username, modifyTime, joinAppId
+  </sql>
+  <sql id="Base_Column_List_a" >
+    a.id, a.caseId, a.fileName, a.fileUrl, a.fileType, a.username, a.modifyTime, a.joinAppId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_file_pre
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_file_pre
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCustIdAndAgencyId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_a" />
+    from trademark_case_file_pre a
+    join trademark_case_pre b on a.caseId=b.id
+    where custId = #{custId,jdbcType=INTEGER} and agencyId=#{agencyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByCustIdAndAgencyId" >
+    delete from trademark_case_file_pre
+    where caseId in (select id from trademark_case_pre where custId = #{custId,jdbcType=INTEGER} and agencyId=#{agencyId,jdbcType=INTEGER})
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_file_pre
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseFile" >
+    insert into trademark_case_file_pre (id, caseId, fileName, fileUrl, 
+      fileType, username, modifyTime, joinAppId
+      )
+    values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, #{fileName,jdbcType=INTEGER}, #{fileUrl,jdbcType=VARCHAR}, 
+      #{fileType,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{joinAppId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseFile" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_case_file_pre
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="fileName != null" >
+        fileName,
+      </if>
+      <if test="fileUrl != null" >
+        fileUrl,
+      </if>
+      <if test="fileType != null" >
+        fileType,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime,
+      </if>
+      <if test="joinAppId != null" >
+      	joinAppId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=INTEGER},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joinAppId != null" >
+        #{joinAppId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseFile" >
+    update trademark_case_file_pre
+    <set >
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        fileName = #{fileName,jdbcType=INTEGER},
+      </if>
+      <if test="fileUrl != null" >
+        fileUrl = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        fileType = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joinAppId != null" >
+        joinAppId = #{joinAppId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseFile" >
+    update trademark_case_file_pre
+    set caseId = #{caseId,jdbcType=INTEGER},
+      fileName = #{fileName,jdbcType=INTEGER},
+      fileUrl = #{fileUrl,jdbcType=VARCHAR},
+      fileType = #{fileType,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      joinAppId = #{joinAppId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

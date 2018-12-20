@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseSolrMapper">
+  <resultMap id="BaseResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="custId" jdbcType="VARCHAR" property="custId" />
+    <result column="custName" jdbcType="VARCHAR" property="custName" />
+    <result column="agencyId" jdbcType="VARCHAR" property="agencyId" />
+    <result column="agencyName" jdbcType="VARCHAR" property="agencyName" />
+    <result column="caseType" jdbcType="VARCHAR" property="caseType" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="statusDate" jdbcType="DATE" property="statusDate" />
+    <result column="statusDateYear" jdbcType="VARCHAR" property="statusDateYear" />
+    <result column="tmName" jdbcType="VARCHAR" property="tmName" />
+    <result column="regNumber" jdbcType="VARCHAR" property="regNumber" />
+    <result column="appDate" jdbcType="DATE" property="appDate" />
+    <result column="appDateYear" jdbcType="VARCHAR" property="appDateYear" />
+    <result column="regDate" jdbcType="DATE" property="regDate" />
+    <result column="regDateYear" jdbcType="VARCHAR" property="regDateYear" />
+    <result column="appCnName" jdbcType="VARCHAR" property="appCnName" />
+    <result column="appEnName" jdbcType="VARCHAR" property="appEnName" />
+    <result column="createDate" jdbcType="DATE" property="createDate" />
+    <result column="createDateYear" jdbcType="VARCHAR" property="createDateYear" />
+    <result column="submitType" jdbcType="VARCHAR" property="submitType" />
+    <result column="appNumber" jdbcType="VARCHAR" property="appNumber" />
+    <result column="cotag" jdbcType="VARCHAR" property="cotag" />
+    <result column="coagencyId" jdbcType="VARCHAR" property="coagencyId" />
+    <result column="coagencyName" jdbcType="VARCHAR" property="coagencyName" />
+    <result column="couserId" jdbcType="VARCHAR" property="couserId" />
+    <result column="couserName" jdbcType="VARCHAR" property="couserName" />
+
+  </resultMap>
+  
+  <resultMap id="UserResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="userId" jdbcType="VARCHAR" property="userId" />
+  </resultMap>
+  
+  <resultMap id="DepartResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="departName" jdbcType="VARCHAR" property="departName" />
+    <result column="departName_1" jdbcType="VARCHAR" property="departName_1" />
+    <result column="departName_2" jdbcType="VARCHAR" property="departName_2" />
+    <result column="departId" jdbcType="VARCHAR" property="departId" />
+    <result column="departId_1" jdbcType="VARCHAR" property="departId_1" />
+    <result column="departId_2" jdbcType="VARCHAR" property="departId_2" />
+  </resultMap>
+ 	<sql id="Base_Column_List">
+		tc.id,tc.custId,c.fullname as custName,tc.agencyId,a.name as agencyName,caseType,tc.status,statusDate,
+		Year(statusDate) as statusDateYear,tmName,regNumber,appDate,Year(appDate) as appDateYear,
+		regDate,Year(regDate) as regDateYear,appCnName,appEnName,createDate,Year(createDate) as createDateYear,
+		submitType,appNumber,cotag,tc.coagencyId,ca.name as coagencyName,tc.couserId,cu.fullname as couserName
+	</sql>
+	 <sql id="User_Column_List">
+		tr.caseId as id,u.fullname as username,u.userId 
+	</sql>
+	 <sql id="Depart_Column_List">
+		tr.caseId as id,d.name as departName,dp.name as departName_1,a.name as departName_2,d.id as departId,dp.id as departId_1,0 as departId_2
+	</sql>
+
+
+	<select id="selectAllTradeMarkCase" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" /> 
+
+  		from trademark_case tc left join customer c on c.id=tc.custId left join agency a on a.id=tc.agencyId 
+        	left join user cu on cu.userId=tc.couserId left join agency ca on ca.id=tc.coagencyId
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+	
+	<select id="selectAllTradeMarkCaseUser" parameterType="java.lang.Integer" resultMap="UserResultMap">
+		select DISTINCT
+		<include refid="User_Column_List" /> 
+		from task_record tr join user u on tr.taskUser = u.username
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+	
+	<select id="selectAllTradeMarkCaseDepart" parameterType="java.lang.Integer" resultMap="DepartResultMap">
+		
+		select * from
+		(
+			select DISTINCT <include refid="Depart_Column_List" /> 
+				from (select DISTINCT a.caseId, a.taskUser, b.agencyId  from task_record a, trademark_case b where a.caseId=b.id) tr 
+				join user u on tr.taskUser = u.username 
+				join user_department ud on u.userId=ud.userId 
+				join department d on ud.departmentId=d.id and d.agencyId=tr.agencyId
+		  	left join  department dp on dp.id=d.parent 
+		  	left join  agency a on a.id=d.agencyId
+			
+			UNION
+		
+			select DISTINCT tr.id as id,d.name as departName,dp.name as departName_1,a.name as departName_2,d.id as departId,dp.id as departId_1,0 as departId_2
+				from (select  id,  agencyId, custId from trademark_case a where not exists (select caseId from task_record b where a.id=b.caseId)) tr 
+				join agency a on a.id=tr.agencyId
+		    join user_customer b on b.custId=tr.custId
+		    join user_department ud on b.userId=ud.userId 		
+			  join department d on ud.departmentId=d.id and d.agencyId=tr.agencyId
+		  	join department dp on dp.id=d.parent and d.agencyId=tr.agencyId
+			
+		) a order by id asc
+	</select>
+	
+</mapper>

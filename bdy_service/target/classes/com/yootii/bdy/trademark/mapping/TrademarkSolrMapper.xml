@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkSolrMapper">
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<result column="tmId" jdbcType="INTEGER" property="tmId" />
+		<result column="regNumber" jdbcType="VARCHAR" property="regNumber" />
+		<result column="tmType" jdbcType="VARCHAR" property="tmType" />
+		<result column="tmGroup" jdbcType="VARCHAR" property="tmGroup" />
+		<result column="tmName" jdbcType="VARCHAR" property="tmName" />
+		<result column="applicantName" jdbcType="VARCHAR" property="applicantName" />
+		<result column="applicantAddress" jdbcType="VARCHAR" property="applicantAddress" />
+		<result column="applicantEnName" jdbcType="VARCHAR" property="applicantEnName" />
+		<result column="applicantEnAddress" jdbcType="VARCHAR"
+			property="applicantEnAddress" />
+		<result column="gtApplicantName" jdbcType="VARCHAR" property="gtApplicantName" />
+		<result column="gtApplicantAddress" jdbcType="VARCHAR"
+			property="gtApplicantAddress" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="appDate" jdbcType="TIMESTAMP" property="appDate" />
+		<result column="appDateYear" jdbcType="VARCHAR" property="appDateYear" />
+		<result column="approvalNumber" jdbcType="VARCHAR" property="approvalNumber" />
+		<result column="approvalDate" jdbcType="TIMESTAMP" property="approvalDate" />
+		<result column="approvalDateYear" jdbcType="VARCHAR" property="approvalDateYear" />
+		<result column="regNoticeNumber" jdbcType="VARCHAR" property="regNoticeNumber" />
+		<result column="regNoticeDate" jdbcType="TIMESTAMP" property="regNoticeDate" />
+		<result column="regNoticeDateYear" jdbcType="VARCHAR" property="regNoticeDateYear" />
+		<result column="validStartDate" jdbcType="TIMESTAMP" property="validStartDate" />
+		<result column="validStartDateYear" jdbcType="VARCHAR" property="validStartDateYear" />
+		<result column="validEndDate" jdbcType="TIMESTAMP" property="validEndDate" />
+		<result column="validEndDateYear" jdbcType="VARCHAR" property="validEndDateYear" />
+		<result column="tmCategory" jdbcType="VARCHAR" property="tmCategory" />
+		<result column="agent" jdbcType="VARCHAR" property="agent" />
+		<result column="classify" jdbcType="VARCHAR" property="classify" />
+		<result column="imgFileUrl" jdbcType="VARCHAR" property="imgFileUrl" />
+		<result column="modifyDate" jdbcType="TIMESTAMP" property="modifyDate" />
+		<result column="modifyDateYear" jdbcType="VARCHAR" property="modifyDateYear" />
+		<result column="imgFilePath" jdbcType="VARCHAR" property="imgFilePath" />
+		<result column="gjRegDate" property="gjRegDate" jdbcType="TIMESTAMP" />
+    	<result column="hqzdDate" property="hqzdDate" jdbcType="TIMESTAMP" />
+    	<result column="priorDate" property="priorDate" jdbcType="TIMESTAMP" />
+    	<result column="ifShareTm" property="ifShareTm" jdbcType="VARCHAR" />
+    	<result column="tmForm" property="tmForm" jdbcType="VARCHAR" />
+    	<result column="imgUrl" property="imgUrl" jdbcType="VARCHAR" />
+    	<result column="tmStatus" property="tmStatus" jdbcType="VARCHAR" />
+		
+ 
+	</resultMap>
+	<resultMap id="ProcessResultMap" type="java.util.HashMap">
+		<result column="tmId" jdbcType="INTEGER" property="tmId" />
+		<collection property="trademarkprocess" javaType="java.util.List" ofType="java.lang.String"> 
+			<result column="trademarkprocess"  />
+		</collection>
+	</resultMap>
+	<resultMap id="EntResultMap" type="java.util.HashMap">
+		<result column="tmId" jdbcType="INTEGER" property="tmId" />
+		<result column="applicantId" jdbcType="INTEGER" property="applicantId" />
+		<result column="govId" jdbcType="INTEGER" property="govId" />
+		<result column="fgovId" jdbcType="INTEGER" property="fgovId" />
+		<result column="ffgovId" jdbcType="INTEGER" property="ffgovId" />
+		<result column="entId" jdbcType="INTEGER" property="entId" />
+		<result column="entName" jdbcType="VARCHAR" property="entName" />
+		<result column="entStatus" jdbcType="INTEGER" property="entStatus" />
+	</resultMap>
+	<resultMap id="ProResultMap" type="java.util.HashMap">
+		<result column="tmId" jdbcType="INTEGER" property="tmId" />
+		<result column="processStatusDate" jdbcType="TIMESTAMP"	
+			property="processStatusDate" />
+		<result column="processStatus" jdbcType="VARCHAR" property="processStatus" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		tr.tmId, tr.regNumber, tr.tmType, tr.tmGroup, tr.tmName, tr.applicantName, tr.applicantAddress,
+		tr.applicantEnName,
+		tr.applicantEnAddress, tr.gtApplicantName, tr.gtApplicantAddress, tr.status, tr.appDate, Year(tr.appDate) as appDateYear, tr.approvalNumber,
+		tr.approvalDate, Year(tr.approvalDate) as approvalDateYear, tr.regNoticeNumber, tr.regNoticeDate,Year(tr.regNoticeDate) as regNoticeDateYear, tr.validStartDate,
+		year(tr.validStartDate) as validStartDateYear,tr.validEndDate,year(tr.validEndDate) as validEndDateYear, tr.tmCategory,
+		tr.agent, tr.classify, tr.imgFileUrl, tr.modifyDate,year(tr.modifyDate) as modifyDateYear, tr.imgFilePath, tr.gjRegDate, tr.hqzdDate, tr.priorDate,
+        tr.ifShareTm, tr.tmForm, tr.tmStatus
+	</sql>
+	<sql id="trademarkprocess_Column">
+	 	concat("{","\"status\":\"",ifnull(tp.status,""),"\",","\"statusDate\":\"",ifnull(tp.statusDate,""),"\",","\"regNumber\":\"",ifnull(tp.regNumber,""),"\"","}") as trademarkprocess
+	</sql>
+
+	<select id="selectAllTrademark" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select DISTINCT
+		<include refid="Base_Column_List" /> 
+		from trademark tr 
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+
+	<select id="selectAllTrademarkProcess" parameterType="java.lang.Integer"  resultMap="ProcessResultMap">
+		select DISTINCT
+		tr.tmId,
+		<include refid="trademarkprocess_Column" />
+		from trademark tr left join trademark_process tp on tr.tmId=tp.tmId
+		WHERE tp.status LIKE '等待驳回通知发文' 
+			OR tp.status LIKE '商标注册申请驳回通知发文'
+			OR tp.status LIKE '商标注册申请等待驳回通知发文'
+			OR tp.status LIKE '打印驳回或部分驳回通知书'
+			OR tp.status LIKE '打印驳回通知'
+			OR tp.status LIKE '无效宣告中'
+			OR tp.status LIKE '商标异议（国际）中'
+			OR tp.status LIKE '商标异议申请中'
+			OR tp.status LIKE '通用名称'
+			OR tp.status LIKE '撤销三年不使用待审中'
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+	<select id="selectAllTrademarkEntGov" parameterType="java.lang.Integer"  resultMap="EntResultMap">
+		select DISTINCT t.tmId,g.govId,gf.govId as fgovId,gff.govId as
+		ffgovId,e.entId,e.entName ,e.rstate as entStatus
+		from trademark t
+		left join applicant app on t.applicantname=app.appName
+		left join enterprise_applicant ea on app.applicantId=ea.applicantId
+		left join enterprise e on ea.entId=e.entId
+		left join government g on e.govId = g.govId
+		left join (SELECT
+		c.id,
+		a.govId
+		FROM government a
+		JOIN region_code b ON a.regionId = b.id
+		JOIN region_code c ON b.id = c.pid
+		) gf on g.regionId = gf.id
+		left join (
+		SELECT d.id,a.govId
+		FROM government a
+		JOIN region_code b ON a.regionId=b.id
+		JOIN region_code c ON b.id=c.pid
+		JOIN region_code d ON c.id=d.pid
+		) gff on g.regionId = gff.id
+		where e.entId is not null
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+	<select id="selectAllTrademarkProc" parameterType="java.lang.Integer"  resultMap="ProResultMap">
+		select DISTINCT t.tmId,tp.statusDate as processStatusDate,tp.status as
+		processStatus
+		from trademark t
+		left join trademarkprocess tp on t.tmId = tp.tmId
+		where tp.id is not null
+		limit #{start,jdbcType=INTEGER}, 50000
+	</select>
+
+</mapper>

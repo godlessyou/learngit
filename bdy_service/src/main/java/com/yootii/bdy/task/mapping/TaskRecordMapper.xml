@@ -1,0 +1,1141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.task.dao.TaskRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.task.model.TaskRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskTime" property="taskTime" jdbcType="TIMESTAMP" />
+    <result column="taskUser" property="taskUser" jdbcType="VARCHAR" />
+    <result column="taskResult" property="taskResult" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="TmCaseTaskToDoListMap" type="com.yootii.bdy.task.model.TmCaseTaskToDoList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="agentNum" property="agentNum" jdbcType="VARCHAR" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" /> 
+    <result column="agencyId" property="agencyId" jdbcType="INTEGER" />
+    <result column="caseTypeId" property="caseTypeId" jdbcType="INTEGER" />
+    <result column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />   
+    <result column="taskTime" property="taskTime" jdbcType="TIMESTAMP" />
+    <result column="taskUser" property="taskUser" jdbcType="VARCHAR" />
+    <result column="taskResult" property="taskResult" jdbcType="VARCHAR" />    
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" /> 
+    <result column="appCnName" property="appCnName" jdbcType="VARCHAR" />
+    <result column="caseType" property="caseType" jdbcType="VARCHAR" />
+    <result column="caseStatus" property="caseStatus" jdbcType="VARCHAR" />
+    <result column="appEnName" property="appEnName" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="goodClasses" property="goodClasses" jdbcType="VARCHAR" />  
+    <result column="imageFile" property="imageFile" jdbcType="VARCHAR" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />  
+    <result column="regDate" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="rejectDate" property="rejectDate" jdbcType="TIMESTAMP" />
+    <result column="statusTime" property="statusTime" jdbcType="TIMESTAMP" />    
+    <result column="submitStatus" property="submitStatus" jdbcType="VARCHAR" />
+    <result column="processPerson" property="processPerson" jdbcType="VARCHAR" />
+    <result column="agencyName" property="agencyName" jdbcType="VARCHAR" />
+    <result column="custName" property="custName" jdbcType="VARCHAR" />
+    <result column="agentUserId" property="agentUserId" jdbcType="INTEGER" />
+    <result column="caseGroup" property="caseGroup" jdbcType="INTEGER" />
+    <result column="limitdate" property="limitdate" jdbcType="TIMESTAMP"/>
+    <result column="message" property="message" jdbcType="VARCHAR"/>
+    <result column="createdate" property="createdate" jdbcType ="TIMESTAMP"/>
+    <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP"/>
+    <result column="isclose" property="isclose" jdbcType="INTEGER"/>
+  </resultMap>
+    <resultMap id="BillToDoListMap" type="com.yootii.bdy.task.model.BillToDoList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="billId" jdbcType="INTEGER" property="billId" />   
+    <result column="billNo" jdbcType="VARCHAR" property="billNo" />
+    <result column="status" jdbcType="VARCHAR" property="status" /> 
+    <result column="custId" jdbcType="INTEGER" property="custId" />    
+    <result column="agencyId" jdbcType="INTEGER" property="agencyId" />  
+    <result column="groupName" jdbcType="VARCHAR" property="groupName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="createDate" jdbcType="DATE" property="createDate" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="createrFullname" jdbcType="VARCHAR" property="createrFullname" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="exchangeRate" jdbcType="DECIMAL" property="exchangeRate" />
+    <result column="sum" jdbcType="DECIMAL" property="sum" />
+    <result column="foreignSum" jdbcType="DECIMAL" property="foreignSum" />
+    <result column="serviceCost" jdbcType="DECIMAL" property="serviceCost" />
+    <result column="applyCost" jdbcType="DECIMAL" property="applyCost" />
+    <result column="otherCost" jdbcType="DECIMAL" property="otherCost" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="billTitle" jdbcType="VARCHAR" property="billTitle" />
+    <result column="contactId" jdbcType="INTEGER" property="contactId" />
+    <result column="payAcountId" jdbcType="INTEGER" property="payAcountId" />
+    <result column="coagencyId" jdbcType="INTEGER" property="coagencyId" />  
+    <result column="receiverType" jdbcType="INTEGER" property="receiverType" />   
+    <result column="customer" jdbcType="VARCHAR" property="customer" />
+    <result column="agencyName" jdbcType="VARCHAR" property="agencyName" />
+    <result column="coagencyName" jdbcType="VARCHAR" property="coagencyName" />
+  </resultMap>
+  
+ 
+  <sql id="Base_Column_List" >
+    id, caseId, taskId, taskName, taskTime, taskUser, taskResult, remarks
+  </sql>
+  
+    <select id="getUserDaiBan" resultMap="TmCaseTaskToDoListMap" > 
+    
+     
+	   		
+	    select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+	     c.processPerson, d.name as agencyName, e.name as custName, a.preChangeCnName, a.caseGroup
+	   	 from trademark_case a
+	     left join  
+		(		
+		    select a.id, a.caseId, a.status as caseStatus, a.statusTime, a.submitStatus, c.fullname as processPerson 
+            from trademark_case_process a, user c
+		    where a.id in
+		    (
+		        select max(id) from trademark_case_process group by caseId
+			)
+			and a.userId=c.userId
+			<![CDATA[ 
+	 			and a.userId<>0	
+	 		]]>						    
+		  				
+			union
+						    
+		    select a.id, a.caseId, a.status as caseStatus, a.statusTime, a.submitStatus, a.username as processPerson
+			from trademark_case_process a			
+			where a.id in
+		    (
+		        select max(id) from trademark_case_process group by caseId
+			)				
+			and a.username='系统'  		    
+		)c  on  a.id=c.caseId
+		left join customer e on a.custId=e.id		
+		left join agency d on a.coagencyId=d.id	
+		where a.id=#{tmcase.id,jdbcType=INTEGER} 
+	</select>
+	
+	
+	
+	<select id="getCustomerDaiBan" resultMap="TmCaseTaskToDoListMap" > 
+    
+	   		
+	    select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+	     c.processPerson, d.name as agencyName, e.name as custName, a.preChangeCnName, a.caseGroup
+	   	 from trademark_case a
+	     left join  
+		(		
+	        select a.id, a.caseId, a.status as caseStatus, a.statusTime, a.submitStatus, c.fullname as processPerson
+               from trademark_case_process a, user c
+		    where a.id in
+		    (
+		        select max(id) from trademark_case_process group by caseId
+			)
+			and a.userId=c.userId
+			<![CDATA[ 
+	 			and a.userId<>0	
+	 		]]>  
+					    
+		    union
+		    
+		    select a.id, a.caseId, a.status as caseStatus, a.statusTime, a.submitStatus, c.fullname as processPerson
+			from trademark_case_process a,	customer c		
+			where a.id in
+		    (
+		        select max(id) from trademark_case_process group by caseId
+			)
+			and a.custId=c.id
+			and a.userId=0	
+			<![CDATA[
+				and a.custId<>0
+			]]> 
+			
+			union
+		    
+		    select a.id, a.caseId, a.status as caseStatus, a.statusTime, a.submitStatus, a.username as processPerson
+			from trademark_case_process a			
+			where a.id in
+		    (
+		        select max(id) from trademark_case_process group by caseId
+			)				
+			and a.username='系统'  		    
+		)c  on  a.id=c.caseId
+		left join customer e on a.custId=e.id		
+		left join agency d on a.coagencyId=d.id	
+		where a.id=#{tmcase.id,jdbcType=INTEGER} 
+	</select>
+  	
+		
+   
+  <!-- 客户查询 -->
+   <select id="getDaiBanCaseListForCust" resultMap="TmCaseTaskToDoListMap" > 
+    
+     (
+	   		
+	    select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+	     c.processPerson, d.name as agencyName, e.name as custName, a.preChangeCnName, a.caseGroup,
+	     c.limitdate,c.message,c.createdate,c.isclose 
+	   	 from trademark_case a
+	     left join  
+		(		
+			SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+			  <!--  AND a.isclose = 0 -->
+				<![CDATA[ 
+		 			and a.userId<>0	
+		 		]]> 
+			UNION
+			    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+				AND a.username = '系统'				
+			UNION				
+			   SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join customer c on a.custId = c.id
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+				and a.userId = 0
+				<![CDATA[
+					and a.custId<>0
+				]]>
+						    
+		)c  on  a.id=c.caseId
+		left join customer e on a.custId=e.id		
+		left join agency d on a.coagencyId=d.id	
+		
+    	<bind name="tmcase.custId" value="tmcase.custId" />    	
+	 	where 
+	 	1=1
+	 	and a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+	 	and a.cotag=0	
+		<![CDATA[
+		and a.status<>'成功'
+		]]>
+		<if test="gcon.flag == 1">
+			AND c.limitdate is not NULL
+		</if>
+		<choose>
+		    <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+					agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+					appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+					appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+					caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or
+					caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+					processPerson like #{gcon.keyword,jdbcType=VARCHAR} or	
+					tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+					regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+					limitdate like #{gcon.keyword}
+				)
+			</when>
+			<otherwise>
+				<bind name="appCnName" value="tmcase.appCnName" />
+			    <if test="appCnName">
+			    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+			    </if>
+			    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+			    <if test="caseTypeId!=null">
+			    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+			    </if>
+	    	</otherwise>
+   		</choose>
+		
+		<bind name="taskCondition.caseIds" value="taskCondition.caseIds" />	    
+	    <if test="taskCondition.caseIds != null">
+	    union
+	        select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+		     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+             c.processPerson, d.name as agencyName, e.name as custName, a.preChangeCnName, a.caseGroup,
+			 c.limitdate,c.message,c.createdate,c.isclose
+		   	 from trademark_case a
+		     left join  
+			(		
+	
+				SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+					<![CDATA[ 
+			 			and a.userId<>0	
+			 		]]> 
+				UNION
+				    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+					AND a.username = '系统'				
+				UNION				
+				   SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join customer c on a.custId = c.id
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+					and a.userId = 0
+					<![CDATA[
+					and a.custId<>0
+					]]>
+					
+			)c 	on  a.id=c.caseId
+			left join customer e on a.custId=e.id
+			left join agency d on a.coagencyId=d.id			
+			where 1=1
+			<if test="gcon.flag == 1">
+				AND c.limitdate is not NULL
+			</if>
+			and a.id in 
+			<foreach collection="taskCondition.caseIds" index="index" item="item" open="(" separator="," close=")">
+	       	 	#{item}
+	      	</foreach>
+	      	<choose>
+			    <when test="gcon.keyword!=null and gcon.keyword!=''">
+					<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+					and (
+						agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+						appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+						appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+						caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or
+						caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+						processPerson like #{gcon.keyword,jdbcType=VARCHAR} or	
+						tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+						regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+						limitdate like #{gcon.keyword}
+					)
+				</when>
+				<otherwise>
+					<bind name="appCnName" value="tmcase.appCnName" />
+				    <if test="appCnName">
+				    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+				    </if>
+				    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+				    <if test="caseTypeId!=null">
+				    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+				    </if>
+		    	</otherwise>
+    		</choose>
+	    </if>	    
+	)    
+    
+	<bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />	
+	<bind name="gcon.orderCol" value="gcon.orderCol" />
+	<bind name="gcon.orderAsc" value="gcon.orderAsc" />	
+	<if test="gcon.orderCol != null and gcon.orderAsc!=null">
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	</if>
+	<if test="gcon.offset != null and gcon.rows!=null">
+		 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+	</if>
+		
+  </select>
+  
+  
+  <!-- 代理人登录查询 -->
+  
+  <select id="getDaiBanCaseList" resultMap="TmCaseTaskToDoListMap" > 
+   	(
+	    select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+	     c.processPerson, d.name as agencyName, e.name as custName, f.userId as agentUserId, a.preChangeCnName,
+	     a.caseGroup,c.limitdate,c.message,c.createdate,c.isclose 
+	   	 from trademark_case a
+	     left join  
+		(		
+
+		    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+			  <!--  AND a.isclose = 0 -->
+				<![CDATA[ 
+		 			and a.userId<>0	
+		 		]]> 
+			UNION
+			    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+				AND a.username = '系统'   
+		)c  on  a.id=c.caseId
+		left join customer e on a.custId=e.id		
+		left join agency d on a.coagencyId=d.id
+		left join (
+						select a.userId, a.custId, b.agencyId from user_customer a, agency_user b 
+						where a.userId=b.userId 
+						group by custId,agencyId
+				) f on f.custId=a.custId and f.agencyId=a.agencyId
+	    <if test="userId!=null">		    
+		    left join agency_user b on a.agencyId=b.agencyId 
+			where 
+			1=1
+			and a.custId in (select custId from user_customer where userId = #{userId,jdbcType=INTEGER})
+			and a.agencyId in (select agencyId from agency_user where userId = #{userId,jdbcType=INTEGER})
+			and b.userId=#{userId,jdbcType=INTEGER}			
+		</if>
+		
+			<![CDATA[
+			and a.status<>'成功'
+			]]>
+		 <!--  1:有时限的案件-->  	
+		<if test="gcon.flag == 1">
+			AND c.limitdate is not NULL
+		</if>
+		<choose>
+		    <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+					agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+					appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+					appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+					caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or 
+					caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+					processPerson like #{gcon.keyword,jdbcType=VARCHAR} or	
+					tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+					regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+					limitdate like #{gcon.keyword}
+					)
+			</when>
+			<otherwise>
+				<bind name="appCnName" value="tmcase.appCnName" />
+			    <if test="appCnName">
+			    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+			    </if>
+			    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+			    <if test="caseTypeId!=null">
+			    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+			    </if>
+	    	</otherwise>
+	    </choose>
+			
+		
+		<bind name="taskCondition.caseIds" value="taskCondition.caseIds" />	    
+	    <if test="taskCondition.caseIds != null">
+	    union
+	        select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+		     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+             c.processPerson, d.name as agencyName, e.name as custName, f.userId as agentUserId, a.preChangeCnName,
+             a.caseGroup,c.limitdate,c.message,c.createdate,c.isclose 
+		   	 from trademark_case a
+		     left join  
+			(		
+
+			  SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+				  <!--  AND a.isclose = 0 -->
+					<![CDATA[ 
+			 			and a.userId<>0	
+			 		]]> 
+				UNION
+				    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+					AND a.username = '系统' 
+						
+			)c 	on  a.id=c.caseId
+			left join customer e on a.custId=e.id
+			left join agency d on a.coagencyId=d.id
+			left join (
+				select a.userId, a.custId, b.agencyId from user_customer a, agency_user b 
+				where a.userId=b.userId 
+				group by custId,agencyId
+		    ) f on f.custId=a.custId and f.agencyId=a.agencyId
+			where 1=1
+			and a.id in 
+			<foreach collection="taskCondition.caseIds" index="index" item="item" open="(" separator="," close=")">
+	       	 	#{item}
+	      	</foreach>
+	      	 <!--  1:有时限的案件-->  	
+			<if test="gcon.flag == 1">
+				AND c.limitdate is not NULL
+			</if>
+	      	<choose>
+			    <when test="gcon.keyword!=null and gcon.keyword!=''">
+					<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+					and (
+					agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+					appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+					appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+					caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or 
+					caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+					processPerson like #{gcon.keyword,jdbcType=VARCHAR} or	
+					tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+					regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+					limitdate like #{gcon.keyword}
+					)
+				</when>
+				<otherwise>
+					<bind name="appCnName" value="tmcase.appCnName" />
+				    <if test="appCnName">
+				    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+				    </if>
+				    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+				    <if test="caseTypeId!=null">
+				    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+				    </if>
+		    	</otherwise>
+    		</choose>
+	    </if>
+	    
+   	)
+   <bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />	
+	<bind name="gcon.orderCol" value="gcon.orderCol" />
+	<bind name="gcon.orderAsc" value="gcon.orderAsc" />	
+	<if test="gcon.orderCol != null and gcon.orderAsc!=null">
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	</if>
+	<if test="gcon.offset != null and gcon.rows!=null">
+		 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+	</if>
+		
+  </select>
+  
+  <!-- 代理人查询总数 -->
+   <select id="getDaiBanCaseCount" resultType="java.lang.Long" >
+     select count(*) from
+    (  <trim prefix="" prefixOverrides="union">
+			<bind name="pageId" value="pageId" />	    
+	    <if test="pageId == null">
+	    union
+	    select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+         c.processPerson, d.name as agencyName,a.preChangeCnName,c.limitdate,c.message,c.createdate
+	   	 from trademark_case a
+	     left join  
+		(	
+				SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+				  <!--  AND a.isclose = 0 -->
+					<![CDATA[ 
+			 			and a.userId<>0	
+			 		]]> 
+				UNION
+				    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+					AND a.username = '系统' 
+		)c 	on  a.id=c.caseId
+		left join agency d on a.coagencyId=d.id
+	    <if test="userId!=null">	        
+		    left join agency_user b on a.agencyId=b.agencyId  
+			where 
+			1=1
+			and a.custId in (select custId from user_customer where userId = #{userId,jdbcType=INTEGER})
+			and a.agencyId in (select agencyId from agency_user where userId = #{userId,jdbcType=INTEGER})
+			and b.userId=#{userId,jdbcType=INTEGER}
+		</if>  
+		<if test="userId==null">	   
+	    	<bind name="tmcase.custId" value="tmcase.custId" />    	
+		 	where
+		 	1=1
+		 	and a.custId = #{tmcase.custId,jdbcType=INTEGER} 
+		 	and a.cotag=0
+		</if>	
+			<![CDATA[
+			and a.status<>'成功'
+			]]>	
+		</if>
+		 <!--  1:有时限的案件-->  	
+		<if test="gcon.flag == 1">
+				AND c.limitdate is not NULL
+		</if>			
+	    <bind name="taskCondition.caseIds" value="taskCondition.caseIds" />	    
+	    <if test="taskCondition.caseIds != null">
+	    union
+	        select a.custId, a.id as caseId, a.modifyDate,a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+		     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus,
+             c.processPerson, d.name as agencyName,a.preChangeCnName,c.limitdate,c.message,c.createdate
+		   	 from trademark_case a
+		     left join  
+			(	
+				SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+				  <!--  AND a.isclose = 0 -->
+					<![CDATA[ 
+			 			and a.userId<>0	
+			 		]]> 
+				UNION
+				    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+					left join 
+					(									
+							SELECT  caseId, message,limitdate,createdate,isclose
+							FROM remind
+							where rid in (select max(rid) from remind GROUP BY caseId)										
+					) b on a.caseId=b.caseId		
+					left join USER c on a.userId = c.userId 
+					where 
+					1=1
+					and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+					AND a.username = '系统' 
+								
+			)c	on  a.id=c.caseId
+			left join agency d on a.coagencyId=d.id
+			where 1=1
+			<!--  1:有时限的案件-->  	
+			<if test="gcon.flag == 1">
+				AND c.limitdate is not NULL
+			</if>
+			and a.id in 
+			<foreach collection="taskCondition.caseIds" index="index" item="item" open="(" separator="," close=")">
+	       	 	#{item}
+	      	</foreach>	      	
+	    </if>
+	    </trim>
+    ) d
+    where 1=1
+    <choose>
+	    <when test="gcon.keyword!=null and gcon.keyword!=''">
+			<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+			and (
+			agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+			appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+			appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+			caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or 
+			caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+			processPerson like #{gcon.keyword,jdbcType=VARCHAR} or	
+			tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+			regNumber like #{gcon.keyword,jdbcType=VARCHAR} or
+			limitdate like #{gcon.keyword}
+			)
+		</when>
+		<otherwise>
+			<bind name="appCnName" value="tmcase.appCnName" />
+		    <if test="appCnName">
+		    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+		    </if>
+		    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+		    <if test="caseTypeId!=null">
+		    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+		    </if>
+    	</otherwise>
+    </choose>
+  </select>
+  
+  
+   <select id="getDaiBanCaseWithTask" resultMap="TmCaseTaskToDoListMap" > 
+   		
+		<bind name="taskCondition.caseIds" value="taskCondition.caseIds" />	 
+        select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+            c.processPerson, d.name as agencyName, e.name as custName, f.userId as agentUserId,a.preChangeCnName,
+            a.caseGroup,c.limitdate,c.message,c.isclose
+	   	 from trademark_case a
+	     left join  
+
+		(	
+		
+		    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+			  <!--  AND a.isclose = 0 -->
+				<![CDATA[ 
+		 			and a.userId<>0	
+		 		]]> 
+			UNION
+			    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+				AND a.username = '系统' 
+		)c 	on  a.id=c.caseId
+		left join customer e on a.custId=e.id
+		left join agency d on a.coagencyId=d.id
+		left join (
+			select a.userId, a.custId, b.agencyId from user_customer a, agency_user b 
+			where a.userId=b.userId 
+			group by custId,agencyId
+	    ) f on f.custId=a.custId and f.agencyId=a.agencyId
+		where 1=1
+		<if test="gcon.docDate != null and gcon.docDate!='' ">
+			and a.id in(SELECT caseId FROM material WHERE docDate =#{gcon.docDate})
+		</if>
+		<if test="gcon.docType != null and gcon.docType!='' ">
+			and a.id in(SELECT caseId FROM material WHERE fileName =#{gcon.docType})
+		</if>
+		and a.id in 
+		<foreach collection="taskCondition.caseIds" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+      	<choose>
+		    <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+					agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+					appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+					appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+					caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or 
+					caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+					<!-- processPerson like #{gcon.keyword,jdbcType=VARCHAR} or	 -->
+					tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+					regNumber like #{gcon.keyword,jdbcType=VARCHAR}or
+					limitdate like #{gcon.keyword}
+				)
+			</when>
+			<otherwise>
+				<bind name="appCnName" value="tmcase.appCnName" />
+			    <if test="appCnName">
+			    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+			    </if>
+			    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+			    <if test="caseTypeId!=null">
+			    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+			    </if>
+	    	</otherwise>
+   		</choose>
+   		
+   		<bind name="gcon.offset" value="gcon.offset" />
+		<bind name="gcon.rows" value="gcon.rows" />	
+		<bind name="gcon.orderCol" value="gcon.orderCol" />
+		<bind name="gcon.orderAsc" value="gcon.orderAsc" />	
+		<if test="gcon.orderCol != null and gcon.orderAsc!=null">
+			order by ${gcon.orderCol} ${gcon.orderAsc}				
+		</if>
+		<if test="gcon.orderCol == null and gcon.orderAsc == null">
+			order by a.statusTime desc
+		</if>
+		<if test="gcon.offset != null and gcon.rows!=null">
+			 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+		</if>
+		
+  </select>
+  
+  <select id="getDaiBanCaseWithTaskCount" resultType="java.lang.Long" >
+   	<bind name="taskCondition.caseIds" value="taskCondition.caseIds" />	 
+   	select count(*) from
+   	(
+        select a.custId, a.id as caseId, a.modifyDate, a.agentNum, a.agencyId, a.coagencyId, a.caseType, a.caseTypeId, a.appCnName, a.appEnName, a.appDate, a.goodClasses, a.imageFile,
+	     a.tmName, a.regNumber, a.regDate, a.rejectDate, c.caseStatus, c.statusTime, c.submitStatus, 
+            c.processPerson, d.name as agencyName, e.name as custName, f.userId as agentUserId,a.preChangeCnName,
+            a.caseGroup
+	   	 from trademark_case a
+	     left join  
+		(		
+
+		   SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,c.fullname AS processPerson,
+							b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )	
+			  <!--  AND a.isclose = 0 -->
+				<![CDATA[ 
+		 			and a.userId<>0	
+		 		]]> 
+			UNION
+			    SELECT  a.id,a.caseId,a.status AS caseStatus,a.statusTime,a.submitStatus,a.username AS processPerson,
+						b.message,b.limitdate,b.createdate,b.isclose from trademark_case_process a
+				left join 
+				(									
+						SELECT  caseId, message,limitdate,createdate,isclose
+						FROM remind
+						where rid in (select max(rid) from remind GROUP BY caseId)										
+				) b on a.caseId=b.caseId		
+				left join USER c on a.userId = c.userId 
+				where 
+				1=1
+				and a.id IN ( SELECT max(id) FROM trademark_case_process GROUP BY caseId )
+				AND a.username = '系统' 
+		)c 	on  a.id=c.caseId
+		left join customer e on a.custId=e.id
+		left join agency d on a.coagencyId=d.id
+		left join (
+			select a.userId, a.custId, b.agencyId from user_customer a, agency_user b 
+			where a.userId=b.userId 
+			group by custId,agencyId
+	    ) f on f.custId=a.custId and f.agencyId=a.agencyId
+		where 1=1
+		<if test="gcon.docDate != null and gcon.docDate!='' ">
+			and a.id in(SELECT caseId FROM material WHERE docDate =#{gcon.docDate})
+		</if>
+		and a.id in 
+		<foreach collection="taskCondition.caseIds" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+      	<choose>
+		    <when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and (
+					agentNum like #{gcon.keyword,jdbcType=VARCHAR} or
+					appCnName like #{gcon.keyword,jdbcType=VARCHAR} or 
+					appEnName like #{gcon.keyword,jdbcType=VARCHAR} or
+					caseStatus like #{gcon.keyword,jdbcType=VARCHAR} or 
+					caseType like #{gcon.keyword,jdbcType=VARCHAR} or
+					<!-- processPerson like #{gcon.keyword,jdbcType=VARCHAR} or -->	
+					tmName like #{gcon.keyword,jdbcType=VARCHAR} or	
+					regNumber like #{gcon.keyword,jdbcType=VARCHAR}or
+					limitdate like #{gcon.keyword}
+				)
+			</when>
+			<otherwise>
+				<bind name="appCnName" value="tmcase.appCnName" />
+			    <if test="appCnName">
+			    	and ( appCnName = #{appCnName,jdbcType=VARCHAR} or preChangeCnName = #{appCnName,jdbcType=VARCHAR})
+			    </if>
+			    <bind name="caseTypeId" value="tmcase.caseTypeId" />
+			    <if test="caseTypeId!=null">
+			    	and caseTypeId = #{caseTypeId,jdbcType=INTEGER} 
+			    </if>
+	    	</otherwise>
+   		</choose>
+   		) d
+   </select>
+  
+  
+   <select id="getAgencyDaiBanCaseCount" resultType="java.lang.Long" >
+     select count(*) from
+    (  
+	    select a.id, a.status
+	   	from trademark_case a	
+	   	where 
+		1=1
+	   	<bind name="taskCondition.userIds" value="taskCondition.userIds" />      
+	    <if test="taskCondition.userIds != null">	
+			and a.custId in (
+				select distinct(custId) from user_customer 
+				where userId in
+				<foreach collection="taskCondition.userIds" index="index" item="item" open="(" separator="," close=")">
+	       	 		#{item}
+	      	    </foreach>	
+			)			
+		</if>
+		  
+		<bind name="taskCondition.custIds" value="taskCondition.custIds" />      
+	    <if test="taskCondition.custIds != null">
+		 	and a.custId in
+		 	<foreach collection="taskCondition.custIds" index="index" item="item" open="(" separator="," close=")">
+	       	 		#{item}
+	      	</foreach>	
+		 	and a.cotag=0
+		</if>
+		    and a.agencyId= #{agencyId,jdbcType=INTEGER} 
+			<![CDATA[
+			and a.status<>'成功'
+			]]>						
+	    <bind name="taskCondition.caseIds" value="taskCondition.caseIds" />	    
+	    <if test="taskCondition.caseIds != null">
+	    union
+	        select a.id, a.status
+		   	from trademark_case a
+			where 1=1
+			and a.id in 
+			<foreach collection="taskCondition.caseIds" index="index" item="item" open="(" separator="," close=")">
+	       	 	#{item}
+	      	</foreach>	      	
+	    </if>
+    ) d   
+  </select>
+  
+  
+  
+  
+  
+  <select id="getDaiBanBillList"  resultMap="BillToDoListMap" >
+    select a.billId, a.billNo, a.status, a.custId, a.agencyId, a.groupName, a.description, a.createDate, a.creater,
+    a.discount, a.currency, a.exchangeRate, a.sum, a.foreignSum, a.serviceCost, a.applyCost, 
+    a.otherCost, a.memo, a.billTitle, a.contactId, a.payAcountId, a.coagencyId, a.receiverType,
+    b.name as customer,
+    c.fullname as createrFullname,
+    e.name as agencyName,
+    f.name as coagencyName
+    from bill a 
+    left join customer b on a.custId=b.id
+    left join user c on a.creater=c.username
+    left join agency e on e.id=a.agencyId
+    left join agency f on f.id=a.coagencyId
+    where   1=1	
+    <bind name="taskCondition.billIds" value="taskCondition.billIds" />	    
+	<if test="taskCondition.billIds != null">
+		and a.billId in 
+		<foreach collection="taskCondition.billIds" index="index" item="item" open="(" separator="," close=")">
+	      #{item}
+	    </foreach>	
+    </if>
+    <bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />	
+	<bind name="gcon.orderCol" value="gcon.orderCol" />
+	<bind name="gcon.orderAsc" value="gcon.orderAsc" />	
+    <if test="gcon.orderCol != null and gcon.orderAsc!=null">
+		order by ${gcon.orderCol} ${gcon.orderAsc}				
+	</if>
+	<if test="gcon.offset != null and gcon.rows!=null">
+		 limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER} 			
+	</if>
+	
+	
+  </select>
+  
+ 
+   <select id="getDaiBanBillCount" resultType="java.lang.Long" >  
+    select count(billId)
+    from  bill
+    where   1=1	
+    <bind name="taskCondition.billIds" value="taskCondition.billIds" />	    
+	<if test="taskCondition.billIds != null">
+		and billId in 
+		<foreach collection="taskCondition.billIds" index="index" item="item" open="(" separator="," close=")">
+	      #{item}
+	    </foreach>	
+    </if>
+    
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from task_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from task_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.task.model.TaskRecord" >
+    insert into task_record (id, caseId, taskId, 
+      taskName, taskTime, taskUser, 
+      taskResult, remarks)
+    values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+      #{taskName,jdbcType=VARCHAR}, #{taskTime,jdbcType=TIMESTAMP}, #{taskUser,jdbcType=VARCHAR}, 
+      #{taskResult,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.task.model.TaskRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into task_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="taskId != null" >
+        taskId,
+      </if>
+      <if test="taskName != null" >
+        taskName,
+      </if>
+      <if test="taskTime != null" >
+        taskTime,
+      </if>
+      <if test="taskUser != null" >
+        taskUser,
+      </if>
+      <if test="taskResult != null" >
+        taskResult,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null" >
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTime != null" >
+        #{taskTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskUser != null" >
+        #{taskUser,jdbcType=VARCHAR},
+      </if>
+      <if test="taskResult != null" >
+        #{taskResult,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.task.model.TaskRecord" >
+    update task_record
+    <set >
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null" >
+        taskId = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null" >
+        taskName = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTime != null" >
+        taskTime = #{taskTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskUser != null" >
+        taskUser = #{taskUser,jdbcType=VARCHAR},
+      </if>
+      <if test="taskResult != null" >
+        taskResult = #{taskResult,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.task.model.TaskRecord" >
+    update task_record
+    set caseId = #{caseId,jdbcType=INTEGER},
+      taskId = #{taskId,jdbcType=INTEGER},
+      taskName = #{taskName,jdbcType=VARCHAR},
+      taskTime = #{taskTime,jdbcType=TIMESTAMP},
+      taskUser = #{taskUser,jdbcType=VARCHAR},
+      taskResult = #{taskResult,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryByCaseIdAndFileName" resultType="java.util.Map">
+  	SELECT * FROM material WHERE caseId = #{caseId} AND fileName = #{fileName}
+  </select>
+</mapper>

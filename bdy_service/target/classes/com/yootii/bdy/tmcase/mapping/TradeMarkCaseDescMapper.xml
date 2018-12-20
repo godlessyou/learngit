@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseDescMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseDesc" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="col" property="col" jdbcType="VARCHAR" />
+    <result column="cnName" property="cnName" jdbcType="VARCHAR" />
+    <result column="enName" property="enName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, col, cnName, enName
+  </sql>
+  
+  <select id="selectTradeMarkCaseDescList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_desc    
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_desc
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_desc
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseDesc" >
+    insert into trademark_case_desc (id, col, cnName, 
+      enName)
+    values (#{id,jdbcType=INTEGER}, #{col,jdbcType=VARCHAR}, #{cnName,jdbcType=VARCHAR}, 
+      #{enName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseDesc" >
+    insert into trademark_case_desc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="col != null" >
+        col,
+      </if>
+      <if test="cnName != null" >
+        cnName,
+      </if>
+      <if test="enName != null" >
+        enName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="col != null" >
+        #{col,jdbcType=VARCHAR},
+      </if>
+      <if test="cnName != null" >
+        #{cnName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        #{enName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseDesc" >
+    update trademark_case_desc
+    <set >
+      <if test="col != null" >
+        col = #{col,jdbcType=VARCHAR},
+      </if>
+      <if test="cnName != null" >
+        cnName = #{cnName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        enName = #{enName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseDesc" >
+    update trademark_case_desc
+    set col = #{col,jdbcType=VARCHAR},
+      cnName = #{cnName,jdbcType=VARCHAR},
+      enName = #{enName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

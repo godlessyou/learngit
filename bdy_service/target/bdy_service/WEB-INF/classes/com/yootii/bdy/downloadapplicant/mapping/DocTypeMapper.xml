@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.downloadapplicant.dao.DocTypeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.yootii.bdy.downloadapplicant.model.DocType">
+		<id column="docTypeId" jdbcType="INTEGER" property="docTypeId" />
+		<result column="docTypeName" jdbcType="VARCHAR" property="docTypeName" />
+		<result column="agencyId" jdbcType="INTEGER" property="agencyId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		docTypeId, docTypeName, agencyId
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from doc_type
+		where docTypeId = #{docTypeId,jdbcType=INTEGER}
+	</select>
+	<select id="selectByDocType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from doc_type
+		where 1=1
+		<bind name="docType.agencyId" value="docType.agencyId" />
+		and agencyId=#{docType.agencyId,jdbcType=INTEGER}
+		<choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and docTypeName like #{gcon.keyword,jdbcType=VARCHAR}
+			</when>
+			<otherwise>
+				<if test="docType.docTypeName!=null and docType.docTypeName!=''">
+					<bind name="docType.docTypeName" value="'%' + docType.docTypeName + '%'" />
+					and docTypeName like #{docType.docTypeName,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		order by docTypeName
+		<bind name="gcon.offset" value="gcon.offset" />
+		<bind name="gcon.rows" value="gcon.rows" />
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+	</select>
+	<select id="selectByDocTypeCount" resultType="int">
+		select count(docTypeId) as count
+		from doc_type
+		where 1=1
+		<bind name="docType.agencyId" value="docType.agencyId" />
+		and agencyId=#{docType.agencyId,jdbcType=INTEGER}
+		<choose>
+			<when test="gcon.keyword!=null and gcon.keyword!=''">
+				<bind name="gcon.keyword" value="'%' + gcon.keyword + '%'" />
+				and docTypeName like #{gcon.keyword,jdbcType=VARCHAR}
+			</when>
+			<otherwise>
+				<if test="docType.docTypeName!=null and docType.docTypeName!=''">
+					<bind name="docType.docTypeName" value="'%' + docType.docTypeName + '%'" />
+					and docTypeName like #{docType.docTypeName,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="checkRole" parameterType="int" resultType="string">
+		select a.name 
+		from role a
+		left join user_role b on a.id=b.roleId
+		where b.userId=#{userId}
+    </select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from doc_type
+		where docTypeId = #{docTypeId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.yootii.bdy.downloadapplicant.model.DocType">
+		insert into doc_type (docTypeId, docTypeName,agencyId)
+		values (#{docTypeId,jdbcType=INTEGER}, #{docTypeName,jdbcType=VARCHAR},#{agencyId,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yootii.bdy.downloadapplicant.model.DocType">
+		insert into doc_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="docTypeId != null">
+				docTypeId,
+			</if>
+			<if test="docTypeName != null">
+				docTypeName,
+			</if>
+			<if test="agencyId != null">
+				agencyId,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="docTypeId != null">
+				#{docTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="docTypeName != null">
+				#{docTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="agencyId != null">
+				#{agencyId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.downloadapplicant.model.DocType">
+		update doc_type
+		<set>
+			<if test="docTypeName != null">
+				docTypeName = #{docTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="agencyId != null">
+				agencyId = #{agencyId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where docTypeId = #{docTypeId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yootii.bdy.downloadapplicant.model.DocType">
+		update doc_type
+		set docTypeName = #{docTypeName,jdbcType=VARCHAR},
+		agencyId = #{agencyId,jdbcType=INTEGER}
+		where docTypeId = #{docTypeId,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="goodClass" property="goodClass" jdbcType="VARCHAR" />
+    <result column="similarGroup" property="similarGroup" jdbcType="VARCHAR" />
+    <result column="goodCode" property="goodCode" jdbcType="VARCHAR" />
+    <result column="goodName" property="goodName" jdbcType="VARCHAR" />
+    <result column="goodNameEn" property="goodNameEn" jdbcType="VARCHAR" />
+    <result column="goodKey" property="goodKey" jdbcType="VARCHAR" />
+    <result column="casePreId" property="casePreId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id , caseId, goodClass, similarGroup, goodCode, goodName, goodNameEn, goodKey, casePreId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>  
+  <select id="selectByTradeMarkCaseCategory" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_category
+    where 1=1
+    <if test="casePreId!=null">
+    	and casePreId = #{casePreId,jdbcType=INTEGER}
+    </if>
+    <if test="caseId!=null">
+    	and caseId = #{caseId,jdbcType=INTEGER}
+    </if>
+  </select>
+  <delete id="deleteByCaseId" parameterType="java.lang.Integer" >
+    delete from trademark_case_category
+    where caseId = #{caseId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByCasePreId" parameterType="java.lang.Integer" >
+    delete from trademark_case_category
+    where casePreId = #{casePreId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    insert into trademark_case_category (id, caseId, 
+      goodClass, similarGroup, goodCode, 
+      goodName, goodNameEn, goodKey, casePreId,)
+    values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, 
+      #{goodClass,jdbcType=VARCHAR}, #{similarGroup,jdbcType=VARCHAR}, #{goodCode,jdbcType=VARCHAR}, 
+      #{goodName,jdbcType=VARCHAR}, #{goodNameEn,jdbcType=VARCHAR}, #{goodKey,jdbcType=VARCHAR},
+      #{casePreId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_case_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="goodClass != null" >
+        goodClass,
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup,
+      </if>
+      <if test="goodCode != null" >
+        goodCode,
+      </if>
+      <if test="goodName != null" >
+        goodName,
+      </if>
+      <if test="goodNameEn != null" >
+        goodNameEn,
+      </if>
+      <if test="goodKey != null" >
+        goodKey,
+      </if>
+      <if test="casePreId != null" >
+        casePreId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNameEn != null" >
+        #{goodNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        #{goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="casePreId != null" >
+        #{casePreId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="copyTmCaseCategoryRecord" >
+    insert into trademark_case_category (caseId, goodClass, similarGroup, goodCode, 
+      goodName, goodNameEn, goodKey, casePreId)
+	select #{assoCaseId,jdbcType=INTEGER}, goodClass, similarGroup, goodCode, 
+      goodName, goodNameEn, goodKey, casePreId
+      from trademark_case_category
+      where caseId=#{caseId,jdbcType=INTEGER}
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    update trademark_case_category
+    <set >
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodClass != null" >
+        goodClass = #{goodClass,jdbcType=VARCHAR},
+      </if>
+      <if test="similarGroup != null" >
+        similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCode != null" >
+        goodCode = #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        goodName = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNameEn != null" >
+        goodNameEn = #{goodNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKey != null" >
+        goodKey = #{goodKey,jdbcType=VARCHAR},
+      </if>
+      <if test="casePreId != null" >
+        casePreId = #{casePreId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory" >
+    update trademark_case_category
+    set caseId = #{caseId,jdbcType=INTEGER},
+      goodClass = #{goodClass,jdbcType=VARCHAR},
+      similarGroup = #{similarGroup,jdbcType=VARCHAR},
+      goodCode = #{goodCode,jdbcType=VARCHAR},
+      goodName = #{goodName,jdbcType=VARCHAR},
+      goodNameEn = #{goodNameEn,jdbcType=VARCHAR},
+      goodKey = #{goodKey,jdbcType=VARCHAR},
+      casePreId = #{casePreId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectGoodKeyByGoodNameAndClass" resultMap="BaseResultMap" >
+    select 
+    id, goodClass, similarGroup, goodCode, goodName, goodEnName as goodNameEn, goodKey
+    from trademark_case_category_detil
+    where goodName = #{goodName,jdbcType=VARCHAR} 
+    and goodClass=#{goodClass,jdbcType=INTEGER}
+    limit 1
+  </select> 
+  <select id="selectCaseCategoryDetailByGood" resultMap="BaseResultMap" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseCategory">
+    select  goodClass, similarGroup, goodCode, goodName, goodEnName as goodNameEn, goodKey
+    from trademark_case_category_detil
+    where 1=1
+    <if test="good.goodName != null" > 
+    <bind name="good.goodName" value="good.goodName"/>
+    	and goodName = #{good.goodName,jdbcType=VARCHAR}
+    </if>
+    <if test="good.goodNameEn != null" >
+    <bind name="good.goodNameEn" value="good.goodNameEn"/>
+    	and goodEnName = #{good.goodNameEn,jdbcType=VARCHAR} 
+    </if>
+    <if test="good.goodCode != null" >
+    <bind name="good.goodCode" value="good.goodCode"/>
+    and goodCode=#{good.goodCode,jdbcType=VARCHAR}
+    </if>
+    limit 1
+  </select>
+  
+  
+  <select id="categoryList" resultType="java.util.Map">
+		SELECT  a.* FROM trademark_case_category a,trademark_case_category_detil b
+		WHERE a.goodCode = b.goodCode AND a.caseId = #{caseId}
+  </select>
+  
+  
+</mapper>

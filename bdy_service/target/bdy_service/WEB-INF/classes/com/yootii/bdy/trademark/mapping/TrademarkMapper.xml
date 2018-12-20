@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.trademark.dao.TrademarkMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.trademark.model.Trademark" >
+    <id column="tmId" property="tmId" jdbcType="INTEGER" />
+    <result column="regNumber" property="regNumber" jdbcType="VARCHAR" />
+    <result column="tmType" property="tmType" jdbcType="VARCHAR" />
+    <result column="tmGroup" property="tmGroup" jdbcType="VARCHAR" />
+    <result column="tmName" property="tmName" jdbcType="VARCHAR" />
+    <result column="applicantName" property="applicantName" jdbcType="VARCHAR" />
+    <result column="applicantAddress" property="applicantAddress" jdbcType="VARCHAR" />
+    <result column="applicantEnName" property="applicantEnName" jdbcType="VARCHAR" />
+    <result column="applicantEnAddress" property="applicantEnAddress" jdbcType="VARCHAR" />
+    <result column="gtApplicantName" property="gtApplicantName" jdbcType="VARCHAR" />
+    <result column="gtApplicantAddress" property="gtApplicantAddress" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="appDate" property="appDate" jdbcType="TIMESTAMP" />
+    <result column="approvalNumber" property="approvalNumber" jdbcType="VARCHAR" />
+    <result column="approvalDate" property="approvalDate" jdbcType="TIMESTAMP" />
+    <result column="regnoticeNumber" property="regnoticeNumber" jdbcType="VARCHAR" />
+    <result column="regNoticeDate" property="regNoticeDate" jdbcType="TIMESTAMP" />
+    <result column="validStartDate" property="validStartDate" jdbcType="TIMESTAMP" />
+    <result column="validEndDate" property="validEndDate" jdbcType="TIMESTAMP" />
+    <result column="tmCategory" property="tmCategory" jdbcType="VARCHAR" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="classify" property="classify" jdbcType="VARCHAR" />
+    <result column="imgFileUrl" property="imgFileUrl" jdbcType="VARCHAR" />
+    <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="imgFilePath" property="imgFilePath" jdbcType="VARCHAR" />
+    <result column="gjRegDate" property="gjRegDate" jdbcType="TIMESTAMP" />
+    <result column="hqzdDate" property="hqzdDate" jdbcType="TIMESTAMP" />
+    <result column="priorDate" property="priorDate" jdbcType="VARCHAR" />
+    <result column="ifShareTm" property="ifShareTm" jdbcType="VARCHAR" />
+    <result column="tmForm" property="tmForm" jdbcType="VARCHAR" />
+    <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="tmStatus" property="tmStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="AgentMap" type="com.yootii.bdy.agency.model.Agency" >	    
+	    <result column="name" property="name" jdbcType="VARCHAR" />	 
+  </resultMap>
+  	
+  <sql id="Base_Column_List" >
+    tmId, regNumber, tmType, tmGroup, tmName, applicantName, applicantAddress, applicantEnName, 
+    applicantEnAddress, gtApplicantName, gtApplicantAddress, status, appDate, approvalNumber, 
+    approvalDate, regnoticeNumber, regNoticeDate, validStartDate, validEndDate, tmCategory, 
+    agent, classify, imgFileUrl, modifyDate, imgFilePath, gjRegDate, hqzdDate, priorDate,
+    ifShareTm, tmForm, imgUrl, tmStatus
+  </sql>
+  	
+  <select id="selectAgentByAppName" resultMap="AgentMap" parameterType="java.lang.String" >
+    select distinct(agent) as name 
+    from trademark 
+    where applicantName = #{appName,jdbcType=VARCHAR}
+  </select>
+  
+  
+   <select id="selectAddressList" resultMap="BaseResultMap"  >
+    
+    select distinct applicantAddress
+    from trademark 
+    where
+    1=1  
+    <bind name="trademark.applicantName" value="trademark.applicantName" />
+    <if test="trademark.applicantName!=null">
+	  and  applicantName = #{trademark.applicantName,jdbcType=VARCHAR}  
+	</if> 
+	
+    
+  </select>
+  
+   <select id="selectEnAddressList" resultMap="BaseResultMap"  >
+   
+    select distinct applicantEnName
+    from trademark 
+    where
+    1=1 
+    <bind name="trademark.applicantEnName" value="trademark.applicantEnName" />
+    <if test="trademark.applicantEnName!=null">
+	  and applicantEnName = #{trademark.applicantEnName,jdbcType=VARCHAR}  
+	</if> 
+    
+  </select>
+  
+  
+  
+  
+  <select id="selectByAppNameList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select tmId, regNumber, tmType, tmGroup, tmName, applicantName, applicantAddress, applicantEnName, 
+    applicantEnAddress, gtApplicantName, gtApplicantAddress, status, appDate, approvalNumber, 
+    approvalDate, regnoticeNumber, regNoticeDate, validStartDate, validEndDate, tmCategory, 
+    agent, classify, imgFileUrl, modifyDate, imgFilePath, gjRegDate, hqzdDate, priorDate,
+    ifShareTm, tmForm, imgUrl, tmStatus
+    from trademark
+    where 1=1
+    <if test="appNameList != null">
+		and applicantName in 
+		<foreach collection="appNameList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </select>
+  
+  <select id="selectByTmName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select regNumber, tmType
+    from trademark
+    where tmName = #{tmName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark
+    where tmId = #{tmId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByRegnumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+	   	select 
+	    <include refid="Base_Column_List" />
+	    from trademark
+	    where regNumber = #{regNumber,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark
+    where tmId = #{tmId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.trademark.model.Trademark" >
+    insert into trademark (tmId, regNumber, tmType, 
+      tmGroup, tmName, applicantName, 
+      applicantAddress, applicantEnName, applicantEnAddress, 
+      gtApplicantName, gtApplicantAddress, status, 
+      appDate, approvalNumber, approvalDate, 
+      regnoticeNumber, regNoticeDate, validStartDate, 
+      validEndDate, tmCategory, agent, 
+      classify, imgFileUrl, modifyDate, 
+      imgFilePath, gjRegDate, hqzdDate, priorDate, 
+      ifShareTm, tmForm, imgUrl, tmStatus)
+    values (#{tmId,jdbcType=INTEGER}, #{regNumber,jdbcType=VARCHAR}, #{tmType,jdbcType=VARCHAR}, 
+      #{tmGroup,jdbcType=VARCHAR}, #{tmName,jdbcType=VARCHAR}, #{applicantName,jdbcType=VARCHAR}, 
+      #{applicantAddress,jdbcType=VARCHAR}, #{applicantEnName,jdbcType=VARCHAR}, #{applicantEnAddress,jdbcType=VARCHAR}, 
+      #{gtApplicantName,jdbcType=VARCHAR}, #{gtApplicantAddress,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{appDate,jdbcType=TIMESTAMP}, #{approvalNumber,jdbcType=VARCHAR}, #{approvalDate,jdbcType=TIMESTAMP}, 
+      #{regnoticeNumber,jdbcType=VARCHAR}, #{regNoticeDate,jdbcType=TIMESTAMP}, #{validStartDate,jdbcType=TIMESTAMP}, 
+      #{validEndDate,jdbcType=TIMESTAMP}, #{tmCategory,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
+      #{classify,jdbcType=VARCHAR}, #{imgFileUrl,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{imgFilePath,jdbcType=VARCHAR}, #{gjRegDate,jdbcType=TIMESTAMP}, #{hqzdDate,jdbcType=TIMESTAMP}, 
+      #{priorDate,jdbcType=VARCHAR}, #{ifShareTm,jdbcType=VARCHAR},#{tmForm,jdbcType=VARCHAR},
+      #{imgUrl,jdbcType=VARCHAR}, #{tmStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.trademark.model.Trademark" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tmId != null" >
+        tmId,
+      </if>
+      <if test="regNumber != null" >
+        regNumber,
+      </if>
+      <if test="tmType != null" >
+        tmType,
+      </if>
+      <if test="tmGroup != null" >
+        tmGroup,
+      </if>
+      <if test="tmName != null" >
+        tmName,
+      </if>
+      <if test="applicantName != null" >
+        applicantName,
+      </if>
+      <if test="applicantAddress != null" >
+        applicantAddress,
+      </if>
+      <if test="applicantEnName != null" >
+        applicantEnName,
+      </if>
+      <if test="applicantEnAddress != null" >
+        applicantEnAddress,
+      </if>
+      <if test="gtApplicantName != null" >
+        gtApplicantName,
+      </if>
+      <if test="gtApplicantAddress != null" >
+        gtApplicantAddress,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="appDate != null" >
+        appDate,
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber,
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate,
+      </if>
+      <if test="regnoticeNumber != null" >
+        regnoticeNumber,
+      </if>
+      <if test="regNoticeDate != null" >
+        regNoticeDate,
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate,
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate,
+      </if>
+      <if test="tmCategory != null" >
+        tmCategory,
+      </if>
+      <if test="agent != null" >
+        agent,
+      </if>
+      <if test="classify != null" >
+        classify,
+      </if>
+      <if test="imgFileUrl != null" >
+        imgFileUrl,
+      </if>
+      <if test="modifyDate != null" >
+        modifyDate,
+      </if>
+      <if test="imgFilePath != null" >
+        imgFilePath,
+      </if>
+      <if test="gjRegDate!= null" >
+        gjRegDate,
+      </if>
+      <if test="hqzdDate!= null" >
+        hqzdDate,
+      </if>
+      <if test="priorDate!= null" >
+        priorDate,
+      </if>
+      <if test="ifShareTm != null" >
+        ifShareTm,
+      </if>
+      <if test="tmForm != null" >
+        tmForm ,
+      </if>
+      <if test="imgUrl != null" >
+        imgUrl,
+      </if>
+      <if test="tmStatus != null" >
+        tmStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tmId != null" >
+        #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="regNumber != null" >
+        #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="tmGroup != null" >
+        #{tmGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantName != null" >
+        #{applicantName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantAddress != null" >
+        #{applicantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnName != null" >
+        #{applicantEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnAddress != null" >
+        #{applicantEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gtApplicantName != null" >
+        #{gtApplicantName,jdbcType=VARCHAR},
+      </if>
+      <if test="gtApplicantAddress != null" >
+        #{gtApplicantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalNumber != null" >
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regnoticeNumber != null" >
+        #{regnoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regNoticeDate != null" >
+        #{regNoticeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmCategory != null" >
+        #{tmCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="imgFileUrl != null" >
+        #{imgFileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgFilePath != null" >
+        #{imgFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="gjRegDate!= null" >
+        #{gjRegDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hqzdDate!= null" >
+        #{hqzdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priorDate!= null" >
+        #{priorDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ifShareTm != null" >
+        #{ifShareTm,jdbcType=VARCHAR},
+      </if>
+      <if test="tmForm != null" >
+        #{tmForm,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tmStatus != null" >
+        #{tmStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.trademark.model.Trademark" >
+    update trademark
+    <set >
+      <if test="regNumber != null" >
+        regNumber = #{regNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tmType != null" >
+        tmType = #{tmType,jdbcType=VARCHAR},
+      </if>
+      <if test="tmGroup != null" >
+        tmGroup = #{tmGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="tmName != null" >
+        tmName = #{tmName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantName != null" >
+        applicantName = #{applicantName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantAddress != null" >
+        applicantAddress = #{applicantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnName != null" >
+        applicantEnName = #{applicantEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantEnAddress != null" >
+        applicantEnAddress = #{applicantEnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gtApplicantName != null" >
+        gtApplicantName = #{gtApplicantName,jdbcType=VARCHAR},
+      </if>
+      <if test="gtApplicantAddress != null" >
+        gtApplicantAddress = #{gtApplicantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="appDate != null" >
+        appDate = #{appDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regnoticeNumber != null" >
+        regnoticeNumber = #{regnoticeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regNoticeDate != null" >
+        regNoticeDate = #{regNoticeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartDate != null" >
+        validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmCategory != null" >
+        tmCategory = #{tmCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        classify = #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="imgFileUrl != null" >
+        imgFileUrl = #{imgFileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null" >
+        modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgFilePath != null" >
+        imgFilePath = #{imgFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="gjRegDate != null" >
+        gjRegDate = #{gjRegDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hqzdDate != null" >
+        hqzdDate = #{hqzdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priorDate != null" >
+        priorDate = #{priorDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ifShareTm != null" >
+        ifShareTm = #{ifShareTm,jdbcType=VARCHAR},
+      </if>
+      <if test="tmForm != null" >
+        tmForm = #{tmForm,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        imgUrl = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tmStatus != null" >
+        tmStatus = #{tmStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tmId = #{tmId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.trademark.model.Trademark" >
+    update trademark
+    set regNumber = #{regNumber,jdbcType=VARCHAR},
+      tmType = #{tmType,jdbcType=VARCHAR},
+      tmGroup = #{tmGroup,jdbcType=VARCHAR},
+      tmName = #{tmName,jdbcType=VARCHAR},
+      applicantName = #{applicantName,jdbcType=VARCHAR},
+      applicantAddress = #{applicantAddress,jdbcType=VARCHAR},
+      applicantEnName = #{applicantEnName,jdbcType=VARCHAR},
+      applicantEnAddress = #{applicantEnAddress,jdbcType=VARCHAR},
+      gtApplicantName = #{gtApplicantName,jdbcType=VARCHAR},
+      gtApplicantAddress = #{gtApplicantAddress,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      appDate = #{appDate,jdbcType=TIMESTAMP},
+      approvalNumber = #{approvalNumber,jdbcType=VARCHAR},
+      approvalDate = #{approvalDate,jdbcType=TIMESTAMP},
+      regnoticeNumber = #{regnoticeNumber,jdbcType=VARCHAR},
+      regNoticeDate = #{regNoticeDate,jdbcType=TIMESTAMP},
+      validStartDate = #{validStartDate,jdbcType=TIMESTAMP},
+      validEndDate = #{validEndDate,jdbcType=TIMESTAMP},
+      tmCategory = #{tmCategory,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      classify = #{classify,jdbcType=VARCHAR},
+      imgFileUrl = #{imgFileUrl,jdbcType=VARCHAR},
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      imgFilePath = #{imgFilePath,jdbcType=VARCHAR},
+      gjRegDate = #{gjRegDate,jdbcType=TIMESTAMP},
+      hqzdDate = #{hqzdDate,jdbcType=TIMESTAMP},
+      priorDate = #{priorDate,jdbcType=VARCHAR},
+      ifShareTm = #{ifShareTm,jdbcType=VARCHAR},
+      tmForm = #{tmForm,jdbcType=VARCHAR},
+      imgUrl = #{imgUrl,jdbcType=VARCHAR},
+      tmStatus = #{tmStatus,jdbcType=VARCHAR}
+    where tmId = #{tmId,jdbcType=INTEGER}
+  </update>
+  <select id="statsTmTop10" resultType="java.util.Map">
+  	SELECT COUNT(1) amount , a.name agencyName,a.id as agencyId
+	FROM trademark t ,agency a,applicant app,customer_applicant ca, agency_customer ac  WHERE 1=1
+	AND t.applicantName = app.applicantName 
+	AND app.id = ca.appId
+	AND ca.custId = ac.custId
+	AND ac.agencyId = a.id
+	<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(t.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(t.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+	</if>
+   	GROUP BY agencyId
+   	ORDER BY amount desc
+   	LIMIT 10
+  </select>
+  <select id="selectByTrademark" resultMap="BaseResultMap" >
+    select 
+    tmId,regNumber
+    from trademark where 1=1     
+    <bind name="gcon.offset" value="gcon.offset" />
+	<bind name="gcon.rows" value="gcon.rows" />
+	<if test="gcon.rows != null and gcon.offset != null">
+		limit #{gcon.offset,jdbcType=INTEGER}, #{gcon.rows,jdbcType=INTEGER}
+		</if>
+  </select>
+  <select id="selectCustIdByApplicantName" resultType="java.util.Map">
+  	SELECT ca.custId ,t.tmId,t.regNumber 
+  	FROM trademark t ,applicant a, customer_applicant ca WHERE  t.applicantName=a.applicantName AND a.id = ca.appId  ORDER BY t.tmId ASC
+  
+  </select>
+  
+  
+    
+  <select id="selectMultiTmType" resultMap="BaseResultMap" >
+  	select tmId, tmType, tmGroup from (select tmId, tmType, tmGroup, regNumber, instr(tmType,',') as aaa from trademark ) b 
+  	where  aaa!=0
+  </select>
+  
+  <update id="mergeTmData" parameterType="java.util.Map" >
+  	update trademark a, 
+  	(
+  	select regNumber, 
+  	GROUP_CONCAT(distinct tmType SEPARATOR ',') as tmType, 
+  	GROUP_CONCAT(distinct tmGroup SEPARATOR '')  as tmGroup
+  	from trademark group By regNumber having count(regNumber)>1
+  	) b 
+  	set a.tmGroup=b.tmGroup, a.tmType=b.tmType
+  	where a.regNumber=b.regNumber
+  	<if test="regNumberList != null">
+		and a.regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </update>
+  
+
+  
+  <delete id="deleteDuplicateTmData" parameterType="java.util.Map" >
+  	delete from trademark  where tmId not in
+	(
+	select tmId from (select min(tmId) as tmId from trademark group By regNumber, tmType) c
+	)	
+	<if test="regNumberList != null">
+		and regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </delete>
+  
+  
+  
+   <select id="selectByRegNumberList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select tmId, regNumber, tmType, tmGroup, tmName, applicantName, applicantAddress, applicantEnName, 
+    applicantEnAddress, gtApplicantName, gtApplicantAddress, status, appDate, approvalNumber, 
+    approvalDate, regnoticeNumber, regNoticeDate, validStartDate, validEndDate, tmCategory, 
+    agent, classify, imgFileUrl, modifyDate, imgFilePath, gjRegDate, hqzdDate, priorDate,
+    ifShareTm, tmForm, imgUrl
+    from trademark
+    where 1=1
+    <if test="regNumberList != null">
+		and regNumber in 
+		<foreach collection="regNumberList" index="index" item="item" open="(" separator="," close=")">
+       	 	#{item}
+      	</foreach>
+    </if>  
+  </select>
+  
+  <select id="queryTmNotificationSolrData" resultType="java.util.Map">
+		  	SELECT a.*,b.custId
+			FROM(
+						SELECT 
+				  		a.id,
+				  		a.tmId,
+				  		a.tmDeadTime,
+						date(a.createTime) as createTime,
+				  		b.tmName,
+				  		b.regNumber,
+				  		b.applicantName,
+				  		b.applicantEnName,
+				  		b.appDate,
+				  		date(b.validStartDate) as validStartDate,
+				  		date(b.validEndDate) as validEndDate,
+				  		b.tmStatus
+					FROM notification a LEFT JOIN trademark b
+					ON a.tmId = b.tmId
+				) a LEFT JOIN 
+			(
+				SELECT DISTINCT applicantName,b.custId 
+				FROM applicant a , customer_applicant b
+				WHERE a.mainAppId = b.appId
+			) b
+		ON a.applicantName = b.applicantName
+  </select>
+  
+  <select id="selectTmByRegNumber" resultType="java.util.Map">
+		SELECT * FROM trademark WHERE regNumber=#{regNumber}
+  </select>
+ 
+  
+</mapper>

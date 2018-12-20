@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.TradeMarkCaseProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.TradeMarkCaseProcess" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseId" property="caseId" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="custId" property="custId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="statusTime" property="statusTime" jdbcType="TIMESTAMP" />
+    <result column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="failReason" property="failReason" jdbcType="VARCHAR" />
+    <result column="submitStatus" property="submitStatus" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, caseId, userId, custId, username, status, statusTime, taskId, failReason, submitStatus, level
+  </sql>
+  
+  <select id="selectByCaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  	 select caseId, userId, custId, statusTime, status as caseStatus, username, failReason from trademark_case_process
+  	 where  id in
+	 (
+	       select max(id) from trademark_case_process
+	       where caseId=#{caseId,jdbcType=INTEGER} 
+	       group by caseId
+	 )
+  	     
+  </select>
+  
+  <select id="selectUserIdByCaseId" resultType="java.lang.Integer"  parameterType="java.lang.Integer" >    
+     select c.userId  from trademark_case_process a, user c
+  	 where 
+  	 1=1
+  	 and a.username=c.username  	 
+  	 and a.id=
+  	 (
+	    select MIN(c.id) from 
+	    (
+		  	 select id, caseId from trademark_case_process
+		  	 where 
+		  	 1=1		  	 
+		  	 and caseId=#{tmcase.id,jdbcType=INTEGER}		  	
+	  	 ) c  group by c.caseId
+  	 )  	
+	     
+  </select>
+  
+ 
+  <select id="selectByTmCaseProcess" resultMap="BaseResultMap" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseProcess" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_process
+    where 1=1
+    <if test="caseId!=null">
+    	and caseId=#{caseId,jdbcType=INTEGER}
+    </if>
+    <if test="status!=null">
+    	and status=#{status,jdbcType=VARCHAR}
+    </if>
+    order by statusTime desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trademark_case_process
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trademark_case_process
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseProcess" >
+    insert into trademark_case_process (id, caseId,  userId, custId, username, 
+      status, statusTime, taskId, 
+      failReason, submitStatus)
+    values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER},
+      #{userId,jdbcType=INTEGER},#{custId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{statusTime,jdbcType=TIMESTAMP}, #{taskId,jdbcType=INTEGER}, 
+      #{failReason,jdbcType=VARCHAR}, #{submitStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseProcess" useGeneratedKeys="true" keyProperty="id">
+    insert into trademark_case_process
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        caseId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="custId != null" >
+        custId,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="statusTime != null" >
+        statusTime,
+      </if>
+      <if test="taskId != null" >
+        taskId,
+      </if>
+      <if test="failReason != null" >
+        failReason,
+      </if>
+      <if test="submitStatus != null" >
+        submitStatus,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusTime != null" >
+        #{statusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="failReason != null" >
+        #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="submitStatus != null" >
+        #{submitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseProcess" >
+    update trademark_case_process
+    <set >
+      <if test="caseId != null" >
+        caseId = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        custId = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusTime != null" >
+        statusTime = #{statusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null" >
+        taskId = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="failReason != null" >
+        failReason = #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="submitStatus != null" >
+        submitStatus = #{submitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+       level = #{level,jdbcType=INTEGER},      
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.TradeMarkCaseProcess" >
+    update trademark_case_process
+    set caseId = #{caseId,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER},
+      custId = #{custId,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      statusTime = #{statusTime,jdbcType=TIMESTAMP},
+      taskId = #{taskId,jdbcType=INTEGER},
+      failReason = #{failReason,jdbcType=VARCHAR},
+      submitStatus = #{submitStatus,jdbcType=VARCHAR}, 
+      level = #{level,jdbcType=INTEGER}  
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

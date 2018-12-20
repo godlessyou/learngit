@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yootii.bdy.bill.dao.BillAmountMapper">
+ <resultMap type="com.yootii.bdy.bill.model.ReturnBillAmount" id="retuenBillAmount">
+	<result column="amount"  property="amount" jdbcType="BIGINT"/>
+	<result column="amount1"  property="amount1" jdbcType="BIGINT"/>
+	<result column="amount2"  property="amount2" jdbcType="BIGINT"/>
+	<result column="year"  property="year" jdbcType="INTEGER"/>
+	<result column="status"  property="status" jdbcType="VARCHAR"/>
+
+	<result column="billType"  property="billType" jdbcType="VARCHAR"/>
+	<result column="agencyId"  property="agencyId" jdbcType="INTEGER"/>
+	<result column="agencyName"  property="agencyName" jdbcType="VARCHAR"/>
+	<result column="custId"  property="custId" jdbcType="INTEGER"/>
+	<result column="userId"  property="userId" jdbcType="INTEGER"/>
+	<result column="userName"  property="userName" jdbcType="VARCHAR"/>
+	<result column="customerName"  property="customerName" jdbcType="VARCHAR"/>
+	
+</resultMap>
+	<select id="selectStatsByCustomer" resultMap="retuenBillAmount">
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+		<!-- SELECT COUNT(1) amount FROM bill WHERE custId =#{custId,jdbcType=INTEGER} -->
+		SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+
+
+		(SELECT COUNT(1) amount FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		) a,
+
+		(SELECT COUNT(1) amount FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		AND STATUS='已付款'
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		) b,
+		
+		(SELECT COUNT(1) amount FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		AND STATUS='未付款'
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		) c
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'pay'">
+		SELECT COUNT(1) amount FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		and status='已付款'
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'nopay'">
+		SELECT COUNT(1) amount FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		and status='未付款'
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+		SELECT COUNT(1) amount , status FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by status
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'type'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 , billType ,sum(sum) as amount2 FROM bill WHERE custId =#{custId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by billType
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'agency'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 ,a.name as agencyName ,sum(sum) as amount2 FROM bill b , agency a WHERE b.custId =#{custId,jdbcType=INTEGER}
+		and a.id = b.agencyId
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(b.createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(b.createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by b.agencyId
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'byyear'">
+		SELECT  sum(applyCost) as amount, sum(otherCost) as amount1 ,YEAR(b.createDate) AS YEAR ,sum(sum) as amount2 FROM bill b WHERE custId =#{custId,jdbcType=INTEGER}
+		 
+		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(b.createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(b.createDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(b.createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(b.createDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+   		GROUP BY YEAR(b.createDate)
+   		ORDER BY amount desc
+		</if>
+	</select>
+	<select id="selectStatsByAgencyUser" resultMap="retuenBillAmount">
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+		<!-- SELECT COUNT(1) amount FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		) -->
+		SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+		
+		(SELECT COUNT(1) amount FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		)a,
+		
+		(SELECT COUNT(1) amount FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		AND STATUS='已付款'
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		)b,
+		
+		(SELECT COUNT(1) amount FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		AND STATUS='未付款'
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		)c
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'pay'">
+		SELECT COUNT(1) amount FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		and status='已付款'
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'nopay'">
+		SELECT COUNT(1) amount FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		and status='未付款'
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+		SELECT COUNT(1) amount , status FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by status
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'customer'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 , b.custId customerId, c.name as customerName ,sum(sum) as amount2 FROM bill b,customer c WHERE b.custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		and c.id=b.custId
+		AND b.agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by status
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'type'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 ,billType ,sum(sum) as amount2 FROM bill WHERE custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		AND agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by billType
+		ORDER BY amount desc
+		</if>
+		<!-- <if test="interfacetype != null and interfacetype != '' and interfacetype == 'agency'">
+		SELECT COUNT(1) amount, a.id AS agencyId ,a.name AS agencyName  FROM bill b , agency a WHERE b.custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER}
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		AND a.id = b.agencyId
+		
+		GROUP BY billType
+		</if> -->
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'byyear'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 ,YEAR(b.createDate) AS YEAR,sum(sum) as amount2 FROM bill b WHERE b.custId IN
+		(
+		SELECT uc.custId  FROM agency_customer ac ,user_customer uc WHERE 
+		ac.agencyId = #{agencyId,jdbcType=INTEGER} 
+		AND uc.userId = #{userId,jdbcType=INTEGER} 
+		AND ac.custId = uc.custId  
+		)
+		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(b.createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(b.createDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(b.createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(b.createDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+   		GROUP BY YEAR(b.createDate)
+   		ORDER BY amount desc
+		</if>
+	</select>
+	<select id="selectStatsByAgency" resultMap="retuenBillAmount">
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'total'">
+		<!-- SELECT COUNT(1) amount FROM bill WHERE agencyId =#{agencyId,jdbcType=INTEGER} -->
+		
+		SELECT a.amount amount ,b.amount amount1,c.amount amount2 FROM
+
+
+		(SELECT COUNT(1) amount FROM bill WHERE custId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		) a,
+
+		(SELECT COUNT(1) amount FROM bill WHERE custId =#{agencyId,jdbcType=INTEGER}
+		AND STATUS='已付款'
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		) b,
+		
+		(SELECT COUNT(1) amount FROM bill WHERE custId =#{agencyId,jdbcType=INTEGER}
+		AND STATUS='未付款'
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		) c
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'pay'">
+		SELECT COUNT(1) amount FROM bill WHERE agencyId =#{agencyId,jdbcType=INTEGER}
+		and status='已付款'
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'nopay'">
+		SELECT COUNT(1) amount FROM bill WHERE agencyId =#{agencyId,jdbcType=INTEGER}
+		and status='未付款'
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'status'">
+		SELECT COUNT(1) amount , status FROM bill WHERE agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by status
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'customer'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 , c.id as customerId,c.name as customerName,sum(sum) as amount2 FROM bill b , customer c WHERE b.agencyId =#{agencyId,jdbcType=INTEGER}
+		and b.custId = c.id
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by b.custId
+		ORDER BY amount desc
+		</if>
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'type'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 , billType,sum(sum) as amount2  FROM bill WHERE agencyId =#{agencyId,jdbcType=INTEGER}
+		<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+		group by billType
+		ORDER BY amount desc
+		</if>
+		<!-- <if test="interfacetype != null and interfacetype != '' and interfacetype == 'agency'">
+		SELECT COUNT(1) amount , b.agencyId ,a.name as agencyName  FROM bill b and agency a WHERE custId =#{custId,jdbcType=INTEGER}
+		and a.id = b.agencyId
+		group by billType
+		</if> -->
+		<if test="interfacetype != null and interfacetype != '' and interfacetype == 'byyear'">
+		SELECT sum(applyCost) as amount, sum(otherCost) as amount1 ,YEAR(b.createDate) AS YEAR,sum(sum) as amount2   FROM bill b WHERE agencyId =#{agencyId,jdbcType=INTEGER}
+		AND YEAR(b.createDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 	 
+   		AND YEAR(b.createDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+   		<choose>
+			<when test="gcon.startYear != null and gcon.startYear != '' ">
+			AND YEAR(b.createDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} 
+			</when>
+			<otherwise>
+			AND YEAR(b.createDate)&gt;=(DATE_FORMAT(NOW(), '%Y')-5) 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test=" gcon.endYear != null and gcon.endYear != ''">
+			 AND YEAR(b.createDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+			</when>
+			<otherwise>
+			 AND YEAR(b.createDate)&lt;=DATE_FORMAT(NOW(), '%Y')
+			</otherwise>
+		</choose>
+   		GROUP BY YEAR(b.createDate)
+   		ORDER BY amount desc
+		</if>
+	</select>
+	<select id="statsBillTop10" resultMap="retuenBillAmount">
+		SELECT SUM(SUM) AS amount ,a.name agencyName,a.id AS agencyId
+	 	FROM bill b , agency a WHERE 1=1 AND
+	 	b.agencyId = a.id
+	 	<if test="gcon.startYear != null and gcon.startYear != '' and gcon.endYear != null and gcon.endYear != ''">
+		AND
+		YEAR(b.appDate)&gt;=#{gcon.startYear,jdbcType=INTEGER} AND YEAR(b.appDate)&lt;=#{gcon.endYear,jdbcType=INTEGER}
+		</if>
+	 	GROUP BY  b.agencyId
+	 	ORDER BY amount DESC
+	 	LIMIT 10
+	</select>
+</mapper>

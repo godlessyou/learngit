@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yootii.bdy.tmcase.dao.IssuanceNumberMapper" >
+  <resultMap id="BaseResultMap" type="com.yootii.bdy.tmcase.model.IssuanceNumber" >
+    <id column="issuanceNumId" property="issuanceNumId" jdbcType="INTEGER" />
+    <result column="caseType" property="caseType" jdbcType="VARCHAR" />
+    <result column="fileName" property="fileName" jdbcType="VARCHAR" />
+    <result column="prefix" property="prefix" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="isOrder" property="isOrder" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    issuanceNumId, caseType, fileName, prefix, suffix, isOrder
+  </sql>
+  <select id="selectIssuanceNumber" resultType="com.yootii.bdy.tmcase.model.IssuanceNumber"  > 
+  	SELECT issuanceNumId, caseType,fileName,prefix,suffix,isOrder
+  	FROM bdy_db.issuance_number 
+  	where 1=1
+  	<if test="caseType!=null">
+  		and caseType = #{caseType,jdbcType=VARCHAR}
+  	</if>
+  	<if test="fileName!=null">
+  		and fileName = #{fileName,jdbcType=VARCHAR} 
+  	</if>
+  	limit 1;
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from issuance_number
+    where issuanceNumId = #{issuanceNumId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from issuance_number
+    where issuanceNumId = #{issuanceNumId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yootii.bdy.tmcase.model.IssuanceNumber" >
+    insert into issuance_number (issuanceNumId, caseType, fileName, 
+      prefix, suffix, isOrder
+      )
+    values (#{issuanceNumId,jdbcType=INTEGER}, #{caseType,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{prefix,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, #{isOrder,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yootii.bdy.tmcase.model.IssuanceNumber" >
+    insert into issuance_number
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="issuanceNumId != null" >
+        issuanceNumId,
+      </if>
+      <if test="caseType != null" >
+        caseType,
+      </if>
+      <if test="fileName != null" >
+        fileName,
+      </if>
+      <if test="prefix != null" >
+        prefix,
+      </if>
+      <if test="suffix != null" >
+        suffix,
+      </if>
+      <if test="isOrder != null" >
+        isOrder,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="issuanceNumId != null" >
+        #{issuanceNumId,jdbcType=INTEGER},
+      </if>
+      <if test="caseType != null" >
+        #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="prefix != null" >
+        #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="isOrder != null" >
+        #{isOrder,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yootii.bdy.tmcase.model.IssuanceNumber" >
+    update issuance_number
+    <set >
+      <if test="caseType != null" >
+        caseType = #{caseType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        fileName = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="prefix != null" >
+        prefix = #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        suffix = #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="isOrder != null" >
+        isOrder = #{isOrder,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where issuanceNumId = #{issuanceNumId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yootii.bdy.tmcase.model.IssuanceNumber" >
+    update issuance_number
+    set caseType = #{caseType,jdbcType=VARCHAR},
+      fileName = #{fileName,jdbcType=VARCHAR},
+      prefix = #{prefix,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      isOrder = #{isOrder,jdbcType=VARCHAR}
+    where issuanceNumId = #{issuanceNumId,jdbcType=INTEGER}
+  </update>
+</mapper>
